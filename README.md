@@ -1,6 +1,6 @@
 # QuikLab — image resizer & compressor
 
-The first tool on QuikLab (live at [quiklab.in](https://quiklab.in), deployed on Vercel), and Phase 1 from the Micro-Tool Field Report: resize and compress images entirely client-side, no upload, no server, no build step. QuikLab is meant as an umbrella brand — more tools (PDF, format conversion, etc.) are planned to live alongside this one on the same site, which is why the name isn't tied to "compress" or "image" specifically.
+The first tool on QuikLab (live at [quiklab.online](https://quiklab.online), deployed on Vercel), and Phase 1 from the Micro-Tool Field Report: resize and compress images entirely client-side, no upload, no server, no build step. QuikLab is meant as an umbrella brand — more tools (PDF, format conversion, etc.) are planned to live alongside this one on the same site, which is why the name isn't tied to "compress" or "image" specifically.
 
 ## Run it
 
@@ -30,7 +30,7 @@ Canvas re-encoding a PNG rarely shrinks it much — PNG is lossless, and the bro
 
 The site is wired to [Microsoft Clarity](https://clarity.microsoft.com) (free, MIT-licensed, heatmaps + session replay of the interface), project id `yl6fc10ssr`. Clarity tracks clicks/scroll/DOM structure of the page itself; it has no access to your images, canvas content, or `<input type="file">` values, and the filename display is marked `clarity-mask` so any real filenames a user uploads are redacted from session replay too.
 
-**This only fires on the real deployment (quiklab.in), not the claude.ai artifact link** — `www.clarity.ms` isn't on the allowed external-script list for a hosted Claude artifact, so the tag is a silent no-op there by design (CSP blocks it).
+**This only fires on the real deployment (quiklab.online), not the claude.ai artifact link** — `www.clarity.ms` isn't on the allowed external-script list for a hosted Claude artifact, so the tag is a silent no-op there by design (CSP blocks it).
 
 ## Where this sits in the bigger plan (see the Field Report for full detail)
 

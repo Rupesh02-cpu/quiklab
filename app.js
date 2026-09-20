@@ -34,7 +34,7 @@
   const THEME_KEY = 'quiklab-theme';
   const themeToggle = document.getElementById('themeToggle');
   const themeIcon = document.getElementById('themeIcon');
-  const THEME_ICONS = { system: '💻', light: '☀️', dark: '🌙' };
+  const THEME_ICONS = { system: '#icon-system', light: '#icon-sun', dark: '#icon-moon' };
 
   function currentTheme() {
     try {
@@ -52,7 +52,7 @@
       document.documentElement.setAttribute('data-theme', theme);
       try { localStorage.setItem(THEME_KEY, theme); } catch {}
     }
-    themeIcon.textContent = THEME_ICONS[theme];
+    themeIcon.querySelector('use').setAttribute('href', THEME_ICONS[theme]);
     themeToggle.setAttribute('aria-label', `Theme: ${theme}. Click to change.`);
   }
 
@@ -128,7 +128,7 @@
       <div class="frame-shot">
         <span class="frame-num">${String(index + 1).padStart(2, '0')}</span>
         <img src="${item.originalUrl}" alt="">
-        <div class="frame-status" data-role="status">queued</div>
+        <div class="frame-status" data-role="status">waiting</div>
       </div>
       <div class="frame-body">
         <div class="frame-name clarity-mask" data-role="fname"></div>
@@ -140,7 +140,7 @@
         <div class="frame-bar"><span data-role="bar" style="width:0%"></span></div>
         <div class="frame-actions">
           <span class="frame-save" data-role="saveTag"></span>
-          <button class="frame-dl" data-role="dl" disabled>Download</button>
+          <button class="frame-dl" data-role="dl" disabled><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-download"/></svg> Download</button>
         </div>
       </div>
     `;
@@ -153,12 +153,12 @@
     nameEl.title = item.file.name;
 
     const dlBtn = frame.querySelector('[data-role="dl"]');
+    const dlBtnDefault = dlBtn.innerHTML;
     dlBtn.addEventListener('click', async () => {
-      const original = dlBtn.textContent;
       dlBtn.textContent = 'Saving…';
       dlBtn.disabled = true;
       await downloadOne(item);
-      dlBtn.textContent = original;
+      dlBtn.innerHTML = dlBtnDefault;
       dlBtn.disabled = false;
     });
     item.el = frame;
@@ -223,7 +223,7 @@
   }
 
   async function processItem(item) {
-    setFrameStatus(item, 'developing…', true);
+    setFrameStatus(item, 'compressing…', true);
     try {
       const img = await loadImage(item.originalUrl);
       const maxW = parseInt(maxWidthEl.value, 10) || null;
@@ -282,12 +282,13 @@
   }
 
   async function processAll() {
+    const processBtnDefault = processBtn.innerHTML;
     processBtn.disabled = true;
-    processBtn.textContent = 'Developing…';
+    processBtn.textContent = 'Compressing…';
     for (const item of items) {
       await processItem(item);
     }
-    processBtn.textContent = 'Develop';
+    processBtn.innerHTML = processBtnDefault;
     processBtn.disabled = false;
     refreshButtons();
     updateTotals();
@@ -341,12 +342,12 @@
   dropZone.addEventListener('drop', (e) => addFiles(e.dataTransfer.files));
 
   processBtn.addEventListener('click', processAll);
+  const downloadAllBtnDefault = downloadAllBtn.innerHTML;
   downloadAllBtn.addEventListener('click', async () => {
-    const original = downloadAllBtn.textContent;
     downloadAllBtn.textContent = 'Zipping…';
     downloadAllBtn.disabled = true;
     await downloadAll();
-    downloadAllBtn.textContent = original;
+    downloadAllBtn.innerHTML = downloadAllBtnDefault;
     downloadAllBtn.disabled = false;
   });
   clearBtn.addEventListener('click', clearSheet);

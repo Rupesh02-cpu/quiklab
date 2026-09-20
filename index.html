@@ -33,7 +33,7 @@
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 
 <!-- Google AdSense -->
@@ -66,89 +66,122 @@
 </head>
 <body>
 
-  <div class="darkroom">
+  <!-- SVG icon sprite: hidden, referenced via <use> throughout -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 11.5 12 16l4.5-4.5M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-zip" viewBox="0 0 24 24"><path d="M5 4h14v16H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4v3M12 9v2M12 13v2M12 17v3" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0 1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="m5 17 5-5 3.5 3.5L18 11l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
 
-    <!-- LEFT RAIL: controls -->
-    <aside class="rail">
-      <div class="rail-sprockets" aria-hidden="true"></div>
+  <div class="page">
 
-      <div class="rail-inner">
-        <header class="brand">
-          <span class="brand-mark">QL</span>
-          <div>
-            <h1>QuikLab</h1>
-            <p class="tag">resize &amp; compress, entirely in your browser</p>
-          </div>
-          <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Theme">
-            <span id="themeIcon" aria-hidden="true">💻</span>
-          </button>
-        </header>
-
-        <div class="drop" id="drop">
-          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
-          <p class="drop-label">Drop images here</p>
-          <p class="drop-sub">or <button type="button" id="browseBtn" class="link-btn">choose files</button></p>
-          <p class="drop-note">JPG · PNG · WebP — your images never leave this tab</p>
-        </div>
-
-        <div class="controls">
-          <div class="field">
-            <label for="quality">Quality <span class="mono" id="qualityVal">80</span></label>
-            <input type="range" id="quality" min="10" max="100" value="80">
-          </div>
-
-          <div class="field-row">
-            <div class="field">
-              <label for="maxWidth">Max width</label>
-              <input type="number" id="maxWidth" placeholder="e.g. 1600" min="1">
-            </div>
-            <div class="field">
-              <label for="maxHeight">Max height</label>
-              <input type="number" id="maxHeight" placeholder="auto" min="1">
-            </div>
-          </div>
-
-          <div class="field">
-            <label for="format">Output format</label>
-            <select id="format">
-              <option value="original">Keep original</option>
-              <option value="image/jpeg">Force JPEG</option>
-              <option value="image/webp">Force WebP</option>
-              <option value="image/png">Force PNG</option>
-            </select>
-          </div>
-
-          <button type="button" id="processBtn" class="btn-primary" disabled>Develop <span id="countBadge" class="count-badge" hidden>0</span></button>
-          <button type="button" id="downloadAllBtn" class="btn-ghost" hidden>Download all (.zip)</button>
-          <button type="button" id="clearBtn" class="btn-text" hidden>Clear sheet</button>
-        </div>
-
-        <footer class="rail-foot">
-          <p>Image processing runs on-device via the Canvas API — your files are never uploaded anywhere. PNG re-encoding has a lower compression ceiling than JPEG/WebP — for photos, WebP usually wins.</p>
-          <p style="margin-top:8px;">This page uses Microsoft Clarity to see how the tool itself is used (clicks, scroll, layout issues) — it has no access to your images or filenames.</p>
-        </footer>
-      </div>
+    <!-- LEFT AD RAIL -->
+    <aside class="ad-rail ad-rail-left" aria-hidden="true">
+      <div class="ad-slot"></div>
     </aside>
 
-    <!-- MAIN: contact sheet -->
-    <main class="sheet">
-      <div class="sheet-head">
-        <h2>Contact sheet</h2>
-        <div class="totals" id="totals" hidden>
-          <span><span class="mono" id="totalBefore">0 KB</span> original</span>
-          <span class="arrow">→</span>
-          <span><span class="mono" id="totalAfter">0 KB</span> compressed</span>
-          <span class="save-chip" id="totalSaveChip">— 0%</span>
-        </div>
-      </div>
+    <div class="darkroom">
 
-      <div class="frames" id="frames">
-        <div class="empty-state" id="emptyState">
-          <div class="empty-frame" aria-hidden="true"></div>
-          <p>Your images will appear here as numbered frames, like a photographer's proof sheet.</p>
+      <!-- LEFT RAIL: controls -->
+      <aside class="rail">
+        <div class="rail-sprockets" aria-hidden="true"></div>
+        <div class="rail-inner">
+          <header class="brand">
+            <span class="brand-mark">QL</span>
+            <div class="brand-copy">
+              <h1>QuikLab</h1>
+              <p class="tag">resize &amp; compress, entirely in your browser</p>
+            </div>
+            <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Theme">
+              <svg class="icon" id="themeIcon" aria-hidden="true"><use href="#icon-system"/></svg>
+            </button>
+          </header>
+
+          <div class="drop" id="drop">
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
+            <svg class="icon drop-icon" aria-hidden="true"><use href="#icon-upload"/></svg>
+            <p class="drop-label">Drop images here</p>
+            <p class="drop-sub">or <button type="button" id="browseBtn" class="link-btn">choose files</button></p>
+            <p class="drop-note">JPG · PNG · WebP — your images never leave this tab</p>
+          </div>
+
+          <div class="controls">
+            <div class="field">
+              <label for="quality">Quality <span class="mono" id="qualityVal">80</span></label>
+              <input type="range" id="quality" min="10" max="100" value="80">
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="maxWidth">Max width</label>
+                <input type="number" id="maxWidth" placeholder="e.g. 1600" min="1">
+              </div>
+              <div class="field">
+                <label for="maxHeight">Max height</label>
+                <input type="number" id="maxHeight" placeholder="auto" min="1">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="format">Output format</label>
+              <select id="format">
+                <option value="original">Keep original</option>
+                <option value="image/jpeg">Force JPEG</option>
+                <option value="image/webp">Force WebP</option>
+                <option value="image/png">Force PNG</option>
+              </select>
+            </div>
+
+            <button type="button" id="processBtn" class="btn-primary" disabled>
+              Compress images <span id="countBadge" class="count-badge" hidden>0</span>
+            </button>
+            <button type="button" id="downloadAllBtn" class="btn-ghost" hidden>
+              <svg class="icon" aria-hidden="true"><use href="#icon-zip"/></svg> Download all (.zip)
+            </button>
+            <button type="button" id="clearBtn" class="btn-text" hidden>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-trash"/></svg> Clear all
+            </button>
+          </div>
+
+          <footer class="rail-foot">
+            <p>Image processing runs on-device via the Canvas API — your files are never uploaded anywhere. PNG re-encoding has a lower compression ceiling than JPEG/WebP — for photos, WebP usually wins.</p>
+            <p>This page uses Microsoft Clarity to see how the tool itself is used (clicks, scroll, layout issues) — it has no access to your images or filenames.</p>
+          </footer>
         </div>
-      </div>
-    </main>
+      </aside>
+
+      <!-- MAIN: contact sheet -->
+      <main class="sheet">
+        <div class="sheet-head">
+          <h2>Your images</h2>
+          <div class="totals" id="totals" hidden>
+            <span><span class="mono" id="totalBefore">0 KB</span> original</span>
+            <span class="arrow">→</span>
+            <span><span class="mono" id="totalAfter">0 KB</span> compressed</span>
+            <span class="save-chip" id="totalSaveChip">— 0%</span>
+          </div>
+        </div>
+
+        <div class="frames" id="frames">
+          <div class="empty-state" id="emptyState">
+            <svg class="icon empty-icon" aria-hidden="true"><use href="#icon-image"/></svg>
+            <p>Uploaded images will appear here so you can compress and download them.</p>
+          </div>
+        </div>
+      </main>
+
+    </div>
+
+    <!-- RIGHT AD RAIL -->
+    <aside class="ad-rail ad-rail-right" aria-hidden="true">
+      <div class="ad-slot"></div>
+    </aside>
 
   </div>
 
