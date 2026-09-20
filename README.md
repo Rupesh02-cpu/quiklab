@@ -14,9 +14,10 @@ Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` 
 
 ## What it does
 
-- Drag-and-drop or file-picker upload for JPG / PNG / WebP, multiple files at once.
+- Drag-and-drop or file-picker upload for JPG / PNG / WebP / SVG, multiple files at once.
 - Resize by max width/height (aspect ratio preserved) via the Canvas API.
-- Recompress via `canvas.toBlob(mime, quality)` — quality slider, or force a different output format (JPEG/WebP/PNG).
+- Two compression modes: a quality slider (`canvas.toBlob(mime, quality)`), or a target file size (e.g. "under 100KB") found via binary search on JPEG/WebP quality. Force a different output format (JPEG/WebP/PNG) independent of either mode.
+- SVG files are minified (comments, XML/editor metadata, and redundant whitespace stripped) rather than run through canvas, since they're vector text, not pixels.
 - Per-image before/after size, a savings bar, and a running total across the whole batch.
 - Download one file, or all of them as a `.zip` (via JSZip 3.10.2, pinned with a Subresource Integrity hash).
 - Your images never leave the browser tab — no upload, no fetch, no image data sent anywhere. (Usage analytics, below, is a separate concern from image privacy.)

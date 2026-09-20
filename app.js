@@ -15,6 +15,12 @@
   const maxHeightEl= document.getElementById('maxHeight');
   const formatEl   = document.getElementById('format');
 
+  const sizeModeEl  = document.getElementById('sizeMode');
+  const qualityField = document.getElementById('qualityField');
+  const targetField  = document.getElementById('targetField');
+  const targetSizeEl = document.getElementById('targetSize');
+  const targetUnitEl = document.getElementById('targetUnit');
+
   const processBtn = document.getElementById('processBtn');
   const countBadge = document.getElementById('countBadge');
   const downloadAllBtn = document.getElementById('downloadAllBtn');
@@ -87,9 +93,11 @@
     'image/jpeg': 'jpg',
     'image/png': 'png',
     'image/webp': 'webp',
+    'image/svg+xml': 'svg',
   }[mime] || 'jpg');
 
   const targetMimeFor = (file) => {
+    if (file.type === 'image/svg+xml') return 'image/svg+xml';
     const choice = formatEl.value;
     if (choice !== 'original') return choice;
     // keep original type when possible, default to jpeg for anything unrecognized (e.g. avif upload)
@@ -193,7 +201,7 @@
 
   // ---------- ingest files ----------
   function addFiles(fileList) {
-    const files = Array.from(fileList).filter(f => /^image\/(jpeg|png|webp)$/.test(f.type));
+    const files = Array.from(fileList).filter(f => /^image\/(jpeg|png|webp|svg\+xml)$/.test(f.type));
     if (!files.length) return;
     files.forEach(file => {
       const item = {
@@ -222,9 +230,75 @@
     });
   }
 
+  // Strips comments, XML/editor metadata, and redundant whitespace from an
+  // SVG's source text. This is a text-level cleanup (safe, reversible in
+  // spirit — it changes no visible markup, only removes dead weight editors
+  // like Illustrator/Figma leave behind), not a full optimizer like SVGO —
+  // it won't collapse paths or merge shapes, but for the common case of a
+  // few KB of embedded metadata/comments it's most of the real-world win.
+  function minifySvgText(text) {
+    return text
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<\?xml[\s\S]*?\?>/g, '')
+      .replace(/<!DOCTYPE[\s\S]*?>/gi, '')
+      .replace(/<metadata[\s\S]*?<\/metadata>/gi, '')
+      .replace(/\s+xmlns:(dc|cc|rdf|inkscape|sodipodi)="[^"]*"/g, '')
+      .replace(/>\s+</g, '><')
+      .replace(/\s{2,}/g, ' ')
+      .trim();
+  }
+
+  // Binary-searches JPEG/WebP quality so the result lands at or under a
+  // target byte size — sharper than picking a fixed quality blind, since it
+  // finds the highest quality that still fits (see: standard approach for
+  // "compress to under N KB" tools). PNG is excluded: it's lossless and
+  // ignores the quality parameter entirely, so there's nothing to search.
+  async function compressToTarget(canvas, mime, targetBytes) {
+    if (mime === 'image/png') {
+      return new Promise(resolve => canvas.toBlob(resolve, mime));
+    }
+    let lo = 0.05, hi = 0.95, best = null;
+    for (let i = 0; i < 8; i++) {
+      const mid = (lo + hi) / 2;
+      const blob = await new Promise(resolve => canvas.toBlob(resolve, mime, mid));
+      if (blob.size <= targetBytes) {
+        best = blob;
+        lo = mid;
+      } else {
+        hi = mid;
+      }
+    }
+    // Nothing under target was found even at the lowest quality tried —
+    // return the lowest-quality attempt rather than nothing, so the user
+    // at least gets the smallest result this tool can produce.
+    if (!best) {
+      best = await new Promise(resolve => canvas.toBlob(resolve, mime, lo));
+    }
+    return best;
+  }
+
   async function processItem(item) {
     setFrameStatus(item, 'compressing…', true);
     try {
+      if (item.file.type === 'image/svg+xml') {
+        const text = await item.file.text();
+        const minified = minifySvgText(text);
+        const blob = new Blob([minified], { type: 'image/svg+xml' });
+        if (blob.size >= item.originalSize) {
+          item.resultBlob = item.file;
+          item.resultSize = item.originalSize;
+          item.keptOriginal = true;
+        } else {
+          item.resultBlob = blob;
+          item.resultSize = blob.size;
+          item.keptOriginal = false;
+        }
+        item.resultExt = 'svg';
+        setFrameStatus(item, '', false);
+        setFrameResult(item);
+        return;
+      }
+
       const img = await loadImage(item.originalUrl);
       const maxW = parseInt(maxWidthEl.value, 10) || null;
       const maxH = parseInt(maxHeightEl.value, 10) || null;
@@ -247,9 +321,16 @@
       ctx.drawImage(img, 0, 0, width, height);
 
       const mime = targetMimeFor(item.file);
-      const quality = Math.min(1, Math.max(0.1, Number(qualityEl.value) / 100));
 
-      const blob = await new Promise(resolve => canvas.toBlob(resolve, mime, quality));
+      let blob;
+      if (sizeModeEl.value === 'target') {
+        const rawTarget = Number(targetSizeEl.value) || 100;
+        const targetBytes = targetUnitEl.value === 'MB' ? rawTarget * 1024 * 1024 : rawTarget * 1024;
+        blob = await compressToTarget(canvas, mime, targetBytes);
+      } else {
+        const quality = Math.min(1, Math.max(0.1, Number(qualityEl.value) / 100));
+        blob = await new Promise(resolve => canvas.toBlob(resolve, mime, quality));
+      }
 
       // Canvas re-encoding can come back larger than the original — PNG
       // re-encoding ignores the quality slider and can't match a
@@ -328,6 +409,11 @@
 
   // ---------- events ----------
   qualityEl.addEventListener('input', () => { qualityVal.textContent = qualityEl.value; });
+  sizeModeEl.addEventListener('change', () => {
+    const isTarget = sizeModeEl.value === 'target';
+    qualityField.hidden = isTarget;
+    targetField.hidden = !isTarget;
+  });
 
   browseBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', (e) => addFiles(e.target.files));

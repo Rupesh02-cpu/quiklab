@@ -129,17 +129,36 @@
           </header>
 
           <div class="drop" id="drop">
-            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple hidden>
             <svg class="icon drop-icon" aria-hidden="true"><use href="#icon-upload"/></svg>
             <p class="drop-label">Drop images here</p>
             <p class="drop-sub">or <button type="button" id="browseBtn" class="link-btn">choose files</button></p>
-            <p class="drop-note">JPG · PNG · WebP — your images never leave this tab</p>
+            <p class="drop-note">JPG · PNG · WebP · SVG — your images never leave this tab</p>
           </div>
 
           <div class="controls">
             <div class="field">
+              <label for="sizeMode">Compress by</label>
+              <select id="sizeMode">
+                <option value="quality">Quality level</option>
+                <option value="target">Target file size</option>
+              </select>
+            </div>
+
+            <div class="field" id="qualityField">
               <label for="quality">Quality <span class="mono" id="qualityVal">80</span></label>
               <input type="range" id="quality" min="10" max="100" value="80">
+            </div>
+
+            <div class="field" id="targetField" hidden>
+              <label for="targetSize">Target size</label>
+              <div class="field-row">
+                <input type="number" id="targetSize" placeholder="e.g. 100" min="1" value="100">
+                <select id="targetUnit">
+                  <option value="KB" selected>KB</option>
+                  <option value="MB">MB</option>
+                </select>
+              </div>
             </div>
 
             <div class="field-row">
