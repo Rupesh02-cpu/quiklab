@@ -78,6 +78,13 @@ h1,h2{ font-family:"Newsreader", Georgia, serif; font-weight:600; text-wrap:bala
 @media (max-width:820px){ .rail-inner{ padding:22px; } }
 
 .brand{ display:flex; align-items:flex-start; gap:12px; }
+.theme-toggle{
+  margin-left:auto; flex-shrink:0; width:32px; height:32px; border-radius:8px;
+  border:1px solid var(--rail-border); background:transparent; color:var(--rail-ink);
+  font-size:15px; line-height:1; cursor:pointer; display:flex; align-items:center; justify-content:center;
+  transition:background .15s, border-color .15s;
+}
+.theme-toggle:hover{ background:rgba(237,231,216,0.08); border-color:var(--accent); }
 .brand-mark{
   font-family:"JetBrains Mono",monospace; font-weight:600; font-size:13px;
   background:var(--accent); color:#1B1A17; padding:5px 8px; border-radius:3px; letter-spacing:.02em;

@@ -30,6 +30,39 @@
   let items = [];
   let nextId = 1;
 
+  // ---------- theme toggle (System -> Light -> Dark -> System) ----------
+  const THEME_KEY = 'quiklab-theme';
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const THEME_ICONS = { system: '💻', light: '☀️', dark: '🌙' };
+
+  function currentTheme() {
+    try {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved === 'light' || saved === 'dark') return saved;
+    } catch {}
+    return 'system';
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'system') {
+      document.documentElement.removeAttribute('data-theme');
+      try { localStorage.removeItem(THEME_KEY); } catch {}
+    } else {
+      document.documentElement.setAttribute('data-theme', theme);
+      try { localStorage.setItem(THEME_KEY, theme); } catch {}
+    }
+    themeIcon.textContent = THEME_ICONS[theme];
+    themeToggle.setAttribute('aria-label', `Theme: ${theme}. Click to change.`);
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const next = { system: 'light', light: 'dark', dark: 'system' }[currentTheme()];
+    applyTheme(next);
+  });
+
+  applyTheme(currentTheme());
+
   // ---------- save-file ----------
   async function saveFile(filename, data) {
     const url = URL.createObjectURL(data);

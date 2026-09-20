@@ -4,6 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QuikLab — image compressor</title>
+<script>
+  // Applied before first paint to avoid a flash of the wrong theme.
+  // 'system' (the default) sets no data-theme attribute, so the
+  // prefers-color-scheme media query in styles.css takes over.
+  (function () {
+    try {
+      var saved = localStorage.getItem('quiklab-theme');
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    } catch (e) {}
+  })();
+</script>
 <meta name="description" content="Resize and compress JPG, PNG, and WebP images entirely in your browser. No upload, no server, no signup — your images never leave the tab.">
 <meta property="og:title" content="QuikLab — image compressor">
 <meta property="og:description" content="Resize and compress JPG, PNG, and WebP images entirely in your browser. No upload, no server, no signup.">
@@ -66,6 +79,9 @@
             <h1>QuikLab</h1>
             <p class="tag">resize &amp; compress, entirely in your browser</p>
           </div>
+          <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Theme">
+            <span id="themeIcon" aria-hidden="true">💻</span>
+          </button>
         </header>
 
         <div class="drop" id="drop">
