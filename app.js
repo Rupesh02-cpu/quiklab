@@ -248,21 +248,20 @@
 
       const mime = targetMimeFor(item.file);
       const quality = Math.min(1, Math.max(0.1, Number(qualityEl.value) / 100));
-      const wasResized = (width !== img.naturalWidth || height !== img.naturalHeight);
-      const wasReformatted = (mime !== item.file.type);
 
       const blob = await new Promise(resolve => canvas.toBlob(resolve, mime, quality));
 
-      // Canvas re-encoding a lossless format (PNG) ignores the quality
-      // slider entirely and can't match a well-optimized original encoder's
-      // compression — confirmed against real screenshots/exports in testing,
-      // where "compression" made the file up to ~30% BIGGER. If nothing was
-      // actually asked to change (no resize, no forced format) and the
-      // result isn't actually smaller, that's not a compression result
-      // worth shipping — fall back to the original bytes instead of
-      // silently handing back a larger file.
+      // Canvas re-encoding can come back larger than the original — PNG
+      // re-encoding ignores the quality slider and can't match a
+      // well-optimized encoder, and some JPEGs (e.g. WhatsApp exports with
+      // unusual chroma subsampling) re-encode heavier at the same visual
+      // quality. A "compressed" file must never be bigger than what the
+      // user uploaded, even when a resize/reformat was requested — if the
+      // encode came back larger, fall back to the original bytes (resized
+      // dimensions are lost in that case, but a smaller-but-wrong-size file
+      // is still better than a "compressed" file that's bigger).
       const noGain = blob.size >= item.originalSize;
-      if (noGain && !wasResized && !wasReformatted) {
+      if (noGain) {
         item.resultBlob = item.file;
         item.resultSize = item.originalSize;
         item.resultExt = extFor(item.file.type);
