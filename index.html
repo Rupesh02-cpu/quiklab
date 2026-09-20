@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuikLab — image compressor</title>
+<meta name="description" content="Resize and compress JPG, PNG, and WebP images entirely in your browser. No upload, no server, no signup — your images never leave the tab.">
+<meta property="og:title" content="QuikLab — image compressor">
+<meta property="og:description" content="Resize and compress JPG, PNG, and WebP images entirely in your browser. No upload, no server, no signup.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&family=Work+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<!--
+  Microsoft Clarity — usage analytics (heatmaps + session replay of the
+  INTERFACE only: clicks, scroll, DOM structure). It never sees image bytes,
+  file contents, or anything drawn to <canvas> — Clarity has no access to
+  those. It DOES send interaction telemetry to Microsoft, which is why the
+  on-page privacy copy was updated to describe images specifically rather
+  than claim zero network activity of any kind.
+
+  Local-deploy only: www.clarity.ms is not on the allowed external-script
+  list for pages hosted as a Claude artifact, so this tag is a no-op there
+  (CSP blocks it silently) — it only fires once deployed to a real domain
+  (quiklab.in via Vercel).
+
+  Project id below (yl6fc10ssr) is wired to the live Clarity dashboard at
+  clarity.microsoft.com. Swap it if you ever create a new Clarity project.
+-->
+<script type="text/javascript">
+  (function (c, l, a, r, i, t, y) {
+    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+    t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  })(window, document, "clarity", "script", "yl6fc10ssr");
+</script>
+</head>
+<body>
+
+  <div class="darkroom">
+
+    <!-- LEFT RAIL: controls -->
+    <aside class="rail">
+      <div class="rail-sprockets" aria-hidden="true"></div>
+
+      <div class="rail-inner">
+        <header class="brand">
+          <span class="brand-mark">QL</span>
+          <div>
+            <h1>QuikLab</h1>
+            <p class="tag">resize &amp; compress, entirely in your browser</p>
+          </div>
+        </header>
+
+        <div class="drop" id="drop">
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp" multiple hidden>
+          <p class="drop-label">Drop images here</p>
+          <p class="drop-sub">or <button type="button" id="browseBtn" class="link-btn">choose files</button></p>
+          <p class="drop-note">JPG · PNG · WebP — your images never leave this tab</p>
+        </div>
+
+        <div class="controls">
+          <div class="field">
+            <label for="quality">Quality <span class="mono" id="qualityVal">80</span></label>
+            <input type="range" id="quality" min="10" max="100" value="80">
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="maxWidth">Max width</label>
+              <input type="number" id="maxWidth" placeholder="e.g. 1600" min="1">
+            </div>
+            <div class="field">
+              <label for="maxHeight">Max height</label>
+              <input type="number" id="maxHeight" placeholder="auto" min="1">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="format">Output format</label>
+            <select id="format">
+              <option value="original">Keep original</option>
+              <option value="image/jpeg">Force JPEG</option>
+              <option value="image/webp">Force WebP</option>
+              <option value="image/png">Force PNG</option>
+            </select>
+          </div>
+
+          <button type="button" id="processBtn" class="btn-primary" disabled>Develop <span id="countBadge" class="count-badge" hidden>0</span></button>
+          <button type="button" id="downloadAllBtn" class="btn-ghost" hidden>Download all (.zip)</button>
+          <button type="button" id="clearBtn" class="btn-text" hidden>Clear sheet</button>
+        </div>
+
+        <footer class="rail-foot">
+          <p>Image processing runs on-device via the Canvas API — your files are never uploaded anywhere. PNG re-encoding has a lower compression ceiling than JPEG/WebP — for photos, WebP usually wins.</p>
+          <p style="margin-top:8px;">This page uses Microsoft Clarity to see how the tool itself is used (clicks, scroll, layout issues) — it has no access to your images or filenames.</p>
+        </footer>
+      </div>
+    </aside>
+
+    <!-- MAIN: contact sheet -->
+    <main class="sheet">
+      <div class="sheet-head">
+        <h2>Contact sheet</h2>
+        <div class="totals" id="totals" hidden>
+          <span><span class="mono" id="totalBefore">0 KB</span> original</span>
+          <span class="arrow">→</span>
+          <span><span class="mono" id="totalAfter">0 KB</span> compressed</span>
+          <span class="save-chip" id="totalSaveChip">— 0%</span>
+        </div>
+      </div>
+
+      <div class="frames" id="frames">
+        <div class="empty-state" id="emptyState">
+          <div class="empty-frame" aria-hidden="true"></div>
+          <p>Your images will appear here as numbered frames, like a photographer's proof sheet.</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.2/dist/jszip.min.js"
+          integrity="sha256-f4ObLUaIuEXBBev10vmAMHX5HqD+cr2qwXbDoE3T0sE="
+          crossorigin="anonymous"></script>
+  <script src="app.js"></script>
+</body>
+</html>
