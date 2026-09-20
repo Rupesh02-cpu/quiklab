@@ -124,7 +124,7 @@
     totalsEl.hidden = false;
     totalBeforeEl.textContent = fmtBytes(before);
     totalAfterEl.textContent = fmtBytes(after);
-    totalSaveChip.textContent = `${pct >= 0 ? '−' : '+'}${Math.abs(pct)}%`;
+    totalSaveChip.textContent = `${pct >= 0 ? '-' : '+'}${Math.abs(pct)}%`;
   };
 
   // ---------- rendering a frame ----------
@@ -143,7 +143,7 @@
         <div class="frame-sizes">
           <span class="mono">${fmtBytes(item.originalSize)}</span>
           <span class="arrow">→</span>
-          <span class="mono after" data-role="afterSize">—</span>
+          <span class="mono after" data-role="afterSize">not yet</span>
         </div>
         <div class="frame-bar"><span data-role="bar" style="width:0%"></span></div>
         <div class="frame-actions">
@@ -163,7 +163,7 @@
     const dlBtn = frame.querySelector('[data-role="dl"]');
     const dlBtnDefault = dlBtn.innerHTML;
     dlBtn.addEventListener('click', async () => {
-      dlBtn.textContent = 'Saving…';
+      dlBtn.textContent = 'Saving...';
       dlBtn.disabled = true;
       await downloadOne(item);
       dlBtn.innerHTML = dlBtnDefault;
@@ -190,10 +190,10 @@
     const clamped = Math.max(0, Math.min(100, 100 - pct));
     barEl.style.width = `${clamped}%`;
     if (item.keptOriginal) {
-      saveTagEl.textContent = 'no gain — original kept';
+      saveTagEl.textContent = 'no gain, original kept';
       saveTagEl.title = 'Re-encoding this file would have made it larger, so the original bytes were kept instead.';
     } else {
-      saveTagEl.textContent = pct >= 0 ? `−${pct}% smaller` : `+${Math.abs(pct)}% larger`;
+      saveTagEl.textContent = pct >= 0 ? `-${pct}% smaller` : `+${Math.abs(pct)}% larger`;
       saveTagEl.title = '';
     }
     dlBtn.disabled = false;
@@ -278,7 +278,7 @@
   }
 
   async function processItem(item) {
-    setFrameStatus(item, 'compressing…', true);
+    setFrameStatus(item, 'compressing...', true);
     try {
       if (item.file.type === 'image/svg+xml') {
         const text = await item.file.text();
@@ -364,7 +364,7 @@
   async function processAll() {
     const processBtnDefault = processBtn.innerHTML;
     processBtn.disabled = true;
-    processBtn.textContent = 'Compressing…';
+    processBtn.textContent = 'Compressing...';
     for (const item of items) {
       await processItem(item);
     }
@@ -429,7 +429,7 @@
   processBtn.addEventListener('click', processAll);
   const downloadAllBtnDefault = downloadAllBtn.innerHTML;
   downloadAllBtn.addEventListener('click', async () => {
-    downloadAllBtn.textContent = 'Zipping…';
+    downloadAllBtn.textContent = 'Zipping...';
     downloadAllBtn.disabled = true;
     await downloadAll();
     downloadAllBtn.innerHTML = downloadAllBtnDefault;
