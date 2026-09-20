@@ -81,11 +81,11 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible{
    width (880px) plus the smallest usable ad slot (180px each side). */
 .page{
   display:grid;
-  grid-template-columns: 1fr minmax(0,880px) 1fr;
+  grid-template-columns: minmax(0, 1fr);
   min-height:100vh;
 }
-@media (max-width:1239px){
-  .page{ grid-template-columns: minmax(0,1fr); }
+@media (min-width:1240px){
+  .page{ grid-template-columns: minmax(160px, 1fr) minmax(0, 1100px) minmax(160px, 1fr); }
 }
 
 .ad-rail{
