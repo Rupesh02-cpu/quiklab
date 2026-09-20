@@ -147,8 +147,11 @@ h1,h2{ font-family:"Fraunces", Georgia, serif; font-weight:600; font-optical-siz
   background:var(--accent); color:var(--btn-on-accent); padding:5px 8px; border-radius:3px; letter-spacing:.02em;
   align-self:flex-start; position:relative; top:3px;
 }
-.brand h1{ font-size:22px; color:var(--rail-ink); }
-.brand .tag{ font-size:12.5px; color:var(--rail-muted); max-width:22ch; }
+.brand h1{ font-size:22px; color:var(--rail-ink); font-weight:600; display:flex; flex-direction:column; gap:4px; }
+.brand .tag{
+  font-family:"IBM Plex Mono", monospace; font-size:12.5px;
+  font-weight:400; color:var(--rail-muted); max-width:32ch;
+}
 
 .drop{
   border:1px dashed var(--rail-border); border-radius:10px; padding:22px 16px;
