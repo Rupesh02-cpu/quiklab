@@ -30,34 +30,17 @@
   let items = [];
   let nextId = 1;
 
-  // ---------- save-file capability (published-artifact host) ----------
-  // A plain `<a download>` link is inert inside a hosted Claude artifact,
-  // so saving a generated file goes through the `downloads` capability
-  // instead. `null` means this view can't run it — degrade quietly.
-  let downloadsNS = null;
-  let downloadsReady = (async () => {
-    try {
-      downloadsNS = (window.claude && typeof window.claude.use === 'function')
-        ? await window.claude.use('downloads')
-        : null;
-    } catch { downloadsNS = null; }
-    return downloadsNS;
-  })();
-
+  // ---------- save-file ----------
   async function saveFile(filename, data) {
-    await downloadsReady;
-    if (!downloadsNS) {
-      console.warn('Downloads capability unavailable in this view.');
-      return false;
-    }
-    try {
-      await downloadsNS.save({ filename, data });
-      return true;
-    } catch (err) {
-      if (err && err.code === 'declined') return false; // viewer said no — not an error
-      console.error('Save failed:', err && err.code, err && err.message);
-      return false;
-    }
+    const url = URL.createObjectURL(data);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    return true;
   }
 
   // ---------- helpers ----------
