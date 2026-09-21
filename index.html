@@ -7,6 +7,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <script>
   // Applied before first paint to avoid a flash of the wrong theme.
@@ -46,6 +47,46 @@
   "applicationCategory": "MultimediaApplication",
   "operatingSystem": "Any",
   "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does QuikLab compress images?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For JPG and WebP, QuikLab re-encodes the image at a lower quality setting using the browser's built-in Canvas API, which typically shrinks photos by 20 to 60 percent with little visible difference. You can either pick a quality level directly, or tell QuikLab a target file size and it searches for the highest quality that still fits. PNG files are lossless by nature, so QuikLab only resizes them unless a smaller result is actually possible. SVG files are minified by stripping unnecessary comments and editor metadata."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe to compress images with QuikLab?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. QuikLab never uploads your images anywhere. All processing happens locally in your browser using JavaScript and the Canvas API, so your files stay on your device the entire time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does compressing an image reduce its quality?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "JPG and WebP compression is lossy, so a lower quality setting can introduce visible artifacts if pushed too far. QuikLab defaults to a quality level that keeps files small while staying visually close to the original, and it never returns a compressed file that's larger than what you uploaded."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What file types does QuikLab support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output."
+      }
+    }
+  ]
 }
 </script>
 
@@ -250,6 +291,25 @@
     </aside>
 
   </div>
+
+  <section class="about">
+    <div class="about-inner">
+      <h2>About QuikLab</h2>
+      <p>QuikLab is a free image compressor that resizes and compresses JPG, PNG, WebP, and SVG files directly in your browser. There's no upload step, no account, and no server involved: the Canvas API does the work on your own device, so your images never leave the tab.</p>
+
+      <h3>How does QuikLab compress images?</h3>
+      <p>For JPG and WebP, QuikLab re-encodes the image at a lower quality setting using the browser's built-in Canvas API, which typically shrinks photos by 20 to 60 percent with little visible difference. You can either pick a quality level directly, or tell QuikLab a target file size (like "under 100KB") and it searches for the highest quality that still fits. PNG files are lossless by nature, so QuikLab only resizes them unless a smaller result is actually possible. SVG files are minified by stripping unnecessary comments and editor metadata, since they're vector markup rather than pixels.</p>
+
+      <h3>Is it safe to compress images with QuikLab?</h3>
+      <p>Yes. QuikLab never uploads your images anywhere. All processing happens locally in your browser using JavaScript and the Canvas API, so your files stay on your device the entire time. This also means QuikLab works without an internet connection once the page has loaded.</p>
+
+      <h3>Does compressing an image reduce its quality?</h3>
+      <p>JPG and WebP compression is lossy, so a lower quality setting can introduce visible artifacts if pushed too far. QuikLab defaults to a quality level that keeps files small while staying visually close to the original, and it never returns a "compressed" file that's larger than what you uploaded.</p>
+
+      <h3>What file types does QuikLab support?</h3>
+      <p>QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output.</p>
+    </div>
+  </section>
 
   <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 

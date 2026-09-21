@@ -385,6 +385,22 @@ input[type="range"]::-moz-range-thumb{
 .frame-dl:disabled{ opacity:.4; cursor:not-allowed; }
 
 /* ---------------------------------------------------
+   About / FAQ — real explanatory text for readers and
+   search engines, matching the FAQPage structured data.
+--------------------------------------------------- */
+.about{
+  background:var(--panel); border-top:1px solid var(--border);
+  padding-block:56px;
+}
+.about-inner{
+  max-width:680px; margin-inline:auto; padding-inline:20px;
+  display:flex; flex-direction:column; gap:14px;
+}
+.about h2{ font-size:22px; }
+.about h3{ font-family:"IBM Plex Mono", monospace; font-size:14px; font-weight:600; color:var(--ink); }
+.about p{ color:var(--ink-muted); line-height:1.7; font-size:14px; }
+
+/* ---------------------------------------------------
    Toasts — brief confirmations, optionally with an
    inline action (e.g. Undo), stacked bottom-center.
 --------------------------------------------------- */
