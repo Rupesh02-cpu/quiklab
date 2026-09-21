@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
 import { useToast } from "@/components/ToastProvider";
 import { saveFile } from "@/lib/saveFile";
 import { extFor, fmtBytes, outputName, targetMimeFor } from "@/lib/format";
-import { compressToTarget, loadImage, medianCutQuantize, minifySvgText } from "@/lib/imageProcessing";
+import { compressToTarget, fitDimensions, loadImage, medianCutQuantize, minifySvgText } from "@/lib/imageProcessing";
 import { compressGif } from "@/lib/gifEncode";
 import type { CompressorSettings, ImageItem } from "@/lib/types";
 
@@ -44,6 +44,13 @@ export function useImageCompressor() {
   // original DOM-value-read-on-each-item behavior exactly.
   const settingsRef = useRef(settings);
   settingsRef.current = settings;
+
+  // Bumped every time the sheet is cleared. processAll's loop checks this
+  // against the value it captured at start; if it's changed mid-batch (the
+  // user cleared while compression was still running), the loop stops
+  // instead of continuing to await/decode items whose object URLs
+  // clearSheet may since have revoked.
+  const clearGeneration = useRef(0);
 
   const setSettings = useCallback((patch: Partial<CompressorSettings>) => {
     setSettingsState((current) => ({ ...current, ...patch }));
@@ -109,15 +116,7 @@ export function useImageCompressor() {
       }
 
       const img = await loadImage(item.originalUrl);
-      let { width, height } = { width: img.naturalWidth, height: img.naturalHeight };
-      if (s.maxWidth && width > s.maxWidth) {
-        height = Math.round(height * (s.maxWidth / width));
-        width = s.maxWidth;
-      }
-      if (s.maxHeight && height > s.maxHeight) {
-        width = Math.round(width * (s.maxHeight / height));
-        height = s.maxHeight;
-      }
+      const { width, height } = fitDimensions(img.naturalWidth, img.naturalHeight, s.maxWidth, s.maxHeight);
 
       const canvas = document.createElement("canvas");
       canvas.width = width;
@@ -179,6 +178,7 @@ export function useImageCompressor() {
 
   const processAll = useCallback(async () => {
     setIsProcessing(true);
+    const startGeneration = clearGeneration.current;
     track("compress_images", {
       file_count: items.length,
       mode: settingsRef.current.sizeMode,
@@ -191,14 +191,21 @@ export function useImageCompressor() {
     let succeeded = 0;
     let failed = 0;
     for (const item of items) {
+      // The sheet was cleared mid-batch (clearGeneration bumped) — the
+      // remaining items' object URLs may already be revoked by
+      // clearSheet's cleanup timer, and they no longer exist in state to
+      // show a result on. Stop rather than keep decoding into the void.
+      if (clearGeneration.current !== startGeneration) break;
       updateItem(item.id, { status: "compressing" });
       const result = await processOne(item);
+      if (clearGeneration.current !== startGeneration) break;
       updateItem(item.id, result);
       if (result.status === "failed") failed++;
       else succeeded++;
     }
 
     setIsProcessing(false);
+    if (clearGeneration.current !== startGeneration) return;
     if (failed > 0) {
       showToast(`${succeeded} compressed, ${failed} failed. Use Retry on the failed image${failed === 1 ? "" : "s"}.`);
     } else if (succeeded > 0) {
@@ -234,6 +241,11 @@ export function useImageCompressor() {
     if (!items.length) return;
     const clearedItems = items;
     setItems([]);
+    // Signal any in-flight processAll loop to stop — see the check in
+    // processAll for why (its remaining items' object URLs are about to
+    // be revoked below, and they're no longer in state to show on).
+    clearGeneration.current++;
+    setIsProcessing(false);
 
     let restored = false;
     showToast(`Cleared ${clearedItems.length} image${clearedItems.length === 1 ? "" : "s"}`, {
@@ -253,20 +265,25 @@ export function useImageCompressor() {
     }, 5200);
   }, [items, showToast]);
 
-  const willOutputPng =
-    settings.format === "image/png" ||
-    (settings.format === "original" && items.some((i) => i.file.type === "image/png"));
-  const hasGif = items.some((i) => i.file.type === "image/gif");
-  const showColorsField = willOutputPng || hasGif;
+  // Both scan the full items array, so only recompute when items or the
+  // output format actually change — not on every incidental re-render
+  // (e.g. a Frame's own local "adjust settings" toggle).
+  const showColorsField = useMemo(() => {
+    const willOutputPng =
+      settings.format === "image/png" ||
+      (settings.format === "original" && items.some((i) => i.file.type === "image/png"));
+    const hasGif = items.some((i) => i.file.type === "image/gif");
+    return willOutputPng || hasGif;
+  }, [items, settings.format]);
 
-  const totals = (() => {
+  const totals = useMemo(() => {
     const done = items.filter((i) => i.resultBlob);
     if (!done.length) return null;
     const before = done.reduce((s, i) => s + i.originalSize, 0);
     const after = done.reduce((s, i) => s + i.resultSize, 0);
     const pct = before > 0 ? Math.round((1 - after / before) * 100) : 0;
     return { before: fmtBytes(before), after: fmtBytes(after), pct };
-  })();
+  }, [items]);
 
   return {
     items,

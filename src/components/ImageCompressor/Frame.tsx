@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { memo, useState } from "react";
 import { Icon } from "@/components/Icon";
 import { fmtBytes } from "@/lib/format";
 import type { ImageItem } from "@/lib/types";
@@ -9,12 +9,27 @@ interface FrameProps {
   readonly item: ImageItem;
   readonly index: number;
   readonly individualMode: boolean;
+  readonly retryDisabled: boolean;
   readonly onRetry: (item: ImageItem) => void;
   readonly onDownload: (item: ImageItem) => Promise<void>;
   readonly onOwnQualityChange: (id: number, quality: number) => void;
 }
 
-export function Frame({ item, index, individualMode, onRetry, onDownload, onOwnQualityChange }: FrameProps) {
+// Memoized: processAll/processItem update one ImageItem at a time via a
+// full-array setItems copy, which would otherwise re-render every Frame
+// in the batch on every single item's status change (O(n) updates x O(n)
+// Frames). The callback props are stable (useCallback in
+// useImageCompressor), so this actually skips re-rendering frames whose
+// own item reference hasn't changed.
+export const Frame = memo(function Frame({
+  item,
+  index,
+  individualMode,
+  retryDisabled,
+  onRetry,
+  onDownload,
+  onOwnQualityChange,
+}: FrameProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
 
@@ -58,7 +73,7 @@ export function Frame({ item, index, individualMode, onRetry, onDownload, onOwnQ
           <div className="frame-status">{item.status === "waiting" ? "waiting" : "compressing..."}</div>
         )}
         {item.status === "failed" && (
-          <button type="button" className="frame-retry" onClick={() => onRetry(item)}>
+          <button type="button" className="frame-retry" disabled={retryDisabled} onClick={() => onRetry(item)}>
             <Icon name="system" className="icon icon-sm" /> Retry
           </button>
         )}
@@ -111,4 +126,4 @@ export function Frame({ item, index, individualMode, onRetry, onDownload, onOwnQ
       </div>
     </div>
   );
-}
+});

@@ -1,5 +1,5 @@
 import { decodeGif } from "./gifDecoder";
-import { medianCutQuantize } from "./imageProcessing";
+import { fitDimensions, medianCutQuantize } from "./imageProcessing";
 
 // gif.js (loaded globally via <Script> in the app, see GifEncoderScript)
 // exposes window.GIF — there's no npm/ESM build we control the shape of,
@@ -42,6 +42,22 @@ function getGifWorkerUrl(): Promise<string> {
   return gifWorkerBlobUrlPromise;
 }
 
+// The gif.js <Script> tag loads async relative to React hydration — a
+// user can click Compress on a GIF before window.GIF exists yet. Poll
+// briefly instead of failing immediately, so a slow network doesn't turn
+// into an unrecoverable-until-Retry error for what is really just normal
+// script-loading latency.
+async function waitForGifJs(timeoutMs = 8000): Promise<GifJsConstructor> {
+  const start = Date.now();
+  while (!window.GIF) {
+    if (Date.now() - start > timeoutMs) {
+      throw new Error("GIF encoder failed to load. Check your connection and try again.");
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+  }
+  return window.GIF;
+}
+
 export interface GifCompressOptions {
   maxWidth: number | null;
   maxHeight: number | null;
@@ -53,22 +69,12 @@ export interface GifCompressResult {
 }
 
 export async function compressGif(file: File, options: GifCompressOptions): Promise<GifCompressResult> {
-  if (!window.GIF) throw new Error("GIF encoder not loaded yet");
+  const GIF = await waitForGifJs();
   const { maxWidth, maxHeight, colorCount } = options;
 
   const buffer = await file.arrayBuffer();
   const { width: srcW, height: srcH, frames } = decodeGif(buffer);
-
-  let width = srcW;
-  let height = srcH;
-  if (maxWidth && width > maxWidth) {
-    height = Math.round(height * (maxWidth / width));
-    width = maxWidth;
-  }
-  if (maxHeight && height > maxHeight) {
-    width = Math.round(width * (maxHeight / height));
-    height = maxHeight;
-  }
+  const { width, height } = fitDimensions(srcW, srcH, maxWidth, maxHeight);
 
   // Each GIF frame only carries the pixels that changed from the last one
   // (per its own left/top/width/height), not a full new image —
@@ -84,7 +90,7 @@ export async function compressGif(file: File, options: GifCompressOptions): Prom
   outCanvas.height = height;
   const outCtx = outCanvas.getContext("2d")!;
 
-  const gif = new window.GIF({
+  const gif = new GIF({
     workers: 2,
     quality: 10,
     width,

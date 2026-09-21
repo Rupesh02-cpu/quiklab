@@ -2,6 +2,29 @@
 // pipeline. Ported 1:1 from the original static-site implementation
 // (app.js) with no behavior changes, only type annotations.
 
+// Shared aspect-ratio-preserving fit: shrinks width/height to fit within
+// maxWidth/maxHeight (either or both may be omitted), never upscales.
+// Used by both the canvas image path and the GIF encoder so a future
+// change to the resize rule can't apply to one and not the other.
+export function fitDimensions(
+  srcWidth: number,
+  srcHeight: number,
+  maxWidth: number | null,
+  maxHeight: number | null
+): { width: number; height: number } {
+  let width = srcWidth;
+  let height = srcHeight;
+  if (maxWidth && width > maxWidth) {
+    height = Math.round(height * (maxWidth / width));
+    width = maxWidth;
+  }
+  if (maxHeight && height > maxHeight) {
+    width = Math.round(width * (maxHeight / height));
+    height = maxHeight;
+  }
+  return { width, height };
+}
+
 export function loadImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();

@@ -2,7 +2,18 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## What this is
+> **Migration in progress (branch `nextjs-migration`):** the description below
+> is the deployed `main` branch (the static site). On this branch, the image
+> compressor has been ported to Next.js 16 + React + TypeScript under `src/`
+> — see `src/hooks/useImageCompressor.ts` and `src/lib/*` for the same
+> processing logic described below, now typed and state-driven instead of
+> DOM-driven. It now has a real `package.json` (Next.js, React, JSZip as an
+> npm dependency instead of a CDN script). The PDF toolkit (`pdf.html`/
+> `pdf.js`) has **not** been migrated yet and still describes the static
+> site. Once both are ported and verified, this file should be rewritten for
+> the new architecture and the static files removed.
+
+## What this is (main / pre-migration)
 
 QuikLab — a static, client-side image resizer/compressor, live at quiklab.online (deployed on Vercel). It's the first tool of an umbrella "QuikLab" brand; more tools are planned to live alongside it. There is no backend, no build step, and no package.json — the entire app is `index.html` + `styles.css` + `app.js`, plus JSZip loaded from a CDN.
 

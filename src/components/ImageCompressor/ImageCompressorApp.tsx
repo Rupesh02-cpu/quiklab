@@ -118,6 +118,7 @@ export function ImageCompressorApp() {
                   item={item}
                   index={index}
                   individualMode={settings.batchMode === "individual"}
+                  retryDisabled={isProcessing}
                   onRetry={processItem}
                   onDownload={downloadOne}
                   onOwnQualityChange={setOwnQuality}
