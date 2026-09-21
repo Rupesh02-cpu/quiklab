@@ -14,10 +14,13 @@ Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` 
 
 ## What it does
 
-- Drag-and-drop or file-picker upload for JPG / PNG / WebP / SVG, multiple files at once.
+- Drag-and-drop or file-picker upload for JPG / PNG / WebP / SVG / GIF, multiple files at once.
 - Resize by max width/height (aspect ratio preserved) via the Canvas API.
 - Two compression modes: a quality slider (`canvas.toBlob(mime, quality)`), or a target file size (e.g. "under 100KB") found via binary search on JPEG/WebP quality. Force a different output format (JPEG/WebP/PNG) independent of either mode.
+- PNG and animated GIF compression via color quantization (a from-scratch median-cut implementation — see below) since neither has a lossy "quality" knob; a "Simplify colors" slider controls the palette size.
+- Animated GIFs are decoded and re-encoded frame-by-frame with a hand-written GIF89a decoder (no CDN library ships a real browser-ready bundle for this) and the `gif.js` encoder, preserving each frame's timing and disposal method.
 - SVG files are minified (comments, XML/editor metadata, and redundant whitespace stripped) rather than run through canvas, since they're vector text, not pixels.
+- A per-batch "adjust each image separately" mode overrides the shared quality setting on individual images.
 - Per-image before/after size, a savings bar, and a running total across the whole batch.
 - Download one file, or all of them as a `.zip` (via JSZip 3.10.2, pinned with a Subresource Integrity hash).
 - Your images never leave the browser tab — no upload, no fetch, no image data sent anywhere. (Usage analytics, below, is a separate concern from image privacy.)

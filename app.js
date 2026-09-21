@@ -138,10 +138,12 @@
     'image/png': 'png',
     'image/webp': 'webp',
     'image/svg+xml': 'svg',
+    'image/gif': 'gif',
   }[mime] || 'jpg');
 
   const targetMimeFor = (file) => {
     if (file.type === 'image/svg+xml') return 'image/svg+xml';
+    if (file.type === 'image/gif') return 'image/gif';
     const choice = formatEl.value;
     if (choice !== 'original') return choice;
     // keep original type when possible, default to jpeg for anything unrecognized (e.g. avif upload)
@@ -287,7 +289,7 @@
 
   // ---------- ingest files ----------
   function addFiles(fileList) {
-    const files = Array.from(fileList).filter(f => /^image\/(jpeg|png|webp|svg\+xml)$/.test(f.type));
+    const files = Array.from(fileList).filter(f => /^image\/(jpeg|png|webp|svg\+xml|gif)$/.test(f.type));
     if (!files.length) return;
     track('upload_images', { file_count: files.length });
     files.forEach(file => {
@@ -469,9 +471,303 @@
     return imageData;
   }
 
+  // Browsers refuse to construct a cross-origin Worker directly from a
+  // CDN URL (same-origin policy applies to worker scripts, not just
+  // fetch/XHR) — gif.js needs its worker script handed to it as a real
+  // URL, so this fetches the CDN file once, wraps it in a same-origin
+  // Blob URL, and reuses that for every GIF processed in this session.
+  let gifWorkerBlobUrlPromise = null;
+  function getGifWorkerUrl() {
+    if (!gifWorkerBlobUrlPromise) {
+      gifWorkerBlobUrlPromise = fetch('https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.worker.js')
+        .then(res => res.blob())
+        .then(blob => URL.createObjectURL(blob));
+    }
+    return gifWorkerBlobUrlPromise;
+  }
+
+  // ---------- GIF decoding (GIF89a) ----------
+  // Animated GIFs can't go through the Canvas API the way JPEG/PNG/WebP
+  // do — there's no canvas.toBlob('image/gif'), and <img>/drawImage only
+  // exposes the first frame, not each frame's own timing/disposal data.
+  // Re-encoding one means decoding every frame ourselves. No CDN library
+  // ships a real browser-ready bundle for this (checked: gifuct-js is
+  // CommonJS-only with its own unbundled sub-dependencies), so this is a
+  // small decoder written directly against the GIF89a spec — header,
+  // optional global color table, then a stream of blocks (extensions and
+  // image descriptors) until the 0x3B trailer.
+  function decodeGif(buffer) {
+    const bytes = new Uint8Array(buffer);
+    let pos = 0;
+    const readByte = () => bytes[pos++];
+    const readU16 = () => { const v = bytes[pos] | (bytes[pos + 1] << 8); pos += 2; return v; };
+
+    const sig = String.fromCharCode(...bytes.slice(0, 6));
+    if (sig !== 'GIF87a' && sig !== 'GIF89a') throw new Error('Not a GIF file');
+    pos = 6;
+
+    const width = readU16();
+    const height = readU16();
+    const packed = readByte();
+    const gctFlag = (packed & 0x80) !== 0;
+    const gctSize = 2 ** ((packed & 0x07) + 1);
+    readByte(); // background color index — unused, every frame carries its own pixels
+    readByte(); // pixel aspect ratio — unused
+
+    function readColorTable(size) {
+      const table = [];
+      for (let i = 0; i < size; i++) table.push([readByte(), readByte(), readByte()]);
+      return table;
+    }
+    const gct = gctFlag ? readColorTable(gctSize) : null;
+
+    // Sub-blocks: a length-prefixed run of byte chunks terminated by a
+    // zero-length block — the same framing GIF uses for both LZW image
+    // data and extension payloads (comments, application data, etc).
+    function readSubBlocks() {
+      const chunks = [];
+      let len;
+      while ((len = readByte()) !== 0) {
+        chunks.push(bytes.slice(pos, pos + len));
+        pos += len;
+      }
+      const total = chunks.reduce((s, c) => s + c.length, 0);
+      const out = new Uint8Array(total);
+      let o = 0;
+      for (const c of chunks) { out.set(c, o); o += c.length; }
+      return out;
+    }
+
+    // Variable-width LZW decompression per the GIF spec: codes start at
+    // minCodeSize+1 bits, the dictionary grows as codes are read, a clear
+    // code (2^minCodeSize) resets it, and an end code (clear+1) stops.
+    function lzwDecode(minCodeSize, data) {
+      const clearCode = 1 << minCodeSize;
+      const eoiCode = clearCode + 1;
+      let codeSize = minCodeSize + 1;
+      let dict, next;
+      function resetDict() {
+        dict = [];
+        for (let i = 0; i < clearCode; i++) dict[i] = [i];
+        dict[clearCode] = null;
+        dict[eoiCode] = null;
+        next = eoiCode + 1;
+        codeSize = minCodeSize + 1;
+      }
+      resetDict();
+
+      const output = [];
+      let bitBuf = 0, bitCount = 0, di = 0;
+      let prev = null;
+
+      function nextCode() {
+        while (bitCount < codeSize) {
+          if (di >= data.length) return null;
+          bitBuf |= data[di++] << bitCount;
+          bitCount += 8;
+        }
+        const code = bitBuf & ((1 << codeSize) - 1);
+        bitBuf >>= codeSize;
+        bitCount -= codeSize;
+        return code;
+      }
+
+      let code;
+      while ((code = nextCode()) !== null) {
+        if (code === clearCode) { resetDict(); prev = null; continue; }
+        if (code === eoiCode) break;
+
+        let entry;
+        if (code < next && dict[code]) entry = dict[code];
+        else if (code === next && prev) entry = prev.concat(prev[0]);
+        else break; // malformed stream — stop rather than throw away the whole image
+
+        for (const px of entry) output.push(px);
+
+        if (prev) {
+          dict[next++] = prev.concat(entry[0]);
+          if (next === (1 << codeSize) && codeSize < 12) codeSize++;
+        }
+        prev = entry;
+      }
+      return output;
+    }
+
+    // De-interlacing per the GIF spec: four passes at increasing density
+    // (every 8th row, then 8th offset by 4, then every 4th offset by 2,
+    // then every 2nd offset by 1) rather than top-to-bottom order.
+    function deinterlace(pixels, w, h) {
+      const result = new Array(w * h);
+      const passes = [[0, 8], [4, 8], [2, 4], [1, 2]];
+      let srcRow = 0;
+      for (const [start, step] of passes) {
+        for (let row = start; row < h; row += step) {
+          for (let col = 0; col < w; col++) result[row * w + col] = pixels[srcRow * w + col];
+          srcRow++;
+        }
+      }
+      return result;
+    }
+
+    const frames = [];
+    let gcDelay = 10, gcTransparentIndex = -1, gcDisposal = 0;
+
+    while (pos < bytes.length) {
+      const blockType = readByte();
+      if (blockType === 0x3b) break; // trailer
+      if (blockType === 0x21) {
+        // Extension block: only Graphic Control (0xF9) carries data this
+        // decoder needs (delay/disposal/transparency) — everything else
+        // (comments, application extensions like NETSCAPE2.0 looping) is
+        // read past and discarded, since it doesn't affect a single
+        // re-encoded pass through every frame.
+        const label = readByte();
+        if (label === 0xf9) {
+          const blockSize = readByte();
+          const gcPacked = readByte();
+          gcDisposal = (gcPacked >> 2) & 0x07;
+          const transparentFlag = (gcPacked & 0x01) !== 0;
+          gcDelay = readU16();
+          const transparentIndex = readByte();
+          gcTransparentIndex = transparentFlag ? transparentIndex : -1;
+          void blockSize; // always 4 for this extension, nothing more to skip
+          readByte(); // block terminator
+        } else {
+          readSubBlocks();
+        }
+        continue;
+      }
+      if (blockType === 0x2c) {
+        const left = readU16(), top = readU16(), w = readU16(), h = readU16();
+        const imgPacked = readByte();
+        const lctFlag = (imgPacked & 0x80) !== 0;
+        const interlaced = (imgPacked & 0x40) !== 0;
+        const lctSize = 2 ** ((imgPacked & 0x07) + 1);
+        const lct = lctFlag ? readColorTable(lctSize) : null;
+        const minCodeSize = readByte();
+        const lzwData = readSubBlocks();
+
+        let indices = lzwDecode(minCodeSize, lzwData);
+        if (indices.length < w * h) {
+          // Truncated/corrupt frame data — pad with transparent/background
+          // rather than throw the whole GIF away over one bad frame.
+          indices = indices.concat(new Array(w * h - indices.length).fill(gcTransparentIndex >= 0 ? gcTransparentIndex : 0));
+        }
+        if (interlaced) indices = deinterlace(indices, w, h);
+
+        const palette = lct || gct || [[0, 0, 0]];
+        const rgba = new Uint8ClampedArray(w * h * 4);
+        for (let i = 0; i < w * h; i++) {
+          const idx = indices[i];
+          const color = palette[idx] || [0, 0, 0];
+          const isTransparent = idx === gcTransparentIndex;
+          rgba[i * 4] = color[0];
+          rgba[i * 4 + 1] = color[1];
+          rgba[i * 4 + 2] = color[2];
+          rgba[i * 4 + 3] = isTransparent ? 0 : 255;
+        }
+
+        frames.push({ left, top, width: w, height: h, delay: gcDelay, disposal: gcDisposal, rgba });
+        gcDelay = 10; gcTransparentIndex = -1; gcDisposal = 0;
+        continue;
+      }
+      // Unknown block type — bail rather than loop forever on corrupt data.
+      break;
+    }
+
+    if (!frames.length) throw new Error('No frames found in GIF');
+    return { width, height, frames };
+  }
+
+  async function processGifItem(item) {
+    const maxW = parseInt(maxWidthEl.value, 10) || null;
+    const maxH = parseInt(maxHeightEl.value, 10) || null;
+    const colorCount = Number(colorsEl.value);
+
+    const buffer = await item.file.arrayBuffer();
+    const { width: srcW, height: srcH, frames } = decodeGif(buffer);
+
+    let width = srcW, height = srcH;
+    if (maxW && width > maxW) { height = Math.round(height * (maxW / width)); width = maxW; }
+    if (maxH && height > maxH) { width = Math.round(width * (maxH / height)); height = maxH; }
+
+    // Each GIF frame only carries the pixels that changed from the last
+    // one (per its own left/top/width/height), not a full new image —
+    // compositing them in order onto one persistent canvas is what
+    // actually reconstructs each full frame instead of a flickering diff.
+    const composeCanvas = document.createElement('canvas');
+    composeCanvas.width = srcW;
+    composeCanvas.height = srcH;
+    const composeCtx = composeCanvas.getContext('2d');
+
+    const outCanvas = document.createElement('canvas');
+    outCanvas.width = width;
+    outCanvas.height = height;
+    const outCtx = outCanvas.getContext('2d');
+
+    const gif = new window.GIF({
+      workers: 2,
+      quality: 10,
+      width,
+      height,
+      workerScript: await getGifWorkerUrl(),
+    });
+
+    for (const frame of frames) {
+      const patchCanvas = document.createElement('canvas');
+      patchCanvas.width = frame.width;
+      patchCanvas.height = frame.height;
+      patchCanvas.getContext('2d').putImageData(
+        new ImageData(frame.rgba, frame.width, frame.height), 0, 0
+      );
+      composeCtx.drawImage(patchCanvas, frame.left, frame.top);
+
+      outCtx.clearRect(0, 0, width, height);
+      outCtx.drawImage(composeCanvas, 0, 0, srcW, srcH, 0, 0, width, height);
+
+      if (colorCount < 256) {
+        const imageData = outCtx.getImageData(0, 0, width, height);
+        outCtx.putImageData(medianCutQuantize(imageData, colorCount), 0, 0);
+      }
+
+      gif.addFrame(outCtx, { copy: true, delay: (frame.delay || 10) * 10 });
+
+      // Disposal method 2 ("restore to background") clears just this
+      // frame's region before the next one composites — anything else
+      // (0/1 "do not dispose", 3 "restore to previous") leaves the
+      // canvas as-is, which is the correct default for both.
+      if (frame.disposal === 2) {
+        composeCtx.clearRect(frame.left, frame.top, frame.width, frame.height);
+      }
+    }
+
+    const blob = await new Promise((resolve, reject) => {
+      gif.on('finished', resolve);
+      gif.on('abort', () => reject(new Error('GIF encoding aborted')));
+      gif.render();
+    });
+
+    if (blob.size >= item.originalSize) {
+      item.resultBlob = item.file;
+      item.resultSize = item.originalSize;
+      item.keptOriginal = true;
+    } else {
+      item.resultBlob = blob;
+      item.resultSize = blob.size;
+      item.keptOriginal = false;
+    }
+    item.resultExt = 'gif';
+  }
+
   async function processItem(item) {
     setFrameStatus(item, 'compressing...', true);
     try {
+      if (item.file.type === 'image/gif') {
+        await processGifItem(item);
+        setFrameStatus(item, '', false);
+        setFrameResult(item);
+        return;
+      }
       if (item.file.type === 'image/svg+xml') {
         const text = await item.file.text();
         const minified = minifySvgText(text);
@@ -662,12 +958,15 @@
   });
 
   // Only worth showing the colors control when the result will actually
-  // be a PNG — either explicitly forced, or "Keep original" with at least
-  // one PNG in the batch.
+  // be a PNG or GIF — either PNG explicitly forced, or "Keep original"
+  // with at least one PNG/GIF in the batch (GIF always keeps its own
+  // format — there's no "force GIF" option since nothing else converts
+  // to it, so any uploaded GIF alone is enough to show this control).
   function updateColorsFieldVisibility() {
     const willOutputPng = formatEl.value === 'image/png'
       || (formatEl.value === 'original' && items.some(i => i.file.type === 'image/png'));
-    colorsField.hidden = !willOutputPng;
+    const hasGif = items.some(i => i.file.type === 'image/gif');
+    colorsField.hidden = !(willOutputPng || hasGif);
   }
   formatEl.addEventListener('change', updateColorsFieldVisibility);
 

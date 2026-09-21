@@ -83,7 +83,7 @@
       "name": "What file types does QuikLab support?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output."
+        "text": "QuikLab accepts JPG, PNG, WebP, SVG, and GIF files, and can convert between JPG, PNG, and WebP on output. Animated GIFs stay animated and keep their own format."
       }
     },
     {
@@ -182,11 +182,11 @@
           </header>
 
           <div class="drop" id="drop">
-            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/svg+xml" multiple hidden>
+            <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/svg+xml,image/gif" multiple hidden>
             <svg class="icon drop-icon" aria-hidden="true"><use href="#icon-upload"/></svg>
             <p class="drop-label">Drop images here</p>
             <p class="drop-sub">or <button type="button" id="browseBtn" class="link-btn">choose files</button></p>
-            <p class="drop-note">JPG, PNG, WebP, SVG - your images never leave this tab</p>
+            <p class="drop-note">JPG, PNG, WebP, SVG, GIF - your images never leave this tab</p>
           </div>
 
           <div class="controls">
@@ -247,9 +247,9 @@
                 </div>
 
                 <div class="field" id="colorsField" hidden>
-                  <label for="colors">Simplify colors (PNG only) <span class="mono" id="colorsVal">256</span></label>
+                  <label for="colors">Simplify colors (PNG/GIF only) <span class="mono" id="colorsVal">256</span></label>
                   <input type="range" id="colors" min="4" max="256" value="256" step="1">
-                  <p class="field-hint">PNG files can't get smaller with a quality slider, only by using fewer colors. Lower this for flat graphics like screenshots, icons, or logos. Photos with lots of color will look worse if you go too low.</p>
+                  <p class="field-hint">PNG and GIF files can't get smaller with a quality slider, only by using fewer colors. Lower this for flat graphics like screenshots, icons, or logos. Photos and animations with lots of color will look worse if you go too low.</p>
                 </div>
               </div>
             </details>
@@ -318,7 +318,7 @@
   <section class="about">
     <div class="about-inner">
       <h2>About QuikLab</h2>
-      <p>QuikLab is a free image compressor that resizes and compresses JPG, PNG, WebP, and SVG files directly in your browser. There's no upload step, no account, and no server involved: the Canvas API does the work on your own device, so your images never leave the tab.</p>
+      <p>QuikLab is a free image compressor that resizes and compresses JPG, PNG, WebP, SVG, and GIF files directly in your browser. There's no upload step, no account, and no server involved: the Canvas API does the work on your own device, so your images never leave the tab.</p>
 
       <h3>How does QuikLab compress images?</h3>
       <p>For JPG and WebP, QuikLab re-encodes the image at a lower quality setting using the browser's built-in Canvas API, which typically shrinks photos by 20 to 60 percent with little visible difference. You can either pick a quality level directly, or tell QuikLab a target file size (like "under 100KB") and it searches for the highest quality that still fits. PNG files are lossless by nature, so QuikLab only resizes them unless a smaller result is actually possible. SVG files are minified by stripping unnecessary comments and editor metadata, since they're vector markup rather than pixels.</p>
@@ -330,7 +330,7 @@
       <p>JPG and WebP compression is lossy, so a lower quality setting can introduce visible artifacts if pushed too far. QuikLab defaults to a quality level that keeps files small while staying visually close to the original, and it never returns a "compressed" file that's larger than what you uploaded.</p>
 
       <h3>What file types does QuikLab support?</h3>
-      <p>QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output.</p>
+      <p>QuikLab accepts JPG, PNG, WebP, SVG, and GIF files, and can convert between JPG, PNG, and WebP on output. Animated GIFs stay animated and keep their own format.</p>
 
       <h3>Does QuikLab remove EXIF and GPS data from photos?</h3>
       <p>Yes, when a JPEG is actually re-encoded, which is the normal case. Re-encoding through the Canvas API produces a new file with no metadata, including camera details and GPS location. The one exception is when compressing wouldn't shrink the file at all, in which case QuikLab keeps your original bytes untouched rather than handing back something bigger, and in that specific case the original metadata stays too. This is shown per-file as "no gain, original kept."</p>
@@ -341,6 +341,9 @@
 
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.2/dist/jszip.min.js"
           integrity="sha256-f4ObLUaIuEXBBev10vmAMHX5HqD+cr2qwXbDoE3T0sE="
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gif.js@0.2.0/dist/gif.js"
+          integrity="sha384-4RMW82CWFobXY+HRHXe5go/V5acBhiIVGCT+2k7TEoxi7AiWKw8WoWb9qMU+FAFu"
           crossorigin="anonymous"></script>
   <script src="app.js"></script>
 </body>
