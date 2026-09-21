@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuikLab - PDF toolkit</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+<link rel="icon" type="image/png" sizes="512x512" href="/icon-512.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script>
+  // Applied before first paint to avoid a flash of the wrong theme.
+  (function () {
+    try {
+      var saved = localStorage.getItem('quiklab-theme');
+      if (saved === 'light' || saved === 'dark') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    } catch (e) {}
+  })();
+</script>
+<meta name="description" content="Merge, split, compress, rotate, and watermark PDFs, and convert between PDF and images, entirely in your browser. No upload, no server, no signup.">
+<link rel="canonical" href="https://quiklab.online/pdf.html">
+<meta property="og:title" content="QuikLab - PDF toolkit">
+<meta property="og:description" content="Merge, split, compress, rotate, and watermark PDFs, and convert between PDF and images, entirely in your browser.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://quiklab.online/pdf.html">
+<meta property="og:site_name" content="QuikLab">
+<meta property="og:image" content="https://quiklab.online/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="QuikLab - PDF toolkit">
+<meta name="twitter:description" content="Merge, split, compress, rotate, and watermark PDFs, and convert between PDF and images, entirely in your browser.">
+<meta name="twitter:image" content="https://quiklab.online/og-image.png">
+<meta name="google-adsense-account" content="ca-pub-8283943064154546">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "QuikLab PDF Toolkit",
+  "url": "https://quiklab.online/pdf.html",
+  "description": "Merge, split, compress, rotate, and watermark PDFs, and convert between PDF and images, entirely in your browser. No upload, no server, no signup.",
+  "applicationCategory": "MultimediaApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is my PDF uploaded anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Every operation — merging, splitting, compressing, rotating, watermarking, and converting — runs in your browser using JavaScript. Your PDF and its contents never leave your device." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does QuikLab compress a PDF?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It re-encodes embedded images inside the PDF at a lower quality and removes unused objects, which shrinks image-heavy PDFs substantially. Text-only PDFs are already compact and may not shrink much further." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I merge PDFs in a specific order?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add your files and drag them into the order you want before merging — the output follows that order." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I convert images to a PDF, or a PDF to images?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes, both directions. Image to PDF places each JPG, PNG, or WebP you upload on its own page. PDF to image renders each page of a PDF as a downloadable PNG." }
+    }
+  ]
+}
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-43T0WZB3Z0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-43T0WZB3Z0');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<!-- Google AdSense -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8283943064154546"
+     crossorigin="anonymous"></script>
+
+<!--
+  Microsoft Clarity — usage analytics (interface only, same as the
+  image-compressor page). Never sees PDF contents. Local-deploy only,
+  see index.html for the full explanation.
+-->
+<script type="text/javascript">
+  (function (c, l, a, r, i, t, y) {
+    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments); };
+    t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+    y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+  })(window, document, "clarity", "script", "yl6fc10ssr");
+</script>
+</head>
+<body>
+
+  <!-- SVG icon sprite: hidden, referenced via <use> throughout -->
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+    <symbol id="icon-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-upload" viewBox="0 0 24 24"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 16v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24"><path d="M12 4v11M7.5 11.5 12 16l4.5-4.5M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-zip" viewBox="0 0 24 24"><path d="M5 4h14v16H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 4v3M12 9v2M12 13v2M12 17v3" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0 1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="m5 17 5-5 3.5 3.5L18 11l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pdf" viewBox="0 0 24 24"><path d="M6 2.5h9l4 4V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 2.5V7a1 1 0 0 0 1 1h4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><text x="12" y="17.5" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="6.5" font-weight="700" fill="currentColor">PDF</text></symbol>
+    <symbol id="icon-merge" viewBox="0 0 24 24"><path d="M6 4h6v7H6zM12 13h6v7h-6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 11v2a2 2 0 0 0 2 2h1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+    <symbol id="icon-split" viewBox="0 0 24 24"><path d="M5 4h14v7H5zM5 13h14v7H5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 11.5h6" stroke="currentColor" stroke-width="1.6" stroke-dasharray="1.5 2"/></symbol>
+    <symbol id="icon-compress" viewBox="0 0 24 24"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-rotate" viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 1 0 1.5 6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M20.5 3.5V8H16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-watermark" viewBox="0 0 24 24"><path d="M6 2.5h9l4 4V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><text x="12.5" y="16" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="9" fill="currentColor" opacity=".55">W</text></symbol>
+    <symbol id="icon-img2pdf" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="11" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="6.3" cy="8" r="1.2" fill="currentColor"/><path d="m3.5 13.5 3-3 2.5 2.5L11.5 10l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 6.5h5a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H10a1 1 0 0 1-1-1v-1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pdf2img" viewBox="0 0 24 24"><path d="M6 2.5h8l4 4V15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><rect x="9" y="15.5" width="11" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12.2" cy="18.7" r="1" fill="currentColor"/><path d="m10 22 2.2-2.2 1.8 1.8L16.5 19l2.5 2.2" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-left">
+      <a href="/" class="site-logo">
+        <span class="brand-mark">QL</span>
+        <span class="site-logo-word">QuikLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Tools">
+        <a href="/" class="site-nav-link">
+          <svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg> Image compressor
+        </a>
+        <a href="/pdf.html" class="site-nav-link is-current">
+          <svg class="icon" aria-hidden="true"><use href="#icon-pdf"/></svg> PDF toolkit
+        </a>
+      </nav>
+    </div>
+    <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Theme">
+      <svg class="icon" id="themeIcon" aria-hidden="true"><use href="#icon-system"/></svg>
+    </button>
+  </header>
+
+  <main class="pdf-hub">
+    <div class="pdf-hub-head">
+      <h1>PDF toolkit</h1>
+      <p>Merge, split, compress, rotate, and watermark PDFs, or convert between PDF and images &mdash; entirely in your browser. Nothing is uploaded; every operation runs on-device.</p>
+    </div>
+
+    <div class="tool-grid" id="toolGrid" role="tablist" aria-label="PDF tools">
+      <button type="button" class="tool-card" data-tool="merge" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-merge"/></svg></span>
+        <span class="tool-card-title">Merge PDFs</span>
+        <span class="tool-card-desc">Combine multiple PDFs into one, in the order you choose.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="split" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-split"/></svg></span>
+        <span class="tool-card-title">Split &amp; extract</span>
+        <span class="tool-card-desc">Pick the pages you want and pull them into a new PDF.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="compress" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-compress"/></svg></span>
+        <span class="tool-card-title">Compress PDF</span>
+        <span class="tool-card-desc">Shrink file size by re-encoding embedded images.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="rotate" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-rotate"/></svg></span>
+        <span class="tool-card-title">Rotate pages</span>
+        <span class="tool-card-desc">Fix sideways or upside-down pages, one at a time or all at once.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="watermark" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-watermark"/></svg></span>
+        <span class="tool-card-title">Add watermark</span>
+        <span class="tool-card-desc">Stamp text across every page &mdash; position, size, and opacity.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="img2pdf" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-img2pdf"/></svg></span>
+        <span class="tool-card-title">Image &rarr; PDF</span>
+        <span class="tool-card-desc">Turn JPG, PNG, or WebP files into a single PDF.</span>
+      </button>
+      <button type="button" class="tool-card" data-tool="pdf2img" role="tab" aria-selected="false">
+        <span class="tool-card-icon"><svg class="icon" aria-hidden="true"><use href="#icon-pdf2img"/></svg></span>
+        <span class="tool-card-title">PDF &rarr; image</span>
+        <span class="tool-card-desc">Export every page of a PDF as a PNG image.</span>
+      </button>
+    </div>
+
+    <!-- ---------- workspace: one panel per tool, only one shown at a time ---------- -->
+    <section class="pdf-workspace" id="workspace" hidden>
+      <div class="pdf-workspace-head">
+        <button type="button" id="backToTools" class="btn-text">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-arrow-left"/></svg> All tools
+        </button>
+      </div>
+      <div class="pdf-workspace-head">
+        <h2 id="workspaceTitle"></h2>
+      </div>
+      <p id="workspaceDesc" style="color:var(--ink-muted);font-size:13px;margin-top:-10px;"></p>
+
+      <div class="pdf-drop" id="pdfDrop">
+        <input type="file" id="pdfFileInput" hidden>
+        <svg class="icon drop-icon" aria-hidden="true"><use href="#icon-upload"/></svg>
+        <p class="pdf-drop-label" id="pdfDropLabel">Drop PDF files here</p>
+        <p class="pdf-drop-sub">or <button type="button" id="pdfBrowseBtn" class="link-btn">choose files</button></p>
+      </div>
+
+      <div class="pdf-file-list" id="pdfFileList"></div>
+
+      <div class="page-grid" id="pageGrid" hidden></div>
+
+      <div class="pdf-watermark-form" id="watermarkForm" hidden>
+        <div class="field">
+          <label for="wmText">Watermark text</label>
+          <input type="text" id="wmText" value="CONFIDENTIAL" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="wmPosition">Position</label>
+          <select id="wmPosition">
+            <option value="center" selected>Center, diagonal</option>
+            <option value="tile">Tiled, diagonal</option>
+            <option value="bottom">Bottom center</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="wmOpacity">Opacity <span class="mono" id="wmOpacityVal">30</span>%</label>
+          <input type="range" id="wmOpacity" min="5" max="80" value="30">
+        </div>
+        <div class="field">
+          <label for="wmSize">Font size <span class="mono" id="wmSizeVal">48</span>px</label>
+          <input type="range" id="wmSize" min="16" max="120" value="48">
+        </div>
+        <div class="field">
+          <label for="wmColor">Color</label>
+          <select id="wmColor">
+            <option value="gray" selected>Gray</option>
+            <option value="red">Red</option>
+            <option value="black">Black</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="pdf-watermark-form" id="compressForm" hidden>
+        <div class="field">
+          <label for="compressQuality">Image quality <span class="mono" id="compressQualityVal">60</span></label>
+          <input type="range" id="compressQuality" min="20" max="90" value="60">
+        </div>
+      </div>
+
+      <div class="pdf-toolbar" id="pdfToolbar" hidden>
+        <span class="pdf-hint" id="pdfHint"></span>
+        <span class="spacer"></span>
+        <button type="button" id="pdfClearBtn" class="btn-text">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-trash"/></svg> Clear
+        </button>
+        <button type="button" id="pdfRunBtn" class="btn-primary" disabled>Run</button>
+      </div>
+
+      <div class="progress-bar" id="pdfProgress" hidden><span></span></div>
+
+      <div class="pdf-result" id="pdfResult" hidden>
+        <svg class="icon" aria-hidden="true"><use href="#icon-check"/></svg>
+        <div class="pdf-result-text">
+          <strong id="pdfResultTitle">Done</strong>
+          <span id="pdfResultDetail"></span>
+        </div>
+        <button type="button" id="pdfDownloadBtn" class="btn-ghost">
+          <svg class="icon" aria-hidden="true"><use href="#icon-download"/></svg> Download
+        </button>
+        <button type="button" id="pdfDownloadAllBtn" class="btn-ghost" hidden>
+          <svg class="icon" aria-hidden="true"><use href="#icon-zip"/></svg> Download all (.zip)
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <section class="about">
+    <div class="about-inner">
+      <h2>About the PDF toolkit</h2>
+      <p>QuikLab's PDF toolkit is a set of common PDF operations &mdash; merge, split, compress, rotate, watermark, and convert to/from images &mdash; that all run locally in your browser. There's no upload step, no account, and no server involved.</p>
+
+      <h3>Is my PDF uploaded anywhere?</h3>
+      <p>No. Every operation runs in your browser using JavaScript (via the pdf-lib and pdf.js libraries). Your PDF and its contents never leave your device.</p>
+
+      <h3>How does QuikLab compress a PDF?</h3>
+      <p>It re-encodes embedded images inside the PDF at a lower quality and removes unused objects, which shrinks image-heavy PDFs substantially. Text-only PDFs are already compact and may not shrink much further.</p>
+
+      <h3>Can I merge PDFs in a specific order?</h3>
+      <p>Yes. Add your files and drag them into the order you want before merging &mdash; the output follows that order.</p>
+
+      <h3>Can I convert images to a PDF, or a PDF to images?</h3>
+      <p>Yes, both directions. Image to PDF places each JPG, PNG, or WebP you upload on its own page. PDF to image renders each page of a PDF as a downloadable PNG.</p>
+
+      <h3>Looking for the image compressor?</h3>
+      <p><a href="/">QuikLab's image compressor</a> resizes and compresses JPG, PNG, WebP, SVG, and GIF files the same way &mdash; entirely in your browser.</p>
+    </div>
+  </section>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"
+          integrity="sha384-weMABwrltA6jWR8DDe9Jp5blk+tZQh7ugpCsF3JwSA53WZM9/14PjS5LAJNHNjAI"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"
+          integrity="sha384-/1qUCSGwTur9vjf/z9lmu/eCUYbpOTgSjmpbMQZ1/CtX2v/WcAIKqRv+U1DUCG6e"
+          crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.2/dist/jszip.min.js"
+          integrity="sha256-f4ObLUaIuEXBBev10vmAMHX5HqD+cr2qwXbDoE3T0sE="
+          crossorigin="anonymous"></script>
+  <script src="pdf.js"></script>
+</body>
+</html>

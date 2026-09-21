@@ -156,7 +156,25 @@
     <symbol id="icon-filmstrip" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M6 6v12M12 6v12M18 6v12" stroke="currentColor" stroke-width="1.4"/></symbol>
     <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="3.5" cy="6" r="1.3" fill="currentColor"/><circle cx="3.5" cy="12" r="1.3" fill="currentColor"/><circle cx="3.5" cy="18" r="1.3" fill="currentColor"/></symbol>
     <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M7 8H3V4M3 8a9 9 0 1 1 2.6 8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-pdf" viewBox="0 0 24 24"><path d="M6 2.5h9l4 4V21a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M15 2.5V7a1 1 0 0 0 1 1h4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><text x="12" y="17.5" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="6.5" font-weight="700" fill="currentColor">PDF</text></symbol>
   </svg>
+
+  <header class="site-header">
+    <div class="site-header-left">
+      <a href="/" class="site-logo">
+        <span class="brand-mark">QL</span>
+        <span class="site-logo-word">QuikLab</span>
+      </a>
+      <nav class="site-nav" aria-label="Tools">
+        <a href="/" class="site-nav-link is-current">
+          <svg class="icon" aria-hidden="true"><use href="#icon-image"/></svg> Image compressor
+        </a>
+        <a href="/pdf.html" class="site-nav-link">
+          <svg class="icon" aria-hidden="true"><use href="#icon-pdf"/></svg> PDF toolkit
+        </a>
+      </nav>
+    </div>
+  </header>
 
   <div class="page">
 
@@ -172,9 +190,8 @@
         <div class="rail-sprockets" aria-hidden="true"></div>
         <div class="rail-inner">
           <header class="brand">
-            <span class="brand-mark">QL</span>
             <div class="brand-copy">
-              <h1>QuikLab <span class="tag">image compressor, resize and compress JPG, PNG and WebP entirely in your browser</span></h1>
+              <h1>Image compressor <span class="tag">resize and compress JPG, PNG and WebP entirely in your browser</span></h1>
             </div>
             <button type="button" id="themeToggle" class="theme-toggle" aria-label="Toggle theme" title="Theme">
               <svg class="icon" id="themeIcon" aria-hidden="true"><use href="#icon-system"/></svg>
@@ -334,6 +351,9 @@
 
       <h3>Does QuikLab remove EXIF and GPS data from photos?</h3>
       <p>Yes, when a JPEG is actually re-encoded, which is the normal case. Re-encoding through the Canvas API produces a new file with no metadata, including camera details and GPS location. The one exception is when compressing wouldn't shrink the file at all, in which case QuikLab keeps your original bytes untouched rather than handing back something bigger, and in that specific case the original metadata stays too. This is shown per-file as "no gain, original kept."</p>
+
+      <h3>Does QuikLab have other tools?</h3>
+      <p>Yes — <a href="/pdf.html">QuikLab's PDF toolkit</a> merges, splits, compresses, rotates, and watermarks PDFs, and converts between PDF and images, all in your browser the same way this tool does.</p>
     </div>
   </section>
 
