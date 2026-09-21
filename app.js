@@ -23,6 +23,7 @@
   const maxWidthEl = document.getElementById('maxWidth');
   const maxHeightEl= document.getElementById('maxHeight');
   const formatEl   = document.getElementById('format');
+  const batchModeEl = document.getElementById('batchMode');
 
   const sizeModeEl  = document.getElementById('sizeMode');
   const qualityField = document.getElementById('qualityField');
@@ -192,6 +193,11 @@
           <span class="mono after" data-role="afterSize">not yet</span>
         </div>
         <div class="frame-bar"><span data-role="bar" style="width:0%"></span></div>
+        <button type="button" class="frame-adjust" data-role="adjustToggle" hidden>Adjust this image</button>
+        <div class="frame-own-settings" data-role="ownSettings" hidden>
+          <label>Quality <span class="mono" data-role="ownQualityVal">80</span></label>
+          <input type="range" data-role="ownQuality" min="10" max="100" value="80">
+        </div>
         <div class="frame-actions">
           <span class="frame-save" data-role="saveTag"></span>
           <button class="frame-dl" data-role="dl" disabled><svg class="icon icon-sm" aria-hidden="true"><use href="#icon-download"/></svg> Download</button>
@@ -221,6 +227,21 @@
       retryBtn.hidden = true;
       processItem(item).then(() => { refreshButtons(); updateTotals(); });
     });
+
+    const adjustToggle = frame.querySelector('[data-role="adjustToggle"]');
+    const ownSettings = frame.querySelector('[data-role="ownSettings"]');
+    const ownQuality = frame.querySelector('[data-role="ownQuality"]');
+    const ownQualityVal = frame.querySelector('[data-role="ownQualityVal"]');
+    adjustToggle.addEventListener('click', () => {
+      const opening = ownSettings.hidden;
+      ownSettings.hidden = !opening;
+      adjustToggle.textContent = opening ? 'Hide settings' : 'Adjust this image';
+    });
+    ownQuality.addEventListener('input', () => {
+      ownQualityVal.textContent = ownQuality.value;
+      item.ownQuality = Number(ownQuality.value);
+    });
+    item.ownQuality = Number(ownQuality.value);
 
     item.el = frame;
     framesEl.appendChild(frame);
@@ -285,6 +306,7 @@
     });
     refreshButtons();
     updateColorsFieldVisibility();
+    applyBatchMode();
   }
 
   // ---------- processing ----------
@@ -508,7 +530,11 @@
         const targetBytes = targetUnitEl.value === 'MB' ? rawTarget * 1024 * 1024 : rawTarget * 1024;
         blob = await compressToTarget(canvas, mime, targetBytes);
       } else {
-        const quality = Math.min(1, Math.max(0.1, Number(qualityEl.value) / 100));
+        // In "adjust each image" mode, each item's own quality slider wins
+        // over the shared one — that's the whole point of the per-image
+        // override. Otherwise everyone uses the single shared slider.
+        const rawQuality = batchModeEl.value === 'individual' ? item.ownQuality : Number(qualityEl.value);
+        const quality = Math.min(1, Math.max(0.1, rawQuality / 100));
         blob = await new Promise(resolve => canvas.toBlob(resolve, mime, quality));
       }
 
@@ -644,6 +670,20 @@
     colorsField.hidden = !willOutputPng;
   }
   formatEl.addEventListener('change', updateColorsFieldVisibility);
+
+  // "Adjust each image" hides the one shared quality slider (each frame's
+  // own slider takes over) and reveals the per-frame "Adjust this image"
+  // button on every uploaded item so far, plus any added afterward.
+  function applyBatchMode() {
+    const individual = batchModeEl.value === 'individual';
+    if (sizeModeEl.value !== 'target') qualityField.hidden = individual;
+    framesEl.querySelectorAll('[data-role="adjustToggle"]').forEach(btn => { btn.hidden = !individual; });
+    if (!individual) {
+      framesEl.querySelectorAll('[data-role="ownSettings"]').forEach(el => { el.hidden = true; });
+      framesEl.querySelectorAll('[data-role="adjustToggle"]').forEach(btn => { btn.textContent = 'Adjust this image'; });
+    }
+  }
+  batchModeEl.addEventListener('change', applyBatchMode);
 
   browseBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', (e) => addFiles(e.target.files));
