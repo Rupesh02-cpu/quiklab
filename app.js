@@ -29,6 +29,9 @@
   const targetField  = document.getElementById('targetField');
   const targetSizeEl = document.getElementById('targetSize');
   const targetUnitEl = document.getElementById('targetUnit');
+  const colorsEl    = document.getElementById('colors');
+  const colorsVal   = document.getElementById('colorsVal');
+  const colorsField = document.getElementById('colorsField');
 
   const processBtn = document.getElementById('processBtn');
   const countBadge = document.getElementById('countBadge');
@@ -278,6 +281,7 @@
       renderFrame(item, items.length - 1);
     });
     refreshButtons();
+    updateColorsFieldVisibility();
   }
 
   // ---------- processing ----------
@@ -311,8 +315,8 @@
   // Binary-searches JPEG/WebP quality so the result lands at or under a
   // target byte size — sharper than picking a fixed quality blind, since it
   // finds the highest quality that still fits (see: standard approach for
-  // "compress to under N KB" tools). PNG is excluded: it's lossless and
-  // ignores the quality parameter entirely, so there's nothing to search.
+  // "compress to under N KB" tools). PNG is handled separately via
+  // quantizeToColors, since its "quality" knob is really palette size.
   async function compressToTarget(canvas, mime, targetBytes) {
     if (mime === 'image/png') {
       return new Promise(resolve => canvas.toBlob(resolve, mime));
@@ -335,6 +339,109 @@
       best = await new Promise(resolve => canvas.toBlob(resolve, mime, lo));
     }
     return best;
+  }
+
+  // ---------- PNG8 color quantization (median cut) ----------
+  // PNG's "quality" isn't a lossy knob like JPEG's — canvas.toBlob ignores
+  // any quality argument for image/png entirely, since PNG is lossless.
+  // The real compression lever for PNG is palette size: a screenshot, icon,
+  // or illustration rarely needs all 16.7M RGB colors, and cutting it down
+  // to a few hundred (or fewer) can shrink the file substantially while
+  // looking identical, the same technique tools like TinyPNG/pngquant use.
+  // Implemented as median-cut (Heckbert 1980), but operating on the image's
+  // UNIQUE colors (weighted by pixel count) rather than every pixel — a
+  // real photo has far fewer distinct colors than pixels, so this keeps the
+  // splitting step's working set small regardless of image resolution. The
+  // final per-pixel mapping is cached by exact RGB value (a Map), so a
+  // color seen a thousand times in the image only pays the nearest-palette
+  // search once — without this a 4000x3000 photo would grind for minutes.
+  function medianCutQuantize(imageData, maxColors) {
+    const { data, width, height } = imageData;
+    const pixelCount = width * height;
+
+    // Histogram: quantize to 5 bits/channel (32^3 buckets) while building
+    // the palette — imperceptible at photo viewing sizes, and cuts the
+    // unique-color count (and therefore every step below) dramatically on
+    // photos with smooth gradients or sensor noise that would otherwise
+    // make almost every pixel "unique".
+    const buckets = new Map();
+    for (let i = 0; i < pixelCount; i++) {
+      const o = i * 4;
+      const r = data[o] & 0xF8, g = data[o + 1] & 0xF8, b = data[o + 2] & 0xF8;
+      const key = (r << 16) | (g << 8) | b;
+      const entry = buckets.get(key);
+      if (entry) entry.count++;
+      else buckets.set(key, { r, g, b, count: 1 });
+    }
+    const colors = Array.from(buckets.values());
+
+    function boxRange(box) {
+      let rMin = 255, rMax = 0, gMin = 255, gMax = 0, bMin = 255, bMax = 0;
+      for (const c of box) {
+        if (c.r < rMin) rMin = c.r; if (c.r > rMax) rMax = c.r;
+        if (c.g < gMin) gMin = c.g; if (c.g > gMax) gMax = c.g;
+        if (c.b < bMin) bMin = c.b; if (c.b > bMax) bMax = c.b;
+      }
+      const rRange = rMax - rMin, gRange = gMax - gMin, bRange = bMax - bMin;
+      if (rRange >= gRange && rRange >= bRange) return { channel: 'r', range: rRange };
+      if (gRange >= bRange) return { channel: 'g', range: gRange };
+      return { channel: 'b', range: bRange };
+    }
+
+    let boxes = [colors];
+    while (boxes.length < maxColors) {
+      let splitIdx = -1, splitInfo = null, bestRange = -1;
+      boxes.forEach((box, idx) => {
+        if (box.length < 2) return;
+        const info = boxRange(box);
+        if (info.range > bestRange) { bestRange = info.range; splitIdx = idx; splitInfo = info; }
+      });
+      if (splitIdx === -1 || bestRange === 0) break;
+
+      const box = boxes[splitIdx];
+      box.sort((a, b) => a[splitInfo.channel] - b[splitInfo.channel]);
+      // Split by cumulative pixel count, not entry count, so each half
+      // represents roughly equal visual weight in the source image.
+      const total = box.reduce((s, c) => s + c.count, 0);
+      let acc = 0, mid = 1;
+      for (; mid < box.length; mid++) {
+        acc += box[mid - 1].count;
+        if (acc >= total / 2) break;
+      }
+      boxes.splice(splitIdx, 1, box.slice(0, mid), box.slice(mid));
+    }
+
+    const palette = boxes.map(box => {
+      let r = 0, g = 0, b = 0, n = 0;
+      for (const c of box) { r += c.r * c.count; g += c.g * c.count; b += c.b * c.count; n += c.count; }
+      n = n || 1;
+      return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+    });
+
+    const cache = new Map();
+    function nearestPaletteColor(r, g, b) {
+      const key = (r << 16) | (g << 8) | b;
+      const cached = cache.get(key);
+      if (cached) return cached;
+      let best = 0, bestDist = Infinity;
+      for (let p = 0; p < palette.length; p++) {
+        const [pr, pg, pb] = palette[p];
+        const dist = (r - pr) ** 2 + (g - pg) ** 2 + (b - pb) ** 2;
+        if (dist < bestDist) { bestDist = dist; best = p; }
+      }
+      const color = palette[best];
+      cache.set(key, color);
+      return color;
+    }
+
+    for (let i = 0; i < pixelCount; i++) {
+      const o = i * 4;
+      const color = nearestPaletteColor(data[o], data[o + 1], data[o + 2]);
+      data[o] = color[0];
+      data[o + 1] = color[1];
+      data[o + 2] = color[2];
+    }
+    return imageData;
   }
 
   async function processItem(item) {
@@ -381,6 +488,16 @@
       ctx.drawImage(img, 0, 0, width, height);
 
       const mime = targetMimeFor(item.file);
+
+      // PNG has no lossy "quality" knob (canvas.toBlob ignores it for PNG
+      // entirely) — the real compression lever is how many distinct colors
+      // it's allowed to use. Reducing that count is what colorsEl controls;
+      // "Full colors" (256... actually the max option) skips this rewrite.
+      const colorCount = Number(colorsEl.value);
+      if (mime === 'image/png' && colorCount < 256) {
+        const imageData = ctx.getImageData(0, 0, width, height);
+        ctx.putImageData(medianCutQuantize(imageData, colorCount), 0, 0);
+      }
 
       let blob;
       if (sizeModeEl.value === 'target') {
@@ -481,6 +598,7 @@
     clearedFrames.forEach(f => { f.hidden = true; });
     refreshButtons();
     updateTotals();
+    updateColorsFieldVisibility();
 
     let restored = false;
     showToast(`Cleared ${clearedItems.length} image${clearedItems.length === 1 ? '' : 's'}`, {
@@ -492,6 +610,7 @@
         clearedFrames.forEach(f => { f.hidden = false; });
         refreshButtons();
         updateTotals();
+        updateColorsFieldVisibility();
       },
     });
     // The undo window has to actually own the delayed cleanup — revoking
@@ -506,11 +625,22 @@
 
   // ---------- events ----------
   qualityEl.addEventListener('input', () => { qualityVal.textContent = qualityEl.value; });
+  colorsEl.addEventListener('input', () => { colorsVal.textContent = colorsEl.value; });
   sizeModeEl.addEventListener('change', () => {
     const isTarget = sizeModeEl.value === 'target';
     qualityField.hidden = isTarget;
     targetField.hidden = !isTarget;
   });
+
+  // Only worth showing the colors control when the result will actually
+  // be a PNG — either explicitly forced, or "Keep original" with at least
+  // one PNG in the batch.
+  function updateColorsFieldVisibility() {
+    const willOutputPng = formatEl.value === 'image/png'
+      || (formatEl.value === 'original' && items.some(i => i.file.type === 'image/png'));
+    colorsField.hidden = !willOutputPng;
+  }
+  formatEl.addEventListener('change', updateColorsFieldVisibility);
 
   browseBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', (e) => addFiles(e.target.files));

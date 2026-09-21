@@ -229,6 +229,12 @@
                     <option value="image/png">Force PNG</option>
                   </select>
                 </div>
+
+                <div class="field" id="colorsField" hidden>
+                  <label for="colors">Simplify colors (PNG only) <span class="mono" id="colorsVal">256</span></label>
+                  <input type="range" id="colors" min="4" max="256" value="256" step="1">
+                  <p class="field-hint">PNG files can't get smaller with a quality slider, only by using fewer colors. Lower this for flat graphics like screenshots, icons, or logos. Photos with lots of color will look worse if you go too low.</p>
+                </div>
               </div>
             </details>
 
