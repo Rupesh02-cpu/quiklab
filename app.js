@@ -3,6 +3,15 @@
    No image ever leaves the tab. */
 
 (() => {
+  // GA4 custom events for actual tool usage (upload/compress/download),
+  // separate from the automatic pageview/scroll events GA already sends.
+  // No filenames or image data are ever included, only counts and format.
+  function track(eventName, params) {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, params || {});
+    }
+  }
+
   const dropZone   = document.getElementById('drop');
   const fileInput  = document.getElementById('fileInput');
   const browseBtn  = document.getElementById('browseBtn');
@@ -203,6 +212,7 @@
   function addFiles(fileList) {
     const files = Array.from(fileList).filter(f => /^image\/(jpeg|png|webp|svg\+xml)$/.test(f.type));
     if (!files.length) return;
+    track('upload_images', { file_count: files.length });
     files.forEach(file => {
       const item = {
         id: nextId++,
@@ -365,6 +375,7 @@
     const processBtnDefault = processBtn.innerHTML;
     processBtn.disabled = true;
     processBtn.textContent = 'Compressing...';
+    track('compress_images', { file_count: items.length, mode: sizeModeEl.value, output_format: formatEl.value });
     for (const item of items) {
       await processItem(item);
     }
@@ -387,12 +398,14 @@
 
   async function downloadOne(item) {
     if (!item.resultBlob) return;
+    track('download_image', { kept_original: !!item.keptOriginal });
     await saveFile(outputName(item), item.resultBlob);
   }
 
   async function downloadAll() {
     const done = items.filter(i => i.resultBlob);
     if (!done.length) return;
+    track('download_all_zip', { file_count: done.length });
     const zip = new JSZip();
     done.forEach(item => zip.file(outputName(item), item.resultBlob));
     const zipBlob = await zip.generateAsync({ type: 'blob' });
