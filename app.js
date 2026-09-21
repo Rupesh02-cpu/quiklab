@@ -40,10 +40,41 @@
   const totalAfterEl  = document.getElementById('totalAfter');
   const totalSaveChip = document.getElementById('totalSaveChip');
 
+  const viewToggle = document.getElementById('viewToggle');
+
   /** @type {{id:number, file:File, originalUrl:string, originalSize:number,
    *          resultBlob:Blob|null, resultSize:number, resultExt:string, el:HTMLElement}[]} */
   let items = [];
   let nextId = 1;
+
+  // ---------- toast (confirmations + undo) ----------
+  const toastStack = document.getElementById('toastStack');
+  function showToast(message, { actionLabel, onAction, duration = 4000 } = {}) {
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+      <span class="toast-msg"></span>
+      ${actionLabel ? `<button type="button" class="toast-action">${actionLabel}</button>` : ''}
+    `;
+    toast.querySelector('.toast-msg').textContent = message;
+    toastStack.appendChild(toast);
+
+    let dismissed = false;
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      toast.classList.add('toast-out');
+      setTimeout(() => toast.remove(), 200);
+    };
+
+    if (actionLabel && onAction) {
+      toast.querySelector('.toast-action').addEventListener('click', () => {
+        onAction();
+        dismiss();
+      });
+    }
+    setTimeout(dismiss, duration);
+  }
 
   // ---------- theme toggle (System -> Light -> Dark -> System) ----------
   const THEME_KEY = 'quiklab-theme';
@@ -146,6 +177,9 @@
         <span class="frame-num">${String(index + 1).padStart(2, '0')}</span>
         <img src="${item.originalUrl}" alt="">
         <div class="frame-status" data-role="status">waiting</div>
+        <button class="frame-retry" data-role="retry" hidden>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-system"/></svg> Retry
+        </button>
       </div>
       <div class="frame-body">
         <div class="frame-name clarity-mask" data-role="fname"></div>
@@ -178,14 +212,30 @@
       dlBtn.innerHTML = dlBtnDefault;
       dlBtn.disabled = false;
     });
+
+    const retryBtn = frame.querySelector('[data-role="retry"]');
+    retryBtn.addEventListener('click', () => {
+      retryBtn.hidden = true;
+      processItem(item).then(() => { refreshButtons(); updateTotals(); });
+    });
+
     item.el = frame;
     framesEl.appendChild(frame);
   }
 
   function setFrameStatus(item, text, show) {
     const statusEl = item.el.querySelector('[data-role="status"]');
+    const retryBtn = item.el.querySelector('[data-role="retry"]');
     statusEl.textContent = text;
     statusEl.style.display = show ? 'flex' : 'none';
+    retryBtn.hidden = true;
+  }
+
+  function setFrameFailed(item) {
+    const statusEl = item.el.querySelector('[data-role="status"]');
+    const retryBtn = item.el.querySelector('[data-role="retry"]');
+    statusEl.style.display = 'none';
+    retryBtn.hidden = false;
   }
 
   function setFrameResult(item) {
@@ -363,11 +413,13 @@
         item.resultExt = extFor(mime);
         item.keptOriginal = false;
       }
+      item.failed = false;
       setFrameStatus(item, '', false);
       setFrameResult(item);
     } catch (err) {
       console.error(err);
-      setFrameStatus(item, 'failed', true);
+      item.failed = true;
+      setFrameFailed(item);
     }
   }
 
@@ -383,6 +435,14 @@
     processBtn.disabled = false;
     refreshButtons();
     updateTotals();
+
+    const succeeded = items.filter(i => i.resultBlob && !i.failed).length;
+    const failed = items.filter(i => i.failed).length;
+    if (failed > 0) {
+      showToast(`${succeeded} compressed, ${failed} failed. Use Retry on the failed image${failed === 1 ? '' : 's'}.`);
+    } else if (succeeded > 0) {
+      showToast(`${succeeded} image${succeeded === 1 ? '' : 's'} compressed and ready to download`);
+    }
   }
 
   // ---------- downloads ----------
@@ -413,11 +473,35 @@
   }
 
   function clearSheet() {
-    items.forEach(i => URL.revokeObjectURL(i.originalUrl));
+    if (!items.length) return;
+    const clearedItems = items;
+    const clearedFrames = framesEl.querySelectorAll('.frame');
+
     items = [];
-    framesEl.querySelectorAll('.frame').forEach(f => f.remove());
+    clearedFrames.forEach(f => { f.hidden = true; });
     refreshButtons();
     updateTotals();
+
+    let restored = false;
+    showToast(`Cleared ${clearedItems.length} image${clearedItems.length === 1 ? '' : 's'}`, {
+      actionLabel: 'Undo',
+      duration: 5000,
+      onAction: () => {
+        restored = true;
+        items = clearedItems;
+        clearedFrames.forEach(f => { f.hidden = false; });
+        refreshButtons();
+        updateTotals();
+      },
+    });
+    // The undo window has to actually own the delayed cleanup — revoking
+    // these object URLs any earlier would blank out the previews while
+    // the toast (and undo) is still on screen.
+    setTimeout(() => {
+      if (restored) return;
+      clearedItems.forEach(i => URL.revokeObjectURL(i.originalUrl));
+      clearedFrames.forEach(f => f.remove());
+    }, 5200);
   }
 
   // ---------- events ----------
@@ -430,6 +514,14 @@
 
   browseBtn.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', (e) => addFiles(e.target.files));
+
+  viewToggle.addEventListener('click', (e) => {
+    const btn = e.target.closest('.view-btn');
+    if (!btn) return;
+    viewToggle.querySelectorAll('.view-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    framesEl.dataset.view = btn.dataset.view;
+  });
 
   ['dragenter', 'dragover'].forEach(evt =>
     dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add('drag'); })

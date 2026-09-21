@@ -103,6 +103,10 @@
     <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M5 7h14M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2m-9 0 1 13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1l1-13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-check" viewBox="0 0 24 24"><path d="M5 12.5 10 17l9-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="icon-image" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="9" cy="10" r="1.6" fill="currentColor"/><path d="m5 17 5-5 3.5 3.5L18 11l1.5 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="13.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="3.5" y="13.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/><rect x="13.5" y="13.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.7" fill="none"/></symbol>
+    <symbol id="icon-filmstrip" viewBox="0 0 24 24"><rect x="2.5" y="6" width="19" height="12" rx="1.5" stroke="currentColor" stroke-width="1.6" fill="none"/><path d="M6 6v12M12 6v12M18 6v12" stroke="currentColor" stroke-width="1.4"/></symbol>
+    <symbol id="icon-list" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="3.5" cy="6" r="1.3" fill="currentColor"/><circle cx="3.5" cy="12" r="1.3" fill="currentColor"/><circle cx="3.5" cy="18" r="1.3" fill="currentColor"/></symbol>
+    <symbol id="icon-undo" viewBox="0 0 24 24"><path d="M7 8H3V4M3 8a9 9 0 1 1 2.6 8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
   <div class="page">
@@ -161,26 +165,31 @@
               </div>
             </div>
 
-            <div class="field-row">
-              <div class="field">
-                <label for="maxWidth">Max width</label>
-                <input type="number" id="maxWidth" placeholder="e.g. 1600" min="1">
-              </div>
-              <div class="field">
-                <label for="maxHeight">Max height</label>
-                <input type="number" id="maxHeight" placeholder="auto" min="1">
-              </div>
-            </div>
+            <details class="advanced">
+              <summary>Advanced options</summary>
+              <div class="advanced-body">
+                <div class="field-row">
+                  <div class="field">
+                    <label for="maxWidth">Max width</label>
+                    <input type="number" id="maxWidth" placeholder="e.g. 1600" min="1">
+                  </div>
+                  <div class="field">
+                    <label for="maxHeight">Max height</label>
+                    <input type="number" id="maxHeight" placeholder="auto" min="1">
+                  </div>
+                </div>
 
-            <div class="field">
-              <label for="format">Output format</label>
-              <select id="format">
-                <option value="original">Keep original</option>
-                <option value="image/jpeg">Force JPEG</option>
-                <option value="image/webp">Force WebP</option>
-                <option value="image/png">Force PNG</option>
-              </select>
-            </div>
+                <div class="field">
+                  <label for="format">Output format</label>
+                  <select id="format">
+                    <option value="original">Keep original</option>
+                    <option value="image/jpeg">Force JPEG</option>
+                    <option value="image/webp">Force WebP</option>
+                    <option value="image/png">Force PNG</option>
+                  </select>
+                </div>
+              </div>
+            </details>
 
             <button type="button" id="processBtn" class="btn-primary" disabled>
               Compress images <span id="countBadge" class="count-badge" hidden>0</span>
@@ -204,15 +213,28 @@
       <main class="sheet">
         <div class="sheet-head">
           <h2>Your images</h2>
-          <div class="totals" id="totals" hidden>
-            <span><span class="mono" id="totalBefore">0 KB</span> original</span>
-            <span class="arrow">→</span>
-            <span><span class="mono" id="totalAfter">0 KB</span> compressed</span>
-            <span class="save-chip" id="totalSaveChip">0%</span>
+          <div class="sheet-head-right">
+            <div class="totals" id="totals" hidden>
+              <span><span class="mono" id="totalBefore">0 KB</span> original</span>
+              <span class="arrow">→</span>
+              <span><span class="mono" id="totalAfter">0 KB</span> compressed</span>
+              <span class="save-chip" id="totalSaveChip">0%</span>
+            </div>
+            <div class="view-toggle" id="viewToggle" role="group" aria-label="View layout">
+              <button type="button" class="view-btn is-active" data-view="grid" aria-label="Grid view" title="Grid">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-grid"/></svg>
+              </button>
+              <button type="button" class="view-btn" data-view="filmstrip" aria-label="Filmstrip view" title="Filmstrip">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-filmstrip"/></svg>
+              </button>
+              <button type="button" class="view-btn" data-view="list" aria-label="List view" title="List">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#icon-list"/></svg>
+              </button>
+            </div>
           </div>
         </div>
 
-        <div class="frames" id="frames">
+        <div class="frames" id="frames" data-view="grid">
           <div class="empty-state" id="emptyState">
             <svg class="icon empty-icon" aria-hidden="true"><use href="#icon-image"/></svg>
             <p>Uploaded images will appear here so you can compress and download them.</p>
@@ -228,6 +250,8 @@
     </aside>
 
   </div>
+
+  <div class="toast-stack" id="toastStack" aria-live="polite"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.2/dist/jszip.min.js"
           integrity="sha256-f4ObLUaIuEXBBev10vmAMHX5HqD+cr2qwXbDoE3T0sE="
