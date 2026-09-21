@@ -85,6 +85,14 @@
         "@type": "Answer",
         "text": "QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "Does QuikLab remove EXIF and GPS data from photos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, when a JPEG is actually re-encoded, which is the normal case. Re-encoding through the Canvas API produces a new file with no metadata, including camera details and GPS location. The one exception is when compressing wouldn't shrink the file at all, in which case QuikLab keeps the original bytes untouched rather than handing back something bigger, and in that specific case the original metadata stays too."
+      }
     }
   ]
 }
@@ -251,6 +259,7 @@
 
           <footer class="rail-foot">
             <p>Image processing runs on-device via the Canvas API. Your files are never uploaded anywhere. PNG re-encoding has a lower compression ceiling than JPEG/WebP, so for photos, WebP usually wins.</p>
+            <p>Re-encoding a JPEG also strips its EXIF and GPS metadata. If a file shows "no gain, original kept" that metadata was not removed, since the original bytes were kept unchanged.</p>
             <p>This page uses Microsoft Clarity to see how the tool itself is used (clicks, scroll, layout issues). It has no access to your images or filenames.</p>
           </footer>
         </div>
@@ -314,6 +323,9 @@
 
       <h3>What file types does QuikLab support?</h3>
       <p>QuikLab accepts JPG, PNG, WebP, and SVG files, and can convert between JPG, PNG, and WebP on output.</p>
+
+      <h3>Does QuikLab remove EXIF and GPS data from photos?</h3>
+      <p>Yes, when a JPEG is actually re-encoded, which is the normal case. Re-encoding through the Canvas API produces a new file with no metadata, including camera details and GPS location. The one exception is when compressing wouldn't shrink the file at all, in which case QuikLab keeps your original bytes untouched rather than handing back something bigger, and in that specific case the original metadata stays too. This is shown per-file as "no gain, original kept."</p>
     </div>
   </section>
 

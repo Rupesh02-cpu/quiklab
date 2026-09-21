@@ -253,10 +253,13 @@
     barEl.style.width = `${clamped}%`;
     if (item.keptOriginal) {
       saveTagEl.textContent = 'no gain, original kept';
-      saveTagEl.title = 'Re-encoding this file would have made it larger, so the original bytes were kept instead.';
+      const exifNote = item.file.type === 'image/jpeg'
+        ? ' Since the original bytes were kept as-is, any EXIF/GPS data in this file was not removed.'
+        : '';
+      saveTagEl.title = 'Re-encoding this file would have made it larger, so the original bytes were kept instead.' + exifNote;
     } else {
       saveTagEl.textContent = pct >= 0 ? `-${pct}% smaller` : `+${Math.abs(pct)}% larger`;
-      saveTagEl.title = '';
+      saveTagEl.title = item.file.type === 'image/jpeg' ? 'Re-encoding also removes EXIF/GPS metadata from the original photo.' : '';
     }
     dlBtn.disabled = false;
   }
