@@ -107,9 +107,19 @@
   gtag('config', 'G-43T0WZB3Z0');
 </script>
 
+<!--
+  styles.css loads first and is same-origin (fast, no extra DNS/TLS
+  round trip) — it's what turns the raw icon sprite and layout into the
+  real UI. The Google Fonts stylesheet is cross-origin and can be slow on
+  a poor connection; if it were listed first, a slow mobile visitor could
+  paint the page with styles.css still pending, showing giant unstyled
+  icons at their native SVG size until it catches up. Loading styles.css
+  first (plus preloading it) makes that flash far less likely.
+-->
+<link rel="preload" href="styles.css" as="style">
+<link rel="stylesheet" href="styles.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
 
 <!-- Google AdSense -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8283943064154546"
