@@ -37,6 +37,11 @@ export function useImageCompressor() {
   const [isZipping, setIsZipping] = useState(false);
   const { showToast } = useToast();
 
+  // Upload -> Configure -> Result. Explicit rather than derived purely from
+  // items/results, so a deliberate "back" click sticks instead of being
+  // immediately overridden by "well, files exist, so step 1."
+  const [stepIndex, setStepIndex] = useState(0);
+
   // Settings are read inside async processing loops where React state can
   // go stale mid-batch (the user could change a slider while 10 images are
   // still compressing) — a ref mirrors the latest value so each item reads
@@ -77,6 +82,7 @@ export function useImageCompressor() {
       keptOriginal: false,
     }));
     setItems((current) => [...current, ...newItems]);
+    setStepIndex(1);
   }, []);
 
   const setOwnQuality = useCallback(
@@ -206,6 +212,7 @@ export function useImageCompressor() {
 
     setIsProcessing(false);
     if (clearGeneration.current !== startGeneration) return;
+    if (succeeded > 0 || failed > 0) setStepIndex(2);
     if (failed > 0) {
       showToast(`${succeeded} compressed, ${failed} failed. Use Retry on the failed image${failed === 1 ? "" : "s"}.`);
     } else if (succeeded > 0) {
@@ -241,7 +248,8 @@ export function useImageCompressor() {
     if (!items.length) return;
     const clearedItems = items;
     setItems([]);
-    // Signal any in-flight processAll loop to stop — see the check in
+    setStepIndex(0);
+    // Signal any in-flight processAll loop to stop. See the check in
     // processAll for why (its remaining items' object URLs are about to
     // be revoked below, and they're no longer in state to show on).
     clearGeneration.current++;
@@ -285,6 +293,16 @@ export function useImageCompressor() {
     return { before: fmtBytes(before), after: fmtBytes(after), pct };
   }, [items]);
 
+  const hasResults = items.some((i) => i.resultBlob);
+  const maxReachedIndex = hasResults || items.some((i) => i.status !== "waiting") ? 2 : items.length > 0 ? 1 : 0;
+
+  const goToStep = useCallback(
+    (index: number) => {
+      if (index <= maxReachedIndex) setStepIndex(index);
+    },
+    [maxReachedIndex]
+  );
+
   return {
     items,
     settings,
@@ -293,6 +311,9 @@ export function useImageCompressor() {
     isZipping,
     showColorsField,
     totals,
+    stepIndex,
+    maxReachedIndex,
+    goToStep,
     addFiles,
     processItem,
     processAll,

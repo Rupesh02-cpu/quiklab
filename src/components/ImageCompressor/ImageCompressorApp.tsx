@@ -1,15 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { AdRail } from "@/components/AdRail";
+import { AmbientBackground } from "@/components/AmbientBackground";
 import { Icon } from "@/components/Icon";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { Stepper, type StepDef } from "@/components/Stepper";
 import { useImageCompressor } from "@/hooks/useImageCompressor";
 import { DropZone } from "./DropZone";
 import { ControlsPanel } from "./ControlsPanel";
 import { ViewToggle } from "./ViewToggle";
 import { Frame } from "./Frame";
 import type { ViewMode } from "@/lib/types";
+
+const STEPS: readonly StepDef[] = [
+  { key: "upload", label: "Upload" },
+  { key: "configure", label: "Configure" },
+  { key: "result", label: "Result" },
+];
 
 export function ImageCompressorApp() {
   const {
@@ -20,6 +26,9 @@ export function ImageCompressorApp() {
     isZipping,
     showColorsField,
     totals,
+    stepIndex,
+    maxReachedIndex,
+    goToStep,
     addFiles,
     processItem,
     processAll,
@@ -34,102 +43,105 @@ export function ImageCompressorApp() {
 
   return (
     <div className="page">
-      <AdRail side="left" />
-
-      <div className="darkroom">
-        <aside className="rail">
-          <div className="rail-sprockets" aria-hidden="true" />
-          <div className="rail-inner">
-            <header className="brand">
-              <div className="brand-copy">
-                <h1>
-                  Image compressor{" "}
-                  <span className="tag">resize and compress JPG, PNG and WebP entirely in your browser</span>
-                </h1>
-              </div>
-              <ThemeToggle />
-            </header>
-
-            <DropZone onFiles={addFiles} />
-
-            <ControlsPanel
-              settings={settings}
-              onSettingsChange={setSettings}
-              showColorsField={showColorsField}
-              itemCount={items.length}
-              hasResults={hasResults}
-              isProcessing={isProcessing}
-              isZipping={isZipping}
-              onCompress={processAll}
-              onDownloadAll={downloadAll}
-              onClear={clearSheet}
-            />
-
-            <footer className="rail-foot">
-              <p>
-                Image processing runs on-device via the Canvas API. Your files are never uploaded anywhere. PNG
-                re-encoding has a lower compression ceiling than JPEG/WebP, so for photos, WebP usually wins.
-              </p>
-              <p>
-                Re-encoding a JPEG also strips its EXIF and GPS metadata. If a file shows &quot;no gain, original
-                kept&quot; that metadata was not removed, since the original bytes were kept unchanged.
-              </p>
-              <p>
-                This page uses Microsoft Clarity to see how the tool itself is used (clicks, scroll, layout issues).
-                It has no access to your images or filenames.
-              </p>
-            </footer>
+      <AmbientBackground />
+      <div className="workspace-shell">
+        <header className="workspace-head">
+          <div className="brand-copy">
+            <h1>
+              Image compressor{" "}
+              <span className="tag">resize and compress JPG, PNG and WebP entirely in your browser</span>
+            </h1>
           </div>
-        </aside>
+        </header>
 
-        <main className="sheet">
-          <div className="sheet-head">
-            <h2>Your images</h2>
-            <div className="sheet-head-right">
-              {totals && (
-                <div className="totals">
-                  <span>
-                    <span className="mono">{totals.before}</span> original
-                  </span>
-                  <span className="arrow">→</span>
-                  <span>
-                    <span className="mono">{totals.after}</span> compressed
-                  </span>
-                  <span className="save-chip">
-                    {totals.pct >= 0 ? "-" : "+"}
-                    {Math.abs(totals.pct)}%
-                  </span>
-                </div>
-              )}
-              <ViewToggle view={view} onChange={setView} />
+        <Stepper steps={STEPS} currentIndex={stepIndex} maxReachedIndex={maxReachedIndex} onStepClick={goToStep} />
+
+        <main className="workspace-body">
+          {stepIndex === 0 && (
+            <div className="wizard-step">
+              <DropZone onFiles={addFiles} />
             </div>
-          </div>
+          )}
 
-          <div className="frames" data-view={view}>
-            {items.length === 0 ? (
-              <div className="empty-state">
-                <Icon name="image" className="icon empty-icon" />
-                <p>Uploaded images will appear here so you can compress and download them.</p>
+          {stepIndex === 1 && (
+            <div className="wizard-step">
+              <button type="button" className="btn-text" onClick={() => goToStep(0)}>
+                <Icon name="arrow-left" className="icon icon-sm" /> Add more images
+              </button>
+              <ControlsPanel
+                settings={settings}
+                onSettingsChange={setSettings}
+                showColorsField={showColorsField}
+                itemCount={items.length}
+                hasResults={hasResults}
+                isProcessing={isProcessing}
+                isZipping={isZipping}
+                onCompress={processAll}
+                onDownloadAll={downloadAll}
+                onClear={clearSheet}
+              />
+            </div>
+          )}
+
+          {stepIndex === 2 && (
+            <div className="wizard-step">
+              <div className="sheet-head">
+                <h2>Your images</h2>
+                <div className="sheet-head-right">
+                  {totals && (
+                    <div className="totals">
+                      <span>
+                        <span className="mono">{totals.before}</span> original
+                      </span>
+                      <span className="arrow">→</span>
+                      <span>
+                        <span className="mono">{totals.after}</span> compressed
+                      </span>
+                      <span className="save-chip">
+                        {totals.pct >= 0 ? "-" : "+"}
+                        {Math.abs(totals.pct)}%
+                      </span>
+                    </div>
+                  )}
+                  <ViewToggle view={view} onChange={setView} />
+                </div>
               </div>
-            ) : (
-              items.map((item, index) => (
-                <Frame
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  individualMode={settings.batchMode === "individual"}
-                  retryDisabled={isProcessing}
-                  onRetry={processItem}
-                  onDownload={downloadOne}
-                  onOwnQualityChange={setOwnQuality}
-                />
-              ))
-            )}
-          </div>
-        </main>
-      </div>
 
-      <AdRail side="right" />
+              <div className="frames" data-view={view}>
+                {items.map((item, index) => (
+                  <Frame
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    individualMode={settings.batchMode === "individual"}
+                    retryDisabled={isProcessing}
+                    onRetry={processItem}
+                    onDownload={downloadOne}
+                    onOwnQualityChange={setOwnQuality}
+                  />
+                ))}
+              </div>
+
+              <div className="pdf-toolbar">
+                <span className="spacer" />
+                <button type="button" className="btn-text" onClick={() => goToStep(1)}>
+                  <Icon name="arrow-left" className="icon icon-sm" /> Back to settings
+                </button>
+                <button type="button" className="btn-ghost" onClick={clearSheet}>
+                  <Icon name="trash" className="icon icon-sm" /> Start over
+                </button>
+              </div>
+            </div>
+          )}
+        </main>
+
+        <footer className="workspace-foot">
+          <p>
+            Image processing runs on-device via the Canvas API. Your files are never uploaded anywhere. Re-encoding
+            a JPEG also strips its EXIF and GPS metadata.
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }

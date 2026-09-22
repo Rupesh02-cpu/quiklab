@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Inter } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { IconSprite } from "@/components/IconSprite";
+import { PageTransition } from "@/components/PageTransition";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ToastProvider } from "@/components/ToastProvider";
 
-const fraunces = Fraunces({
-  variable: "--font-fraunces",
+// The interface's whole voice: body copy, buttons, nav, labels, and
+// headings/titles. One confident sans instead of a mixed serif/mono
+// identity. Mono used to carry all UI chrome too, which read as a generic
+// AI dev-tool (every AI chat/coding surface defaults to monospace
+// everywhere); Inter is a real, neutral UI grotesque without that baggage.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600", "700"],
 });
 
+// Scoped strictly to numeric/data readouts now: file sizes, percentages,
+// page counts, quality values, via .mono and a handful of specific
+// classes. Not the whole UI's default typeface anymore.
 const plexMono = IBM_Plex_Mono({
   variable: "--font-plex-mono",
   subsets: ["latin"],
@@ -72,12 +80,13 @@ const THEME_INIT_SCRIPT = `
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`${plexMono.variable} ${inter.variable}`}>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
         <IconSprite />
+        <PageTransition />
         <SiteHeader />
         <ToastProvider>{children}</ToastProvider>
 

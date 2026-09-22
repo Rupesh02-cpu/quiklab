@@ -32,6 +32,7 @@ export const Frame = memo(function Frame({
 }: FrameProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [justDownloaded, setJustDownloaded] = useState(false);
 
   const hasResult = item.status === "done";
   const pct = hasResult && item.originalSize > 0 ? Math.round((1 - item.resultSize / item.originalSize) * 100) : 0;
@@ -60,10 +61,12 @@ export const Frame = memo(function Frame({
     setDownloading(true);
     await onDownload(item);
     setDownloading(false);
+    setJustDownloaded(true);
+    setTimeout(() => setJustDownloaded(false), 400);
   };
 
   return (
-    <div className="frame">
+    <div className="frame" data-status={item.status}>
       <div className="frame-strip" />
       <div className="frame-shot">
         <span className="frame-num">{String(index + 1).padStart(2, "0")}</span>
@@ -119,7 +122,11 @@ export const Frame = memo(function Frame({
           <span className="frame-save" title={saveTagTitle}>
             {saveTagText}
           </span>
-          <button className="frame-dl" disabled={!hasResult || downloading} onClick={handleDownload}>
+          <button
+            className={`frame-dl${justDownloaded ? " is-success" : ""}`}
+            disabled={!hasResult || downloading}
+            onClick={handleDownload}
+          >
             <Icon name="download" className="icon icon-sm" /> {downloading ? "Saving..." : "Download"}
           </button>
         </div>

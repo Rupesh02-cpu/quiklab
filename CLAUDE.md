@@ -3,15 +3,30 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 > **Migration in progress (branch `nextjs-migration`):** the description below
-> is the deployed `main` branch (the static site). On this branch, the image
-> compressor has been ported to Next.js 16 + React + TypeScript under `src/`
-> — see `src/hooks/useImageCompressor.ts` and `src/lib/*` for the same
-> processing logic described below, now typed and state-driven instead of
-> DOM-driven. It now has a real `package.json` (Next.js, React, JSZip as an
-> npm dependency instead of a CDN script). The PDF toolkit (`pdf.html`/
-> `pdf.js`) has **not** been migrated yet and still describes the static
-> site. Once both are ported and verified, this file should be rewritten for
-> the new architecture and the static files removed.
+> is the deployed `main` branch (the static site). On this branch, both the
+> image compressor and the PDF toolkit have been ported to Next.js 16 +
+> React + TypeScript under `src/`:
+> - Image compressor: `src/hooks/useImageCompressor.ts` + `src/lib/*` +
+>   `src/components/ImageCompressor/*`, served at `/`.
+> - PDF toolkit: `src/hooks/usePdfToolkit.ts` + `src/lib/pdfProcessing.ts` +
+>   `src/lib/pdfTypes.ts` + `src/components/PdfToolkit/*`, served at `/pdf`.
+>   Uses `pdf-lib` (writing/editing) and `pdfjs-dist` (rendering pages to
+>   canvas for thumbnails and PDF→image export) as real npm dependencies —
+>   the pdf.js worker script is copied to `public/pdf.worker.min.js` (from
+>   `node_modules/pdfjs-dist/build/pdf.worker.min.js`) so it loads
+>   same-origin; re-copy it if `pdfjs-dist` is version-bumped. `next.config.ts`
+>   aliases pdfjs-dist's optional Node `canvas` dependency away (both
+>   Turbopack and webpack) since it's never used from the browser.
+>
+> Both are typed and state-driven instead of DOM-driven, but keep the exact
+> same client-side-only processing logic and the existing "darkroom" visual
+> design (Fraunces + IBM Plex Mono, safelight-red accent, light/dark themes)
+> described below. `package.json` is now real (Next.js, React, JSZip,
+> pdf-lib, pdfjs-dist as npm dependencies instead of CDN scripts). The old
+> static files (`index.html`/`app.js`/`styles.css`/`pdf.html`/`pdf.js`) are
+> still present for reference but unused by this branch. Once verified in
+> production, this file should be rewritten for the new architecture and the
+> static files removed.
 
 ## What this is (main / pre-migration)
 
