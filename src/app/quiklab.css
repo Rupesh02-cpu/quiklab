@@ -515,7 +515,7 @@ input[type="range"]::-moz-range-thumb{
 
 .pdf-workspace-head{ display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .pdf-workspace-head h2{ font-size:19px; display:flex; align-items:center; gap:9px; }
-.pdf-workspace-head p{ color:var(--ink-muted); font-size:13px; max-width:56ch; }
+.pdf-workspace-desc{ color:var(--ink-muted); font-size:13px; max-width:56ch; margin-top:2px; }
 
 .pdf-drop{
   border:1.5px dashed var(--border); border-radius:14px; padding:56px 24px;

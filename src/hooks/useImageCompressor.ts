@@ -298,9 +298,17 @@ export function useImageCompressor() {
 
   const goToStep = useCallback(
     (index: number) => {
+      // Blocked while a batch compress is in flight. processAll's loop
+      // isn't cancelled by navigating away from it (only clearSheet stops
+      // it, via clearGeneration) — without this guard, jumping back to
+      // Upload mid-batch and adding more files would let the original
+      // processAll run to completion afterward and silently force
+      // setStepIndex(2), yanking the user back to a Result they didn't
+      // ask to see.
+      if (isProcessing) return;
       if (index <= maxReachedIndex) setStepIndex(index);
     },
-    [maxReachedIndex]
+    [maxReachedIndex, isProcessing]
   );
 
   return {

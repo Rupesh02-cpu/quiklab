@@ -136,9 +136,26 @@ export function usePdfToolkit() {
       // relying on a setState updater's side effect, which isn't
       // guaranteed to run synchronously before the code below it.
       const firstFile = newEntries[0]?.file ?? null;
+      const replacingFile = !tool.multiple;
       setFiles((current) => (tool.multiple ? [...current, ...newEntries] : [newEntries[0]]));
       setResult(null);
       setStepIndex(1);
+
+      // Re-uploading a different single-file (page-grid/edit-canvas) input
+      // after already having one loaded — e.g. back to Upload from
+      // Configure/Result, then choosing a different PDF — must drop the
+      // previous file's page data and annotations before the new file's
+      // data loads. Otherwise stale page selections/rotations/annotations
+      // (indexed by page number, not by file) can silently carry over and
+      // get applied to the wrong file/pages.
+      if (replacingFile) {
+        setPageMeta([]);
+        setThumbnails([]);
+        setPageSizes([]);
+        setPageBytesReady(false);
+        setAnnotations([]);
+        originalBytesRef.current = null;
+      }
 
       if ((tool.showPageGrid || tool.showEditCanvas) && firstFile) {
         setPagesLoading(true);
@@ -320,9 +337,17 @@ export function usePdfToolkit() {
 
   const goToStep = useCallback(
     (index: number) => {
+      // Blocked while a run is in flight — same reasoning as the disabled
+      // Back/Clear/All-tools buttons during isRunning: navigating to
+      // another step (e.g. back to Upload) doesn't cancel the in-flight
+      // run() promise, so without this guard it can still resolve after
+      // the user has moved on and clobber whatever step/result they're
+      // now looking at (resetGeneration only advances on an explicit
+      // reset, not on a plain step change).
+      if (isRunning) return;
       if (index <= maxReachedIndex) setStepIndex(index);
     },
-    [maxReachedIndex]
+    [maxReachedIndex, isRunning]
   );
 
   const downloadResult = useCallback(async () => {
