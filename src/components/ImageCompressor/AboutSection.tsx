@@ -6,7 +6,7 @@ export function AboutSection() {
         <p>
           QuikLab is a free image compressor that resizes and compresses JPG, PNG, WebP, SVG, and GIF files directly
           in your browser. There&apos;s no upload step, no account, and no server involved: the Canvas API does the
-          work on your own device, so your images never leave the tab.
+          work on your own device, so your images never leave it.
         </p>
 
         <h3>How does QuikLab compress images?</h3>

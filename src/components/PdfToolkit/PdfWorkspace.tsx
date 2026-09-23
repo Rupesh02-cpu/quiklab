@@ -35,9 +35,15 @@ export function PdfWorkspace({ toolkit }: PdfWorkspaceProps) {
       <div className="pdf-workspace-head">
         <h2>{tool.title}</h2>
       </div>
-      <p style={{ color: "var(--ink-muted)", fontSize: 13, marginTop: -6 }}>{tool.desc}</p>
+      <p className="pdf-workspace-desc">{tool.desc}</p>
 
-      <Stepper steps={STEPS} currentIndex={stepIndex} maxReachedIndex={toolkit.maxReachedIndex} onStepClick={toolkit.goToStep} />
+      <Stepper
+        steps={STEPS}
+        currentIndex={stepIndex}
+        maxReachedIndex={toolkit.maxReachedIndex}
+        onStepClick={toolkit.goToStep}
+        locked={toolkit.isRunning}
+      />
 
       {stepIndex === 0 && (
         <div className="wizard-step">

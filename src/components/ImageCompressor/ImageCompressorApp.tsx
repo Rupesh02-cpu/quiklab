@@ -54,7 +54,13 @@ export function ImageCompressorApp() {
           </div>
         </header>
 
-        <Stepper steps={STEPS} currentIndex={stepIndex} maxReachedIndex={maxReachedIndex} onStepClick={goToStep} />
+        <Stepper
+          steps={STEPS}
+          currentIndex={stepIndex}
+          maxReachedIndex={maxReachedIndex}
+          onStepClick={goToStep}
+          locked={isProcessing}
+        />
 
         <main className="workspace-body">
           {stepIndex === 0 && (
@@ -65,7 +71,7 @@ export function ImageCompressorApp() {
 
           {stepIndex === 1 && (
             <div className="wizard-step">
-              <button type="button" className="btn-text" onClick={() => goToStep(0)}>
+              <button type="button" className="btn-text" disabled={isProcessing} onClick={() => goToStep(0)}>
                 <Icon name="arrow-left" className="icon icon-sm" /> Add more images
               </button>
               <ControlsPanel

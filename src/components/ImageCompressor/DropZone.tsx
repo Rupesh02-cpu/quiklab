@@ -51,7 +51,7 @@ export function DropZone({ onFiles }: DropZoneProps) {
           choose files
         </button>
       </p>
-      <p className="drop-note">JPG, PNG, WebP, SVG, GIF - your images never leave this tab</p>
+      <p className="drop-note">JPG, PNG, WebP, SVG, GIF - your images never leave your device</p>
     </div>
   );
 }
