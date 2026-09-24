@@ -1,0 +1,173 @@
+{
+  "updatedAt": "2026-09-25T10:05:00Z",
+  "incidents": [
+    {
+      "id": 14,
+      "title": "PDF merge failing for some visitors",
+      "status": "identified",
+      "impact": "partial",
+      "components": [
+        "pdf"
+      ],
+      "createdAt": "2026-09-25T09:20:00Z",
+      "resolvedAt": null,
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/14",
+      "kind": "incident",
+      "scheduledStart": null,
+      "scheduledEnd": null,
+      "updates": [
+        {
+          "stage": "identified",
+          "body": "The PDF worker script is being served with the wrong content type. A fix is being deployed.",
+          "at": "2026-09-25T09:48:00Z"
+        },
+        {
+          "stage": "investigating",
+          "body": "Synthetic check: merging two PDFs did not produce a result.",
+          "at": "2026-09-25T09:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "title": "Scheduled CDN maintenance",
+      "status": "monitoring",
+      "impact": "maintenance",
+      "components": [
+        "cdn"
+      ],
+      "createdAt": "2026-09-24T18:00:00Z",
+      "resolvedAt": null,
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/13",
+      "kind": "maintenance",
+      "scheduledStart": "2026-09-25T08:00:00Z",
+      "scheduledEnd": "2026-09-25T12:00:00Z",
+      "updates": [
+        {
+          "stage": "monitoring",
+          "body": "Animated GIF export may be briefly unavailable while jsDelivr rotates certificates.",
+          "at": "2026-09-24T18:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "title": "PDF toolkit unavailable",
+      "status": "resolved",
+      "impact": "major",
+      "components": [
+        "pdf",
+        "website"
+      ],
+      "createdAt": "2026-09-20T07:10:00Z",
+      "resolvedAt": "2026-09-20T09:40:00Z",
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/12",
+      "kind": "incident",
+      "scheduledStart": null,
+      "scheduledEnd": null,
+      "updates": [
+        {
+          "stage": "resolved",
+          "body": "Checks have passed for 30 minutes. This incident is resolved.",
+          "at": "2026-09-20T09:40:00Z"
+        },
+        {
+          "stage": "monitoring",
+          "body": "A rollback is live. We are watching the checks.",
+          "at": "2026-09-20T09:05:00Z"
+        },
+        {
+          "stage": "identified",
+          "body": "A deploy removed the pdf.js worker from the build output.",
+          "at": "2026-09-20T08:02:00Z"
+        },
+        {
+          "stage": "investigating",
+          "body": "GET /pdf.worker.min.js returned 404.",
+          "at": "2026-09-20T07:10:00Z"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "title": "Slow responses on the homepage",
+      "status": "resolved",
+      "impact": "degraded",
+      "components": [
+        "website"
+      ],
+      "createdAt": "2026-09-13T14:00:00Z",
+      "resolvedAt": "2026-09-13T14:50:00Z",
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/11",
+      "kind": "incident",
+      "scheduledStart": null,
+      "scheduledEnd": null,
+      "updates": [
+        {
+          "stage": "resolved",
+          "body": "Response times are back to normal.",
+          "at": "2026-09-13T14:50:00Z"
+        },
+        {
+          "stage": "investigating",
+          "body": "Response time above 3 s for two consecutive checks.",
+          "at": "2026-09-13T14:00:00Z"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Image compressor check failing",
+      "status": "resolved",
+      "impact": "partial",
+      "components": [
+        "image"
+      ],
+      "createdAt": "2026-09-05T02:15:00Z",
+      "resolvedAt": "2026-09-05T03:00:00Z",
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/9",
+      "kind": "incident",
+      "scheduledStart": null,
+      "scheduledEnd": null,
+      "updates": [
+        {
+          "stage": "resolved",
+          "body": "Resolved.",
+          "at": "2026-09-05T03:00:00Z"
+        },
+        {
+          "stage": "investigating",
+          "body": "Result frame did not appear.",
+          "at": "2026-09-05T02:15:00Z"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Email delivery outage",
+      "status": "resolved",
+      "impact": "major",
+      "components": [
+        "email"
+      ],
+      "createdAt": "2026-07-17T01:00:00Z",
+      "resolvedAt": "2026-07-17T23:30:00Z",
+      "url": "https://github.com/RupeshNB-max/Quiklab/issues/4",
+      "kind": "incident",
+      "scheduledStart": null,
+      "scheduledEnd": null,
+      "updates": [
+        {
+          "stage": "resolved",
+          "body": "MX records restored at the registrar.",
+          "at": "2026-07-17T23:30:00Z"
+        },
+        {
+          "stage": "investigating",
+          "body": "MX lookup returned no records.",
+          "at": "2026-07-17T01:00:00Z"
+        }
+      ]
+    }
+  ]
+}

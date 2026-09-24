@@ -1,0 +1,3552 @@
+{
+  "updatedAt": "2026-09-25T10:05:00Z",
+  "components": {
+    "website": [
+      {
+        "date": "2026-06-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 0,
+        "failures": 0,
+        "worst": "nodata",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 6,
+        "worst": "degraded",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      }
+    ],
+    "image": [
+      {
+        "date": "2026-06-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 18,
+        "worst": "partial",
+        "downMinutes": 45
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      }
+    ],
+    "pdf": [
+      {
+        "date": "2026-06-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 3,
+        "worst": "degraded",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 30,
+        "worst": "major",
+        "downMinutes": 150
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 9,
+        "worst": "partial",
+        "downMinutes": 40
+      }
+    ],
+    "cdn": [
+      {
+        "date": "2026-06-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-06-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 12,
+        "worst": "partial",
+        "downMinutes": 60
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 0,
+        "worst": "maintenance",
+        "downMinutes": 0
+      }
+    ],
+    "dns": [
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      }
+    ],
+    "email": [
+      {
+        "date": "2026-07-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-17",
+        "checks": 288,
+        "failures": 288,
+        "worst": "major",
+        "downMinutes": 1440
+      },
+      {
+        "date": "2026-07-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-07-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-25",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-26",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-27",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-28",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-29",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-30",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-08-31",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-01",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-02",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-03",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-04",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-05",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-06",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-07",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-08",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-09",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-10",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-11",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-12",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-13",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-14",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-15",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-16",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-17",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-18",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-19",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-20",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-21",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-22",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-23",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-24",
+        "checks": 288,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
+        "checks": 121,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      }
+    ]
+  }
+}

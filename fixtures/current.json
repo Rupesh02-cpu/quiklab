@@ -1,0 +1,54 @@
+{
+  "updatedAt": "2026-09-25T10:05:00Z",
+  "overall": "partial",
+  "components": [
+    {
+      "id": "website",
+      "group": "QuikLab",
+      "name": "Website",
+      "status": "operational",
+      "responseMs": 212,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    },
+    {
+      "id": "image",
+      "group": "QuikLab",
+      "name": "Image compressor",
+      "status": "degraded",
+      "responseMs": 3900,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    },
+    {
+      "id": "pdf",
+      "group": "QuikLab",
+      "name": "PDF toolkit",
+      "status": "partial",
+      "responseMs": 640,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    },
+    {
+      "id": "cdn",
+      "group": "Infrastructure",
+      "name": "jsDelivr CDN",
+      "status": "maintenance",
+      "responseMs": 88,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    },
+    {
+      "id": "dns",
+      "group": "Infrastructure",
+      "name": "DNS",
+      "status": "operational",
+      "responseMs": 31,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    },
+    {
+      "id": "email",
+      "group": "Infrastructure",
+      "name": "Email",
+      "status": "operational",
+      "responseMs": 45,
+      "lastCheck": "2026-09-25T10:05:00Z"
+    }
+  ]
+}
