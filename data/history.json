@@ -1,16 +1,7 @@
 {
-  "updatedAt": "2026-09-24T22:25:51.028Z",
+  "updatedAt": "2026-09-24T22:26:13.611Z",
   "components": {
     "website": [
-      {
-        "date": "2026-09-24",
-        "checks": 1,
-        "failures": 0,
-        "worst": "operational",
-        "downMinutes": 0
-      }
-    ],
-    "pdf": [
       {
         "date": "2026-09-24",
         "checks": 2,
@@ -19,10 +10,19 @@
         "downMinutes": 0
       }
     ],
+    "pdf": [
+      {
+        "date": "2026-09-24",
+        "checks": 3,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      }
+    ],
     "cdn": [
       {
         "date": "2026-09-24",
-        "checks": 1,
+        "checks": 2,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
@@ -31,7 +31,7 @@
     "dns": [
       {
         "date": "2026-09-24",
-        "checks": 1,
+        "checks": 2,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
@@ -40,7 +40,7 @@
     "email": [
       {
         "date": "2026-09-24",
-        "checks": 1,
+        "checks": 2,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
