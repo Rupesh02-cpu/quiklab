@@ -1,0 +1,107 @@
+{
+  "updatedAt": "2026-09-24T20:18:08.935Z",
+  "overall": "operational",
+  "components": [
+    {
+      "id": "website",
+      "group": "QuikLab",
+      "name": "Website",
+      "status": "operational",
+      "responseMs": 373,
+      "lastCheck": "2026-09-24T20:18:08.935Z",
+      "checks": [
+        {
+          "name": "home",
+          "ok": true,
+          "level": "ok",
+          "ms": 228,
+          "detail": "HTTP 200 in 228 ms"
+        },
+        {
+          "name": "pdf-page",
+          "ok": true,
+          "level": "ok",
+          "ms": 373,
+          "detail": "HTTP 200 in 373 ms"
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "group": "QuikLab",
+      "name": "Image compressor",
+      "status": "nodata",
+      "responseMs": null,
+      "lastCheck": null,
+      "checks": []
+    },
+    {
+      "id": "pdf",
+      "group": "QuikLab",
+      "name": "PDF toolkit",
+      "status": "operational",
+      "responseMs": 353,
+      "lastCheck": "2026-09-24T20:18:08.935Z",
+      "checks": [
+        {
+          "name": "pdf-worker",
+          "ok": true,
+          "level": "ok",
+          "ms": 353,
+          "detail": "HTTP 200 in 353 ms"
+        }
+      ]
+    },
+    {
+      "id": "cdn",
+      "group": "Infrastructure",
+      "name": "jsDelivr CDN",
+      "status": "operational",
+      "responseMs": 56,
+      "lastCheck": "2026-09-24T20:18:08.935Z",
+      "checks": [
+        {
+          "name": "gif-js",
+          "ok": true,
+          "level": "ok",
+          "ms": 56,
+          "detail": "HTTP 200 in 56 ms"
+        }
+      ]
+    },
+    {
+      "id": "dns",
+      "group": "Infrastructure",
+      "name": "DNS",
+      "status": "operational",
+      "responseMs": 13,
+      "lastCheck": "2026-09-24T20:18:08.935Z",
+      "checks": [
+        {
+          "name": "dns-a",
+          "ok": true,
+          "level": "ok",
+          "ms": 13,
+          "detail": "A 216.198.79.65, 64.29.17.65"
+        }
+      ]
+    },
+    {
+      "id": "email",
+      "group": "Infrastructure",
+      "name": "Email",
+      "status": "operational",
+      "responseMs": 15,
+      "lastCheck": "2026-09-24T20:18:08.935Z",
+      "checks": [
+        {
+          "name": "mx",
+          "ok": true,
+          "level": "ok",
+          "ms": 15,
+          "detail": "MX mx2.hostinger.com, mx1.hostinger.com"
+        }
+      ]
+    }
+  ]
+}
