@@ -1,0 +1,12 @@
+{
+  "git": { "deploymentEnabled": { "gh-pages": false } },
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/data/:file", "destination": "https://raw.githubusercontent.com/Rupesh02-cpu/quiklab/gh-pages/data/:file" },
+    { "source": "/feed.atom", "destination": "https://raw.githubusercontent.com/Rupesh02-cpu/quiklab/gh-pages/feed.atom" }
+  ],
+  "headers": [
+    { "source": "/feed.atom", "headers": [{ "key": "Content-Type", "value": "application/atom+xml; charset=utf-8" }] },
+    { "source": "/data/:file", "headers": [{ "key": "Cache-Control", "value": "no-store" }] }
+  ]
+}
