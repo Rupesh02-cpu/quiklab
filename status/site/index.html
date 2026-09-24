@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QuikLab Status</title>
+<meta name="description" content="Live status of QuikLab tools and infrastructure.">
+<script>
+(function () {
+  try {
+    var saved = localStorage.getItem('quiklab-theme');
+    if (saved === 'light' || saved === 'dark') document.documentElement.setAttribute('data-theme', saved);
+  } catch (e) {}
+})();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="status.css">
+<link rel="alternate" type="application/atom+xml" title="QuikLab status" href="feed.atom">
+<script type="module" src="js/index.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icon-system" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.8 6.8 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="icon-check" viewBox="0 0 24 24"><path class="check" d="M6 12.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="icon-alert" viewBox="0 0 24 24"><path d="M12 7v6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17" r="1.4" fill="currentColor"/></symbol>
+  <symbol id="icon-wrench" viewBox="0 0 24 24"><path d="M14.5 5.5a4 4 0 0 0 4.9 4.9L11 18.8a2 2 0 0 1-2.8-2.8l8.4-8.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 8v4.5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="icon-feed" viewBox="0 0 24 24"><path d="M5 5a14 14 0 0 1 14 14M5 11a8 8 0 0 1 8 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="6" cy="18" r="1.6" fill="currentColor"/></symbol>
+</svg>
+<header class="site-header">
+  <a class="site-logo" href="https://quiklab.online">
+    <span class="brand-mark">QL</span>
+    <span class="site-logo-word">QuikLab</span>
+    <span class="site-logo-sub">Status</span>
+  </a>
+  <div class="header-right">
+    <button type="button" class="btn" id="subscribe-btn" aria-expanded="false" aria-controls="subscribe-panel">Subscribe to updates</button>
+    <button type="button" class="theme-toggle" id="theme-toggle" title="Theme" aria-label="Theme: system. Click to change."><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-system"></use></svg></button>
+    <div class="subscribe-panel" id="subscribe-panel" role="dialog" aria-label="Subscribe to updates" hidden>
+      <h2>Get notified</h2>
+      <p>Follow incidents and maintenance in any feed reader.</p>
+      <a class="feed-link" href="feed.atom"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#icon-feed"></use></svg>Atom feed</a>
+    </div>
+  </div>
+</header>
+<main id="main">
+<div id="app" aria-live="polite"><p class="empty-state">Loading status</p></div>
+</main>
+<footer>
+  <nav>
+    <a href="history.html" data-internal>Incident history</a>
+    <a href="https://quiklab.online">quiklab.online</a>
+  </nav>
+  <div>Checks run about every 5 minutes from GitHub Actions. Last updated <span class="mono" id="last-updated">just now</span></div>
+</footer>
+<div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+</body>
+</html>

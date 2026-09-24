@@ -4,13 +4,13 @@ import { useRef, useState } from "react";
 import { Icon } from "@/components/Icon";
 
 // Deliberate minimum hold for the "reading…" state before detection
-// resolves — see PLANNING_unified-upload.md section 3 item 1. An instant
+// resolves; see PLANNING_unified-upload.md section 3 item 1. An instant
 // swap here reads as a glitch, not speed, even though the type sniff
 // itself is synchronous.
 const READING_HOLD_MS = 220;
 const REJECT_FLASH_MS = 200;
 // Matches .drop.is-leaving's drop-out animation duration in quiklab.css
-// (.22s) — the drop zone animates out before UnifiedApp swaps in the
+// (.22s): the drop zone animates out before UnifiedApp swaps in the
 // detected chip, so the two moments read as one continuous cascade rather
 // than an instant cut.
 const LEAVE_MS = 220;
@@ -54,7 +54,7 @@ export function UnifiedDropZone({ headline, subCopy, note, accept, onFiles, onRe
       // Play the drop-out reveal (.drop.is-leaving), then hand off to
       // UnifiedApp, which unmounts this drop zone and mounts the detected
       // chip + destination in the same transition wave. Reduced-motion
-      // skips straight to hand-off — no artificial hold either way.
+      // skips straight to hand-off, no artificial hold either way.
       if (reduceMotion) {
         onFiles(files);
       } else {

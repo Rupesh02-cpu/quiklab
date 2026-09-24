@@ -30,7 +30,7 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
   // Mixed-drop case (e.g. 2 images + 1 PDF): the file(s) of the type NOT
   // currently mounted are held here rather than discarded, so the
   // "switch file type" affordance (task 2's UI) can pick them up without
-  // re-uploading. Not component state — nothing here needs a re-render on
+  // re-uploading. Not component state; nothing here needs a re-render on
   // its own; the toast + (future) chip UI is what surfaces it.
   const pendingOppositeRef = useRef<{ kind: "image" | "pdf"; files: File[] } | null>(null);
   const [pendingOpposite, setPendingOpposite] = useState<{ kind: "image" | "pdf"; files: File[] } | null>(null);
@@ -76,7 +76,7 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
       // drop there gets a friendly redirect toast instead of silently
       // misrouting into the image path on a PDF-scoped page.
       if (initialIntent === "pdf" && images.length && !pdfs.length) {
-        showToast("That looks like an image — head to quiklab.online to compress it.");
+        showToast("That looks like an image. Head to quiklab.online to compress it.");
         return;
       }
 
@@ -87,7 +87,7 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
         // persistent affordance handoff rather than losing either set.
         pendingOppositeRef.current = { kind: "pdf", files: pdfs };
         setPendingOpposite({ kind: "pdf", files: pdfs });
-        showToast(`Also detected ${pdfs.length} PDF${pdfs.length === 1 ? "" : "s"} — switch to it below.`);
+        showToast(`Also detected ${pdfs.length} PDF${pdfs.length === 1 ? "" : "s"}. Switch to it below.`);
         setDetected("image");
         setDetectedFiles(images);
         return;
@@ -120,10 +120,10 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
   const headline = initialIntent === "pdf" ? "Drop a PDF to get started" : "Drop a file to get started";
   const subCopy =
     initialIntent === "pdf"
-      ? "PDFs get merged, split, compressed, and more — all in your browser."
-      : "Images get resized and compressed. PDFs get merged, split, compressed, and more — all in your browser.";
+      ? "PDFs get merged, split, compressed, and more, all in your browser."
+      : "Images get resized and compressed. PDFs get merged, split, compressed, and more, all in your browser.";
   const note =
-    initialIntent === "pdf" ? "PDF — nothing leaves your device" : "JPG, PNG, WebP, SVG, GIF, PDF — nothing leaves your device";
+    initialIntent === "pdf" ? "PDF. Nothing leaves your device" : "JPG, PNG, WebP, SVG, GIF, PDF. Nothing leaves your device";
   const accept = initialIntent === "pdf" ? PDF_ACCEPT : UNIFIED_ACCEPT;
 
   return (
@@ -168,7 +168,7 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
                 {pendingOpposite && (
                   <button type="button" className="type-switch-chip" onClick={switchToPending}>
                     Also detected {pendingOpposite.files.length} {pendingOpposite.kind === "pdf" ? "PDF" : "image"}
-                    {pendingOpposite.files.length === 1 ? "" : "s"} — switch to it
+                    {pendingOpposite.files.length === 1 ? "" : "s"}. Switch to it
                   </button>
                 )}
 
@@ -184,6 +184,9 @@ export function UnifiedApp({ initialIntent }: UnifiedAppProps) {
             <p>
               Processing runs on-device via the Canvas API and pdf-lib. Your files are never uploaded anywhere.
               Re-encoding a JPEG also strips its EXIF and GPS metadata.
+            </p>
+            <p className="workspace-foot-links">
+              <a href="https://status.quiklab.online">Status</a>
             </p>
           </footer>
         </div>
