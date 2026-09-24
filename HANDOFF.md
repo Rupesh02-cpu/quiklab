@@ -203,7 +203,7 @@ been cooperative with this).
 | Service | Identifiers (not secret) | Credential location |
 |---|---|---|
 | Vercel | project `prj_NGYOIv7wyBN82FbUvAhbWmtIkxdZ`, team `team_TtG3rQS3mDRwxoS4Vm1vcQBN`, framework `nextjs` | `VERCEL_TOKEN` in `.env.local` |
-| Hostinger (domain, DNS, email) | domain `quiklab.online` | `HOSTINGER_API_TOKEN` in `.env.local` |
+| Hostinger (domain registrar, email; DNS is at Vercel) | domain `quiklab.online` | `HOSTINGER_API_TOKEN` in `.env.local` |
 | GA4 | measurement `G-43T0WZB3Z0`, property `210192570` | `secrets/ga4-service-account.json` (path in `GA4_SERVICE_ACCOUNT_JSON`) |
 | Microsoft Clarity | project `yl6fc10ssr` | `CLARITY_API_TOKEN` in `.env.local` |
 | AdSense | `ca-pub-8283943064154546` | n/a |
@@ -213,16 +213,21 @@ same one that was pasted in chat earlier and should be rotated. Other tokens
 pasted in chat during the first session (an earlier Vercel token, a Clarity
 JWT, an `sk_` key) should be revoked if not already.
 
-DNS: nameservers are Hostinger's default (not delegated to Vercel), and the
-owner wants to keep DNS at Hostinger. Records are managed through the
-Hostinger DNS API (`https://developers.hostinger.com/api/dns/v1/zones/quiklab.online`,
-Bearer auth):
-- `@ A 76.76.21.21` (Vercel), `www CNAME quiklab.online.`
-- Mail: `@ MX 5 mx1.hostinger.com.` / `10 mx2.hostinger.com.`, SPF TXT
+DNS: nameservers are Vercel's (`ns1/ns2.vercel-dns.com`); the domain is
+still registered at Hostinger but Vercel DNS controls it. Hostinger DNS
+records are ignored. Records are managed through the Vercel API
+(`/v4/domains/quiklab.online/records?teamId=...` to list, `/v2/...` POST to
+add, `VERCEL_TOKEN`):
+- `@ ALIAS` and `* ALIAS` to Vercel (site), CAA records.
+- Mail (restored 2026-09-25 after they were lost in the nameserver move):
+  `@ MX 5 mx1.hostinger.com` / `10 mx2.hostinger.com`, SPF TXT
   `v=spf1 include:_spf.mail.hostinger.com ~all`, `_dmarc TXT v=DMARC1; p=none`,
   DKIM CNAMEs `hostingermail-{a,b,c}._domainkey`, autodiscover and
   autoconfig CNAMEs.
-Never delete existing records; only add.
+- `status CNAME rupesh02-cpu.github.io` (status page on GitHub Pages;
+  overrides the `*` wildcard).
+Never delete existing records; only add. The status monitor's `email`
+component watches the MX records.
 
 Email: `support@quiklab.online` is active on a Hostinger Starter Business
 Email free trial (2 mailboxes, expires 2027-09-23). The password was given to
