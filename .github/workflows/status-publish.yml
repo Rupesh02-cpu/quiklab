@@ -1,0 +1,72 @@
+name: status-publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "status/site/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: status-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: src
+
+      - name: Check out or create gh-pages
+        run: |
+          set -euo pipefail
+          url="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$url" gh-pages >/dev/null 2>&1; then
+            git clone --depth 1 --branch gh-pages "$url" pages
+          else
+            mkdir pages
+            cd pages
+            git init -q
+            git checkout -q --orphan gh-pages
+            git remote add origin "$url"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Replace site files (keep data/ and feed.atom)
+        run: |
+          set -euo pipefail
+          cd pages
+          find . -mindepth 1 -maxdepth 1 ! -name .git ! -name data ! -name feed.atom -exec rm -rf {} +
+          cp -a ../src/status/site/. .
+          touch .nojekyll
+
+      - name: Commit and push with retry
+        run: |
+          set -euo pipefail
+          cd pages
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No site changes to publish."
+            exit 0
+          fi
+          git commit -q -m "status: publish site"
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:gh-pages; then exit 0; fi
+            echo "Push failed (attempt $i), rebasing on latest gh-pages"
+            sleep $((i * 5))
+            if git fetch origin gh-pages; then
+              git rebase origin/gh-pages || { git rebase --abort; exit 1; }
+            fi
+          done
+          echo "Could not push to gh-pages after 5 attempts"
+          exit 1

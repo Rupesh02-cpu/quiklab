@@ -16,7 +16,7 @@ interface UnifiedResetContextValue {
 const UnifiedResetContext = createContext<UnifiedResetContextValue | null>(null);
 
 // Lives at the layout level (wraps both SiteHeader and the page content)
-// so SiteHeader — a sibling of the page, not a descendant of UnifiedApp —
+// so SiteHeader (a sibling of the page, not a descendant of UnifiedApp)
 // can still reach whichever page's UnifiedApp is currently mounted below
 // it. UnifiedApp registers its own resetAll on mount; SiteHeader just
 // calls whatever's currently registered.

@@ -146,12 +146,14 @@ Commit messages end with the attribution line the session provides
 
 ## 6. Current state (as of this handoff)
 
-### Live in production (`main` at `dc3dd6b`)
-- Next.js app with image compressor at `/`, PDF toolkit (8 tools) at `/pdf`.
-- Wizard navigation race-condition fixes, annotation state-leak fix,
-  motion pass, Inter font, consistent privacy copy.
+### Live in production (`main` at `b438fc3`, deployed 2026-09-25)
+- Unified upload entry point at `/` (details below), PDF-scoped entry at
+  `/pdf`, 8 PDF tools, image compressor, wizard navigation race-condition
+  fixes, annotation state-leak fix, motion pass, Inter font, consistent
+  privacy copy, hydration warning fixed (`suppressHydrationWarning` on
+  `<html>`).
 
-### Built but NOT committed or deployed: unified upload entry point
+### Unified upload entry point (live)
 - Goal: one page. The user drops any file; the app detects image vs PDF and
   shows the right tool. Images go straight to Configure. A PDF shows the
   8-tool grid inline with the file preloaded into whichever tool is picked.
@@ -167,12 +169,12 @@ Commit messages end with the attribution line the session provides
   because `SiteHeader` is a sibling of the page, not a descendant; detected
   chip icon switched from stroke draw-in to a scale+fade pop because the
   image/pdf icons are multi-path symbols.
-- `tsc` and `build` are clean. curl checks pass. Agent 1 ran 18 Playwright
-  assertions before the integration fixes.
-- Still to do before deploying: one live Playwright smoke pass (image drop
-  at `/`, PDF drop to grid to tool with file preloaded, mixed drop, `/pdf`
-  direct, logo reset mid-wizard, reduced-motion), then commit and deploy via
-  section 5. The owner already asked for this to be pushed and deployed.
+- Verified live before deploy (2026-09-25, Playwright, zero page errors):
+  image drop to Configure to compress to Result; logo reset mid-wizard with
+  no page reload; PDF drop shows 8-tool grid with no navigation, Merge opens
+  with the file preloaded; mixed drop shows the switch chip and switching
+  works; unsupported file shows the toast; `/pdf` direct works;
+  reduced-motion turns every new animation off.
 
 ### Other open items
 - GA4 numbers are blocked: the service account
@@ -187,8 +189,6 @@ Commit messages end with the attribution line the session provides
   during render in `useImageCompressor.ts`, setState in effect in
   `useTheme.ts`, `prefer-const` in `imageProcessing.ts`,
   `beforeInteractive` script warning in `GifEncoderScript.tsx`.
-- Dev-only hydration warning from the pre-paint theme script. Benign,
-  production is unaffected.
 - `npm audit` reports vulnerabilities in transitive deps; not triaged.
 - Rewrite `CLAUDE.md`; delete legacy static files.
 
@@ -203,26 +203,31 @@ been cooperative with this).
 | Service | Identifiers (not secret) | Credential location |
 |---|---|---|
 | Vercel | project `prj_NGYOIv7wyBN82FbUvAhbWmtIkxdZ`, team `team_TtG3rQS3mDRwxoS4Vm1vcQBN`, framework `nextjs` | `VERCEL_TOKEN` in `.env.local` |
-| Hostinger (domain, DNS, email) | domain `quiklab.online` | `HOSTINGER_API_TOKEN` in `.env.local` |
+| Hostinger (domain registrar, email; DNS is at Vercel) | domain `quiklab.online` | `HOSTINGER_API_TOKEN` in `.env.local` |
 | GA4 | measurement `G-43T0WZB3Z0`, property `210192570` | `secrets/ga4-service-account.json` (path in `GA4_SERVICE_ACCOUNT_JSON`) |
 | Microsoft Clarity | project `yl6fc10ssr` | `CLARITY_API_TOKEN` in `.env.local` |
 | AdSense | `ca-pub-8283943064154546` | n/a |
 
-Security follow-ups for the owner: the Vercel token in `.env.local` is the
+Security follow-ups for the owner (rotation deferred by owner on 2026-09-25, still in use): the Vercel token in `.env.local` is the
 same one that was pasted in chat earlier and should be rotated. Other tokens
 pasted in chat during the first session (an earlier Vercel token, a Clarity
 JWT, an `sk_` key) should be revoked if not already.
 
-DNS: nameservers are Hostinger's default (not delegated to Vercel), and the
-owner wants to keep DNS at Hostinger. Records are managed through the
-Hostinger DNS API (`https://developers.hostinger.com/api/dns/v1/zones/quiklab.online`,
-Bearer auth):
-- `@ A 76.76.21.21` (Vercel), `www CNAME quiklab.online.`
-- Mail: `@ MX 5 mx1.hostinger.com.` / `10 mx2.hostinger.com.`, SPF TXT
+DNS: nameservers are Vercel's (`ns1/ns2.vercel-dns.com`); the domain is
+still registered at Hostinger but Vercel DNS controls it. Hostinger DNS
+records are ignored. Records are managed through the Vercel API
+(`/v4/domains/quiklab.online/records?teamId=...` to list, `/v2/...` POST to
+add, `VERCEL_TOKEN`):
+- `@ ALIAS` and `* ALIAS` to Vercel (site), CAA records.
+- Mail (restored 2026-09-25 after they were lost in the nameserver move):
+  `@ MX 5 mx1.hostinger.com` / `10 mx2.hostinger.com`, SPF TXT
   `v=spf1 include:_spf.mail.hostinger.com ~all`, `_dmarc TXT v=DMARC1; p=none`,
   DKIM CNAMEs `hostingermail-{a,b,c}._domainkey`, autodiscover and
   autoconfig CNAMEs.
-Never delete existing records; only add.
+- `status CNAME rupesh02-cpu.github.io` (status page on GitHub Pages;
+  overrides the `*` wildcard).
+Never delete existing records; only add. The status monitor's `email`
+component watches the MX records.
 
 Email: `support@quiklab.online` is active on a Hostinger Starter Business
 Email free trial (2 mailboxes, expires 2027-09-23). The password was given to

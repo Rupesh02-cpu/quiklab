@@ -1,0 +1,43 @@
+name: Status incident
+description: Post an incident to status.quiklab.online (owner and collaborators only; other issues are ignored by the status page).
+title: "Incident: "
+labels: ["incident"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This issue appears on the public status page. Post updates as comments starting with
+        "Investigating:", "Identified:", "Monitoring:" or "Resolved:". Closing the issue marks it resolved.
+  - type: checkboxes
+    id: components
+    attributes:
+      label: Components
+      description: Which components are affected?
+      options:
+        - label: Website
+        - label: Image compressor
+        - label: PDF toolkit
+        - label: jsDelivr CDN
+        - label: DNS
+        - label: Email
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Degraded performance
+        - Partial outage
+        - Major outage
+      default: 1
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: First public update (stage Investigating).
+      placeholder: We are investigating reports of failed PDF merges.
+    validations:
+      required: true

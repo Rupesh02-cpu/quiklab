@@ -8,7 +8,7 @@ interface DetectedChipProps {
   readonly files: readonly File[];
 }
 
-// The "the app noticed" reveal — see PLANNING_unified-upload.md section 1
+// The "the app noticed" reveal, see PLANNING_unified-upload.md section 1
 // ("the detection moment") and section 3 item 2. Class names
 // (`.detected-chip`, the icon draw-in) are a contract with task 3's CSS;
 // applied here even though the CSS doesn't exist yet.

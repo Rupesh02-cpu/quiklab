@@ -1,10 +1,10 @@
 // Pure, unit-testable file-type routing logic for the unified drop zone.
-// No component/hook state here on purpose — UnifiedDropZone/UnifiedApp own
+// No component/hook state here on purpose; UnifiedDropZone/UnifiedApp own
 // the "reading" delay and detected/pending-file state; this only classifies
 // a raw file list.
 
 // Source of truth for accepted image MIME types is
-// useImageCompressor.ts's ACCEPTED_TYPE_RE — duplicated here (not
+// useImageCompressor.ts's ACCEPTED_TYPE_RE, duplicated here (not
 // imported) because that constant isn't exported and task 1 was told not
 // to modify useImageCompressor.ts's processing logic beyond reading from
 // it. Keep in sync if the accepted image types ever change.

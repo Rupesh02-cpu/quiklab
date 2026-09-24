@@ -1207,3 +1207,8 @@ input[type="range"]::-moz-range-thumb{
 @media (prefers-reduced-motion: reduce){
   .drop.is-rejected{ animation:none; border-color:var(--accent); }
 }
+
+/* Footer "Status" link (status page) */
+.workspace-foot .workspace-foot-links{ margin-top:6px; }
+.workspace-foot-links a{ color:var(--ink-muted); text-decoration:underline; text-underline-offset:2px; }
+.workspace-foot-links a:hover, .workspace-foot-links a:focus-visible{ color:var(--accent, currentColor); }

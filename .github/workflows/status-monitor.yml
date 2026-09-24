@@ -1,0 +1,67 @@
+name: Status monitor (light)
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+    inputs:
+      simulate:
+        description: "Force this component's checks to fail (outage test)"
+        type: choice
+        default: none
+        options: [none, website, image, pdf, cdn, dns, email]
+
+permissions:
+  contents: write
+  issues: write
+
+# Every status workflow pushes to gh-pages, so they share one queue.
+concurrency:
+  group: status-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check out gh-pages into ./ghp
+        run: |
+          if git ls-remote --exit-code --heads origin gh-pages >/dev/null; then
+            git fetch origin +refs/heads/gh-pages:refs/remotes/origin/gh-pages
+            git worktree add -B gh-pages ghp origin/gh-pages
+          else
+            git worktree add --orphan -b gh-pages ghp
+          fi
+          mkdir -p ghp/data
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run light checks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: node status/monitor/run.mjs --mode light --data ghp/data --simulate "${{ inputs.simulate || 'none' }}"
+
+      - name: Commit and push data
+        working-directory: ghp
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data
+          [ -f feed.atom ] && git add feed.atom
+          if git diff --cached --quiet; then echo "No data changes"; exit 0; fi
+          git commit -m "status: update data [skip ci]"
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:gh-pages && exit 0
+            echo "Push rejected, rebasing (attempt $i)"
+            git fetch origin +refs/heads/gh-pages:refs/remotes/origin/gh-pages
+            # Replay our data commit on top; on conflict our fresh data wins.
+            git rebase -X theirs origin/gh-pages || { git rebase --abort; exit 1; }
+            sleep $((i * 3))
+          done
+          exit 1
