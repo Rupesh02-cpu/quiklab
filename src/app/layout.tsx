@@ -6,6 +6,7 @@ import { IconSprite } from "@/components/IconSprite";
 import { PageTransition } from "@/components/PageTransition";
 import { SiteHeader } from "@/components/SiteHeader";
 import { ToastProvider } from "@/components/ToastProvider";
+import { UnifiedResetProvider } from "@/components/UnifiedUpload/UnifiedResetContext";
 
 // The interface's whole voice: body copy, buttons, nav, labels, and
 // headings/titles. One confident sans instead of a mixed serif/mono
@@ -80,15 +81,21 @@ const THEME_INIT_SCRIPT = `
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${plexMono.variable} ${inter.variable}`}>
+    // suppressHydrationWarning: THEME_INIT_SCRIPT sets data-theme on <html>
+    // before hydration (to avoid a flash of the wrong theme), so the server
+    // HTML never matches. This only silences attribute mismatches on this
+    // one element, not its children.
+    <html lang="en" className={`${plexMono.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
       <body>
         <IconSprite />
         <PageTransition />
-        <SiteHeader />
-        <ToastProvider>{children}</ToastProvider>
+        <UnifiedResetProvider>
+          <SiteHeader />
+          <ToastProvider>{children}</ToastProvider>
+        </UnifiedResetProvider>
 
         {/* Google tag (gtag.js) */}
         <Script async src="https://www.googletagmanager.com/gtag/js?id=G-43T0WZB3Z0" strategy="afterInteractive" />

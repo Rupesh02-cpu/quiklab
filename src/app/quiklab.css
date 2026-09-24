@@ -799,9 +799,14 @@ input[type="range"]::-moz-range-thumb{
    place, then the container still does its existing
    result-icon-in pop for a two-stage arrival. Path length
    tuned to the icon-check symbol's actual path metrics. */
+/* stroke-dasharray/dashoffset read from --stroke-draw-len so the same
+   keyframe can be reused for other icons with different path lengths
+   (see .detected-chip-icon below) instead of forking a near-duplicate
+   keyframe per icon; defaults to 21 to match the checkmark's own path
+   length for every existing caller that doesn't set the variable. */
 @keyframes icon-check-draw{
-  from{ stroke-dasharray:21; stroke-dashoffset:21; }
-  to{ stroke-dasharray:21; stroke-dashoffset:0; }
+  from{ stroke-dasharray:var(--stroke-draw-len, 21); stroke-dashoffset:var(--stroke-draw-len, 21); }
+  to{ stroke-dasharray:var(--stroke-draw-len, 21); stroke-dashoffset:0; }
 }
 .pdf-result .icon use,
 .frame-dl.is-success .icon use{
@@ -1088,4 +1093,117 @@ input[type="range"]::-moz-range-thumb{
 }
 @media (prefers-reduced-motion: reduce){
   ::view-transition-old(root), ::view-transition-new(root){ animation:none; }
+}
+
+/* ---------------------------------------------------
+   Unified upload — detection + reveal moments (drop a
+   file, the app figures out what it is, then the right
+   tool mounts). See PLANNING_unified-upload.md section 3
+   for the full motion spec; classes here are the shared
+   contract with the UnifiedUpload components (task 1).
+--------------------------------------------------- */
+
+/* 1. File lands -> "reading" state. Border does one pulse (reusing the
+   existing stepper-pulse keyframe verbatim) while the icon cross-fades
+   from the idle upload glyph to the generic file glyph. */
+.drop.drop-reading{
+  animation: stepper-pulse .6s ease-out;
+}
+.drop-reading .drop-icon-fade{
+  position:relative; width:36px; height:36px;
+}
+.drop-reading .drop-icon-fade .icon{
+  position:absolute; inset:0; width:36px; height:36px;
+  transition: opacity .12s ease;
+}
+.drop-reading .drop-icon-fade .icon.is-leaving{ opacity:0; }
+.drop-reading .drop-icon-fade .icon.is-entering{ opacity:1; }
+@media (prefers-reduced-motion: reduce){
+  .drop.drop-reading{ animation:none; }
+  .drop-reading .drop-icon-fade .icon{ transition:none; }
+}
+
+/* 2. Reading -> detected chip reveal. The drop zone card animates out
+   (wizard-step-in played in reverse), the .detected-chip animates in with
+   wizard-step-in itself at a 60ms stagger, and the chip's type icon draws
+   in via the existing icon-check-draw stroke mechanism. */
+@keyframes drop-out{
+  from{ opacity:1; transform:translateY(0); }
+  to{ opacity:0; transform:translateY(-10px); }
+}
+.drop.is-leaving{
+  animation: drop-out .22s cubic-bezier(.21, .8, .36, 1) both;
+}
+@media (prefers-reduced-motion: reduce){
+  .drop.is-leaving{ animation:none; }
+}
+
+.detected-chip{
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-radius:10px;
+  background:var(--panel); border:1px solid var(--border);
+  animation: wizard-step-in .32s cubic-bezier(.21, .8, .36, 1) .06s both;
+}
+@media (prefers-reduced-motion: reduce){
+  .detected-chip{ animation:none; }
+}
+/* Integration note: icon-check-draw's stroke-dasharray/dashoffset
+   mechanism only reads correctly on a single continuous stroke path (the
+   checkmark it was built for). icon-image and icon-pdf are composite
+   symbols — a filled circle, filled "PDF" text, several disjoint
+   sub-paths — so animating one shared dasharray across all of them drew
+   unevenly instead of "confirmed, drawn-in." Uses a scale+fade spring
+   pop instead: still an arrival moment, just not the draw-in technique,
+   which stays reserved for genuinely single-path icons like the
+   checkmark. */
+@keyframes detected-chip-icon-in{
+  from{ opacity:0; transform:scale(.6); }
+  to{ opacity:1; transform:scale(1); }
+}
+.detected-chip-icon .icon{
+  animation: detected-chip-icon-in .3s cubic-bezier(.34, 1.56, .64, 1) .1s both;
+}
+@media (prefers-reduced-motion: reduce){
+  .detected-chip-icon .icon{ animation:none; }
+}
+
+/* 3. Chip settle -> destination UI mounts, staggered ~60ms after the
+   chip's own animation begins (not after it ends), so the two reveals
+   read as one continuous cascade. Applied only to the specific
+   destination wrapper for this transition, not wizard-step's default. */
+.wizard-step--cascade{
+  animation-delay: .06s;
+}
+@media (prefers-reduced-motion: reduce){
+  .wizard-step--cascade{ animation-delay:0s; }
+}
+
+/* 5. Mixed-drop "switch file type" chip — reuses toast-in verbatim since
+   it's a similar dismissible-ish, non-blocking affordance, just positioned
+   inline near the workspace head instead of floating. */
+.type-switch-chip{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:8px 14px; border-radius:99px;
+  background:var(--rail-bg); border:1px solid var(--rail-border); color:var(--rail-ink);
+  font-size:12.5px;
+  animation: toast-in .2s ease both;
+}
+@media (prefers-reduced-motion: reduce){
+  .type-switch-chip{ animation:none; }
+}
+
+/* 6. Unsupported-type shake — a quick reject cue on the drop zone itself
+   instead of silently no-op'ing. Border flashes to --accent for the
+   duration then returns to its resting color. */
+@keyframes drop-reject{
+  0%, 100%{ transform:translateX(0); }
+  25%{ transform:translateX(-6px); }
+  75%{ transform:translateX(6px); }
+}
+.drop.is-rejected{
+  animation: drop-reject .2s ease;
+  border-color: var(--accent);
+}
+@media (prefers-reduced-motion: reduce){
+  .drop.is-rejected{ animation:none; border-color:var(--accent); }
 }

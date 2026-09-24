@@ -3,17 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { Icon } from "@/components/Icon";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-const NAV_LINKS = [
-  { href: "/", label: "Image compressor", icon: "image" },
-  { href: "/pdf", label: "PDF toolkit", icon: "pdf" },
-];
+import { useUnifiedReset } from "@/components/UnifiedUpload/UnifiedResetContext";
 
 export function SiteHeader() {
   const pathname = usePathname();
   const headerRef = useRef<HTMLElement>(null);
+  const unifiedReset = useUnifiedReset();
+
+  const handleLogoClick = () => {
+    if (pathname !== "/" && pathname !== "/pdf") return;
+    // Resets the currently-mounted page's UnifiedApp back to its idle drop
+    // zone in place, instead of relying on the Link's normal navigation
+    // (which would remount the page but not necessarily feel like a
+    // deliberate "start over" moment). Falls back to plain navigation if
+    // no page has registered a reset handler yet (resetAll is null).
+    unifiedReset?.resetAll?.();
+  };
 
   // Exposes the header's real rendered height as --header-h on the root
   // element, so anything below it (the wizard workspace card) can size
@@ -36,21 +42,10 @@ export function SiteHeader() {
   return (
     <header className="site-header" ref={headerRef}>
       <div className="site-header-left">
-        <Link href="/" className="site-logo">
+        <Link href="/" className="site-logo" onClick={handleLogoClick}>
           <span className="brand-mark">QL</span>
           <span className="site-logo-word">QuikLab</span>
         </Link>
-        <nav className="site-nav" aria-label="Tools">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`site-nav-link${pathname === link.href ? " is-current" : ""}`}
-            >
-              <Icon name={link.icon} /> {link.label}
-            </Link>
-          ))}
-        </nav>
       </div>
       <div className="site-header-right">
         <ThemeToggle />

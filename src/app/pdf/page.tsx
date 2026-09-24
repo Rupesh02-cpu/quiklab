@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { PdfToolkitApp } from "@/components/PdfToolkit/PdfToolkitApp";
+import { UnifiedApp } from "@/components/UnifiedUpload/UnifiedApp";
 import { PdfAboutSection } from "@/components/PdfToolkit/PdfAboutSection";
 import { PdfFaqJsonLd } from "@/components/PdfToolkit/PdfFaqJsonLd";
 
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 const WEB_APP_JSON_LD = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "QuikLab PDF Toolkit",
+  name: "QuikLab",
   url: "https://quiklab.online/pdf",
   description:
     "Merge, split, compress, rotate, and watermark PDFs, and convert between PDF and images, entirely in your browser. No upload, no server, no signup.",
@@ -43,7 +43,7 @@ export default function PdfPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEB_APP_JSON_LD) }} />
       <PdfFaqJsonLd />
-      <PdfToolkitApp />
+      <UnifiedApp initialIntent="pdf" />
       <PdfAboutSection />
     </>
   );

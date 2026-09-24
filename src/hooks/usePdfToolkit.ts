@@ -102,8 +102,21 @@ export function usePdfToolkit() {
     originalBytesRef.current = null;
   }, []);
 
+  // seedFiles is accepted here for interface parity with the plan (a
+  // caller could pass pre-existing files to preload), but is intentionally
+  // NOT applied synchronously via addFiles in this function body: addFiles
+  // reads `tool`/`activeTool` off this hook's own state via closure, which
+  // hasn't re-rendered yet at the moment setActiveTool(id) above runs — a
+  // synchronous addFiles(seedFiles) call right here would read the *stale*
+  // `tool` (whatever was active before this call, or null). Per
+  // PLANNING_unified-upload.md's own recommended resolution, seeding is
+  // instead done by the calling component (PdfToolkitApp) in a useEffect
+  // keyed on `activeTool`, after the state update has actually landed and
+  // `tool`/`addFiles` have been freshly derived. This keeps addFiles's
+  // existing closure behavior completely untouched.
   const openTool = useCallback(
-    (id: PdfToolId) => {
+    (id: PdfToolId, seedFiles?: File[]) => {
+      void seedFiles;
       setActiveTool(id);
       resetWorkspace();
       track("pdf_tool_open", { tool: id });
