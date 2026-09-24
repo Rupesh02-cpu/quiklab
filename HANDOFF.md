@@ -146,12 +146,14 @@ Commit messages end with the attribution line the session provides
 
 ## 6. Current state (as of this handoff)
 
-### Live in production (`main` at `dc3dd6b`)
-- Next.js app with image compressor at `/`, PDF toolkit (8 tools) at `/pdf`.
-- Wizard navigation race-condition fixes, annotation state-leak fix,
-  motion pass, Inter font, consistent privacy copy.
+### Live in production (`main` at `b438fc3`, deployed 2026-09-25)
+- Unified upload entry point at `/` (details below), PDF-scoped entry at
+  `/pdf`, 8 PDF tools, image compressor, wizard navigation race-condition
+  fixes, annotation state-leak fix, motion pass, Inter font, consistent
+  privacy copy, hydration warning fixed (`suppressHydrationWarning` on
+  `<html>`).
 
-### Built but NOT committed or deployed: unified upload entry point
+### Unified upload entry point (live)
 - Goal: one page. The user drops any file; the app detects image vs PDF and
   shows the right tool. Images go straight to Configure. A PDF shows the
   8-tool grid inline with the file preloaded into whichever tool is picked.
@@ -167,12 +169,12 @@ Commit messages end with the attribution line the session provides
   because `SiteHeader` is a sibling of the page, not a descendant; detected
   chip icon switched from stroke draw-in to a scale+fade pop because the
   image/pdf icons are multi-path symbols.
-- `tsc` and `build` are clean. curl checks pass. Agent 1 ran 18 Playwright
-  assertions before the integration fixes.
-- Still to do before deploying: one live Playwright smoke pass (image drop
-  at `/`, PDF drop to grid to tool with file preloaded, mixed drop, `/pdf`
-  direct, logo reset mid-wizard, reduced-motion), then commit and deploy via
-  section 5. The owner already asked for this to be pushed and deployed.
+- Verified live before deploy (2026-09-25, Playwright, zero page errors):
+  image drop to Configure to compress to Result; logo reset mid-wizard with
+  no page reload; PDF drop shows 8-tool grid with no navigation, Merge opens
+  with the file preloaded; mixed drop shows the switch chip and switching
+  works; unsupported file shows the toast; `/pdf` direct works;
+  reduced-motion turns every new animation off.
 
 ### Other open items
 - GA4 numbers are blocked: the service account
@@ -187,8 +189,6 @@ Commit messages end with the attribution line the session provides
   during render in `useImageCompressor.ts`, setState in effect in
   `useTheme.ts`, `prefer-const` in `imageProcessing.ts`,
   `beforeInteractive` script warning in `GifEncoderScript.tsx`.
-- Dev-only hydration warning from the pre-paint theme script. Benign,
-  production is unaffected.
 - `npm audit` reports vulnerabilities in transitive deps; not triaged.
 - Rewrite `CLAUDE.md`; delete legacy static files.
 
@@ -208,7 +208,7 @@ been cooperative with this).
 | Microsoft Clarity | project `yl6fc10ssr` | `CLARITY_API_TOKEN` in `.env.local` |
 | AdSense | `ca-pub-8283943064154546` | n/a |
 
-Security follow-ups for the owner: the Vercel token in `.env.local` is the
+Security follow-ups for the owner (rotation deferred by owner on 2026-09-25, still in use): the Vercel token in `.env.local` is the
 same one that was pasted in chat earlier and should be rotated. Other tokens
 pasted in chat during the first session (an earlier Vercel token, a Clarity
 JWT, an `sk_` key) should be revoked if not already.
