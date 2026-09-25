@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-09-25T00:38:18.796Z",
+  "updatedAt": "2026-09-25T01:28:22.559Z",
   "components": {
     "website": [
       {
@@ -27,7 +27,7 @@
       },
       {
         "date": "2026-09-25",
-        "checks": 1,
+        "checks": 2,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
@@ -84,6 +84,13 @@
     "image": [
       {
         "date": "2026-09-24",
+        "checks": 1,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-09-25",
         "checks": 1,
         "failures": 0,
         "worst": "operational",
