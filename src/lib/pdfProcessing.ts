@@ -123,18 +123,23 @@ export async function runCompress(
 
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);
-    const viewport = page.getViewport({ scale: 1.5 });
+    // The render viewport uses scale:1.5 for a sharper rasterization (more
+    // source pixels for the JPEG re-encode to work with), but the output
+    // PDF page must keep the ORIGINAL page's point dimensions (scale:1) —
+    // otherwise every page comes out ~150% of its real physical size.
+    const pageSize = page.getViewport({ scale: 1 });
+    const renderViewport = page.getViewport({ scale: 1.5 });
     const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
+    canvas.width = renderViewport.width;
+    canvas.height = renderViewport.height;
     const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport }).promise;
+    await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;
 
     const jpegDataUrl = canvas.toDataURL("image/jpeg", quality);
     const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
     const embedded = await out.embedJpg(jpegBytes);
-    const pdfPage = out.addPage([viewport.width, viewport.height]);
-    pdfPage.drawImage(embedded, { x: 0, y: 0, width: viewport.width, height: viewport.height });
+    const pdfPage = out.addPage([pageSize.width, pageSize.height]);
+    pdfPage.drawImage(embedded, { x: 0, y: 0, width: pageSize.width, height: pageSize.height });
 
     onProgress(25 + Math.round((i / doc.numPages) * 65));
   }
