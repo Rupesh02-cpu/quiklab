@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type MouseEvent } from "react";
+import { useState, type MouseEvent } from "react";
 import { Icon } from "@/components/Icon";
 import type { TextAnnotation, TextAnnotationColor } from "@/lib/pdfTypes";
 
@@ -33,24 +33,15 @@ export function PdfEditCanvas({
   const [placeMode, setPlaceMode] = useState<"text" | "link">("text");
   const [activeId, setActiveId] = useState<number | null>(null);
 
-  // thumbnails/pageSizes identity changes whenever a new file is loaded
-  // (Upload -> Configure with a different PDF, or back-then-reupload).
-  // pageIndex/activeId are local UI state indexed into that array, so
-  // without this reset an old pageIndex from a longer previous PDF would
-  // stay selected and index out of bounds into the new, possibly shorter,
-  // pageSizes array.
-  useEffect(() => {
-    setPageIndex(0);
-    setActiveId(null);
-  }, [thumbnails, pageSizes]);
-
   if (loading) return <p className="pdf-hint">Loading pages…</p>;
   if (!thumbnails.length || !pageSizes.length) return null;
 
-  // Defensive clamp: even between the effect above and this render, a
-  // pageIndex left over from a longer document could momentarily be out of
-  // range for a shorter one (e.g. the effect hasn't committed yet on the
-  // very first render after props change).
+  // Defensive clamp: this component is remounted (via a `key` on the loaded
+  // file's id, see PdfWorkspace) whenever the underlying file changes, which
+  // resets pageIndex/activeId to their initial values automatically. This
+  // clamp is extra insurance against pageIndex ever being out of range for
+  // pageSizes, since an out-of-bounds index here would otherwise crash on
+  // `pageSizes[safePageIndex]` below.
   const safePageIndex = Math.min(pageIndex, pageSizes.length - 1);
   const pageSize = pageSizes[safePageIndex];
   const pageAnnotations = annotations.filter((a) => a.pageIndex === safePageIndex);
