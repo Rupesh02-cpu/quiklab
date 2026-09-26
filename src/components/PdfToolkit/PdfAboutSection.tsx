@@ -6,8 +6,8 @@ export function PdfAboutSection() {
       <div className="about-inner">
         <h2>About the PDF toolkit</h2>
         <p>
-          QuikLab&apos;s PDF toolkit is a set of common PDF operations — merge, split, compress, rotate, watermark,
-          and convert to/from images — that all run locally in your browser. There&apos;s no upload step, no
+          QuikLab&apos;s PDF toolkit is a set of common PDF operations: merge, split, compress, rotate, watermark,
+          and convert to/from images, that all run locally in your browser. There&apos;s no upload step, no
           account, and no server involved.
         </p>
 
@@ -24,7 +24,7 @@ export function PdfAboutSection() {
         </p>
 
         <h3>Can I merge PDFs in a specific order?</h3>
-        <p>Yes. Add your files and drag them into the order you want before merging — the output follows that order.</p>
+        <p>Yes. Add your files and drag them into the order you want before merging, and the output follows that order.</p>
 
         <h3>Can I convert images to a PDF, or a PDF to images?</h3>
         <p>
@@ -35,7 +35,7 @@ export function PdfAboutSection() {
         <h3>Looking for the image compressor?</h3>
         <p>
           <Link href="/">QuikLab&apos;s image compressor</Link> resizes and compresses JPG, PNG, WebP, SVG, and GIF
-          files the same way — entirely in your browser.
+          files the same way, entirely in your browser.
         </p>
       </div>
     </section>
