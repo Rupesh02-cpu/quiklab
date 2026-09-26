@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
 import { useToast } from "@/components/ToastProvider";
 import { saveFile } from "@/lib/saveFile";
-import { extFor, fmtBytes, outputName } from "@/lib/format";
+import { extFor, outputName } from "@/lib/format";
 import { loadImage } from "@/lib/imageProcessing";
 import { computeCoverCrop, needsUpscale, renderWallpaperCrop, WALLPAPER_PRESETS } from "@/lib/wallpaperFit";
 import type { WallpaperItem, WallpaperSettings } from "@/lib/types";
@@ -212,7 +212,6 @@ export function useWallpaperFit() {
         `${succeeded} wallpaper${succeeded === 1 ? "" : "s"} ready at ${targetWidth} x ${targetHeight}`
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items, processOne, updateItem, showToast]);
 
   const downloadOne = useCallback(async (item: WallpaperItem) => {

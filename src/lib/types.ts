@@ -1,6 +1,6 @@
 export type SizeMode = "quality" | "target";
 export type BatchMode = "same" | "individual";
-export type OutputFormat = "original" | "image/jpeg" | "image/webp" | "image/png";
+export type OutputFormat = "original" | "image/jpeg" | "image/webp" | "image/png" | "image/avif";
 export type ViewMode = "grid" | "filmstrip" | "list";
 export type SizeUnit = "KB" | "MB";
 

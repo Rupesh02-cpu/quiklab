@@ -7,6 +7,7 @@ interface ControlsPanelProps {
   readonly settings: CompressorSettings;
   readonly onSettingsChange: (patch: Partial<CompressorSettings>) => void;
   readonly showColorsField: boolean;
+  readonly avifSupported: boolean;
   readonly itemCount: number;
   readonly hasResults: boolean;
   readonly isProcessing: boolean;
@@ -20,6 +21,7 @@ export function ControlsPanel({
   settings,
   onSettingsChange,
   showColorsField,
+  avifSupported,
   itemCount,
   hasResults,
   isProcessing,
@@ -135,7 +137,11 @@ export function ControlsPanel({
               <option value="image/jpeg">Force JPEG</option>
               <option value="image/webp">Force WebP</option>
               <option value="image/png">Force PNG</option>
+              {avifSupported && <option value="image/avif">Force AVIF</option>}
             </select>
+            {!avifSupported && settings.format === "image/avif" && (
+              <p className="field-hint">AVIF export isn&apos;t supported in this browser yet - JPEG will be used instead.</p>
+            )}
           </div>
 
           {showColorsField && (

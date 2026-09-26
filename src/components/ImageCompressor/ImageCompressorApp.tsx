@@ -35,6 +35,7 @@ export function ImageCompressorApp({ renderShell = true, initialFiles }: ImageCo
     isProcessing,
     isZipping,
     showColorsField,
+    avifSupported,
     totals,
     stepIndex,
     maxReachedIndex,
@@ -81,6 +82,7 @@ export function ImageCompressorApp({ renderShell = true, initialFiles }: ImageCo
                 settings={settings}
                 onSettingsChange={setSettings}
                 showColorsField={showColorsField}
+                avifSupported={avifSupported}
                 itemCount={items.length}
                 hasResults={hasResults}
                 isProcessing={isProcessing}

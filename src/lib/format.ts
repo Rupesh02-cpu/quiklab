@@ -10,6 +10,7 @@ const EXT_FOR_MIME: Record<string, string> = {
   "image/webp": "webp",
   "image/svg+xml": "svg",
   "image/gif": "gif",
+  "image/avif": "avif",
 };
 
 export function extFor(mime: string): string {
@@ -21,7 +22,31 @@ export function targetMimeFor(file: File, format: string): string {
   if (file.type === "image/gif") return "image/gif";
   if (format !== "original") return format;
   // keep original type when possible, default to jpeg for anything unrecognized (e.g. avif upload)
-  return ["image/jpeg", "image/png", "image/webp"].includes(file.type) ? file.type : "image/jpeg";
+  return ["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type) ? file.type : "image/jpeg";
+}
+
+// Feature-detects AVIF encode support via a real canvas.toBlob probe rather
+// than a browser/UA sniff - the only reliable way to know, since support
+// varies by browser and version and canvas.toBlob silently falls back to
+// PNG (or resolves null) for an unsupported mime instead of throwing.
+// Cached after the first check since the answer can't change mid-session.
+let avifSupportPromise: Promise<boolean> | null = null;
+export function supportsAvifEncode(): Promise<boolean> {
+  if (avifSupportPromise) return avifSupportPromise;
+  avifSupportPromise = new Promise<boolean>((resolve) => {
+    try {
+      const canvas = document.createElement("canvas");
+      canvas.width = 1;
+      canvas.height = 1;
+      canvas.toBlob(
+        (blob) => resolve(!!blob && blob.type === "image/avif"),
+        "image/avif"
+      );
+    } catch {
+      resolve(false);
+    }
+  });
+  return avifSupportPromise;
 }
 
 // Strip path separators and control characters from an untrusted filename

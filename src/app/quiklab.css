@@ -1272,3 +1272,31 @@ input[type="range"]::-moz-range-thumb{
   .wallpaper-filmstrip-item{ transition:border-color .2s ease; }
   .wallpaper-filmstrip-item.is-active{ transform:none; }
 }
+
+/* ---------------------------------------------------
+   Converter tool — upload/link mode toggle, remote-fetch
+   failure notice, and the inline HTML/text preview of a
+   converted result.
+--------------------------------------------------- */
+.converter-upload{ display:flex; flex-direction:column; gap:14px; }
+.converter-mode-toggle{ align-self:center; }
+.converter-link-form .field-row{ align-items:flex-start; }
+.converter-link-form input[type="url"]{
+  flex:1; padding:9px 12px; border-radius:8px; border:1px solid var(--border);
+  background:var(--panel); color:var(--ink); font-size:14px;
+}
+.converter-remote-failure{ align-items:flex-start; }
+.converter-remote-failure p{ margin:0 0 6px; }
+.converter-preview{
+  border:1px solid var(--border); border-radius:10px; padding:16px;
+  max-height:420px; overflow:auto; background:var(--panel);
+}
+.converter-preview-text{
+  font-family:var(--font-plex-mono), ui-monospace, monospace; font-size:12.5px;
+  white-space:pre-wrap; word-break:break-word; margin:0; color:var(--ink);
+}
+.converter-preview-html{ font-size:14px; line-height:1.6; color:var(--ink); }
+.converter-preview-html table{ border-collapse:collapse; width:100%; }
+.converter-preview-html th, .converter-preview-html td{
+  border:1px solid var(--border); padding:6px 10px; text-align:left; font-size:13px;
+}
