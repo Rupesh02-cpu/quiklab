@@ -5,7 +5,7 @@ import JSZip from "jszip";
 import { useToast } from "@/components/ToastProvider";
 import { saveFile } from "@/lib/saveFile";
 import { extFor, fmtBytes, outputName, targetMimeFor } from "@/lib/format";
-import { compressToTarget, fitDimensions, loadImage, medianCutQuantize, minifySvgText } from "@/lib/imageProcessing";
+import { canvasToBlob, compressToTarget, fitDimensions, loadImage, medianCutQuantize, minifySvgText } from "@/lib/imageProcessing";
 import { compressGif } from "@/lib/gifEncode";
 import type { CompressorSettings, ImageItem } from "@/lib/types";
 
@@ -151,7 +151,7 @@ export function useImageCompressor() {
         // per-image override. Otherwise everyone uses the shared slider.
         const rawQuality = s.batchMode === "individual" ? item.ownQuality : s.quality;
         const quality = Math.min(1, Math.max(0.1, rawQuality / 100));
-        blob = await new Promise((resolve) => canvas.toBlob((b) => resolve(b!), mime, quality));
+        blob = await canvasToBlob(canvas, mime, quality);
       }
 
       // Canvas re-encoding can come back larger than the original — PNG
