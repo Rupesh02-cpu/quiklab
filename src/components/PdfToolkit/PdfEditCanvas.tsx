@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type MouseEvent } from "react";
+import { useEffect, useState, type MouseEvent } from "react";
 import { Icon } from "@/components/Icon";
 import type { TextAnnotation, TextAnnotationColor } from "@/lib/pdfTypes";
 
@@ -33,11 +33,27 @@ export function PdfEditCanvas({
   const [placeMode, setPlaceMode] = useState<"text" | "link">("text");
   const [activeId, setActiveId] = useState<number | null>(null);
 
+  // thumbnails/pageSizes identity changes whenever a new file is loaded
+  // (Upload -> Configure with a different PDF, or back-then-reupload).
+  // pageIndex/activeId are local UI state indexed into that array, so
+  // without this reset an old pageIndex from a longer previous PDF would
+  // stay selected and index out of bounds into the new, possibly shorter,
+  // pageSizes array.
+  useEffect(() => {
+    setPageIndex(0);
+    setActiveId(null);
+  }, [thumbnails, pageSizes]);
+
   if (loading) return <p className="pdf-hint">Loading pages…</p>;
   if (!thumbnails.length || !pageSizes.length) return null;
 
-  const pageSize = pageSizes[pageIndex];
-  const pageAnnotations = annotations.filter((a) => a.pageIndex === pageIndex);
+  // Defensive clamp: even between the effect above and this render, a
+  // pageIndex left over from a longer document could momentarily be out of
+  // range for a shorter one (e.g. the effect hasn't committed yet on the
+  // very first render after props change).
+  const safePageIndex = Math.min(pageIndex, pageSizes.length - 1);
+  const pageSize = pageSizes[safePageIndex];
+  const pageAnnotations = annotations.filter((a) => a.pageIndex === safePageIndex);
 
   function handleCanvasClick(e: MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -50,7 +66,7 @@ export function PdfEditCanvas({
     const y = pageSize.height - (clickYpx / rect.height) * pageSize.height;
 
     const id = onAdd({
-      pageIndex,
+      pageIndex: safePageIndex,
       type: placeMode,
       x,
       y,
@@ -70,7 +86,7 @@ export function PdfEditCanvas({
             <button
               type="button"
               className="btn-ghost"
-              disabled={pageIndex === 0}
+              disabled={safePageIndex === 0}
               onClick={() => {
                 setPageIndex((i) => Math.max(0, i - 1));
                 setActiveId(null);
@@ -79,12 +95,12 @@ export function PdfEditCanvas({
               <Icon name="arrow-left" className="icon icon-sm" />
             </button>
             <span className="mono">
-              Page {pageIndex + 1} / {pageSizes.length}
+              Page {safePageIndex + 1} / {pageSizes.length}
             </span>
             <button
               type="button"
               className="btn-ghost"
-              disabled={pageIndex === pageSizes.length - 1}
+              disabled={safePageIndex === pageSizes.length - 1}
               onClick={() => {
                 setPageIndex((i) => Math.min(pageSizes.length - 1, i + 1));
                 setActiveId(null);
@@ -115,7 +131,7 @@ export function PdfEditCanvas({
 
       <div className="pdf-edit-page" onClick={handleCanvasClick}>
         {/* eslint-disable-next-line @next/next/no-img-element -- data: URL page render from pdf.js, not an optimizable asset */}
-        <img src={thumbnails[pageIndex]} alt="" draggable={false} />
+        <img src={thumbnails[safePageIndex]} alt="" draggable={false} />
         {pageAnnotations.map((ann) => {
           const leftPct = (ann.x / pageSize.width) * 100;
           const topPct = (1 - ann.y / pageSize.height) * 100;
