@@ -30,22 +30,42 @@ export interface DecodedGif {
 
 type RGB = [number, number, number];
 
+// Decoded frames are rasterized to a Uint8ClampedArray of width*height*4
+// bytes. A corrupt header claiming an enormous canvas (e.g. 0xFFFF x 0xFFFF)
+// would otherwise try to allocate multiple gigabytes per frame before any
+// real pixel data is even read. Cap at 64 megapixels (comfortably above any
+// real-world GIF, e.g. an 8000x8000 image) to fail fast instead.
+const MAX_GIF_PIXELS = 64 * 1024 * 1024;
+
 export function decodeGif(buffer: ArrayBuffer): DecodedGif {
   const bytes = new Uint8Array(buffer);
   let pos = 0;
-  const readByte = () => bytes[pos++];
+  // Every read is bounds-checked against the buffer length: past EOF these
+  // used to return `undefined`, which silently poisons `pos` (pos++ on
+  // undefined becomes NaN) and turns loop conditions like `pos < bytes.length`
+  // permanently false-negative — i.e. an infinite loop on truncated input.
+  // Throwing here instead makes truncated/malformed GIFs fail fast.
+  const readByte = () => {
+    if (pos >= bytes.length) throw new Error("Unexpected end of GIF data");
+    return bytes[pos++];
+  };
   const readU16 = () => {
+    if (pos + 1 >= bytes.length) throw new Error("Unexpected end of GIF data");
     const v = bytes[pos] | (bytes[pos + 1] << 8);
     pos += 2;
     return v;
   };
 
+  if (bytes.length < 6) throw new Error("Not a GIF file");
   const sig = String.fromCharCode(...bytes.slice(0, 6));
   if (sig !== "GIF87a" && sig !== "GIF89a") throw new Error("Not a GIF file");
   pos = 6;
 
   const width = readU16();
   const height = readU16();
+  if (width * height > MAX_GIF_PIXELS) {
+    throw new Error("GIF dimensions too large");
+  }
   const packed = readByte();
   const gctFlag = (packed & 0x80) !== 0;
   const gctSize = 2 ** ((packed & 0x07) + 1);
@@ -66,6 +86,7 @@ export function decodeGif(buffer: ArrayBuffer): DecodedGif {
     const chunks: Uint8Array[] = [];
     let len: number;
     while ((len = readByte()) !== 0) {
+      if (pos + len > bytes.length) throw new Error("Unexpected end of GIF data");
       chunks.push(bytes.slice(pos, pos + len));
       pos += len;
     }
@@ -196,6 +217,7 @@ export function decodeGif(buffer: ArrayBuffer): DecodedGif {
       const top = readU16();
       const w = readU16();
       const h = readU16();
+      if (w * h > MAX_GIF_PIXELS) throw new Error("GIF frame dimensions too large");
       const imgPacked = readByte();
       const lctFlag = (imgPacked & 0x80) !== 0;
       const interlaced = (imgPacked & 0x40) !== 0;
