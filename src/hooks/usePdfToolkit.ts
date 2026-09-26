@@ -142,7 +142,6 @@ export function usePdfToolkit() {
       }
 
       const newEntries: PdfFileEntry[] = accepted.map((file) => ({ id: nextFileId++, file }));
-      const startGeneration = resetGeneration.current;
       // Page-grid tools are never `multiple` (see PDF_TOOLS), so the file
       // that matters here is always the newly-dropped one, not whatever
       // was in state before. Read it straight from newEntries rather than
@@ -150,6 +149,14 @@ export function usePdfToolkit() {
       // guaranteed to run synchronously before the code below it.
       const firstFile = newEntries[0]?.file ?? null;
       const replacingFile = !tool.multiple;
+      // Bump the generation here (not just on an explicit reset) so a new
+      // upload that replaces the current single file invalidates any
+      // still-in-flight load from a previous addFiles call. Without this, a
+      // slow first load's loadPageMeta/loadPageSizes could resolve after a
+      // faster second upload and clobber that second file's pageMeta/
+      // thumbnails/bytes with the first (stale) file's data.
+      if (replacingFile) resetGeneration.current++;
+      const startGeneration = resetGeneration.current;
       setFiles((current) => (tool.multiple ? [...current, ...newEntries] : [newEntries[0]]));
       setResult(null);
       setStepIndex(1);
