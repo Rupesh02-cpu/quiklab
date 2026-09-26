@@ -22,7 +22,29 @@ export function fitDimensions(
     width = Math.round(width * (maxHeight / height));
     height = maxHeight;
   }
-  return { width, height };
+  // An extreme source aspect ratio (e.g. a very wide, short image) combined
+  // with a small max dimension can round the other dimension down to 0,
+  // which produces a 0-pixel canvas downstream (toBlob then fails/returns
+  // null). Clamp to a minimum of 1px so the image always stays renderable.
+  return { width: Math.max(1, width), height: Math.max(1, height) };
+}
+
+// canvas.toBlob's callback can be called with null on failure (e.g. an
+// unsupported mime type, an unreadable/zero-size canvas, or a browser
+// resource limit). Every call site awaits this helper instead of asserting
+// the result non-null, so a failure surfaces as a catchable error with a
+// clear message rather than a `null!` crash deep in a promise callback.
+export function canvasToBlob(canvas: HTMLCanvasElement, mime: string, quality?: number): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        if (blob) resolve(blob);
+        else reject(new Error("Failed to encode image (canvas.toBlob returned null)"));
+      },
+      mime,
+      quality
+    );
+  });
 }
 
 export function loadImage(url: string): Promise<HTMLImageElement> {
@@ -63,14 +85,14 @@ export async function compressToTarget(
   targetBytes: number
 ): Promise<Blob> {
   if (mime === "image/png") {
-    return new Promise<Blob>((resolve) => canvas.toBlob((b) => resolve(b!), mime));
+    return canvasToBlob(canvas, mime);
   }
   let lo = 0.05;
   let hi = 0.95;
   let best: Blob | null = null;
   for (let i = 0; i < 8; i++) {
     const mid = (lo + hi) / 2;
-    const blob: Blob = await new Promise((resolve) => canvas.toBlob((b) => resolve(b!), mime, mid));
+    const blob = await canvasToBlob(canvas, mime, mid);
     if (blob.size <= targetBytes) {
       best = blob;
       lo = mid;
@@ -82,7 +104,7 @@ export async function compressToTarget(
   // return the lowest-quality attempt rather than nothing, so the user
   // at least gets the smallest result this tool can produce.
   if (!best) {
-    best = await new Promise<Blob>((resolve) => canvas.toBlob((b) => resolve(b!), mime, lo));
+    best = await canvasToBlob(canvas, mime, lo);
   }
   return best;
 }
@@ -146,7 +168,7 @@ export function medianCutQuantize(imageData: ImageData, maxColors: number): Imag
     return { channel: "b", range: bRange };
   }
 
-  let boxes: ColorBucket[][] = [colors];
+  const boxes: ColorBucket[][] = [colors];
   while (boxes.length < maxColors) {
     let splitIdx = -1;
     let splitInfo: { channel: "r" | "g" | "b"; range: number } | null = null;

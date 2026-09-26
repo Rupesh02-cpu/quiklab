@@ -1,54 +1,174 @@
-# QuikLab — image resizer & compressor
+# QuikLab
 
-The first tool on QuikLab (live at [quiklab.online](https://quiklab.online), deployed on Vercel), and Phase 1 from the Micro-Tool Field Report: resize and compress images entirely client-side, no upload, no server, no build step. QuikLab is meant as an umbrella brand — more tools (PDF, format conversion, etc.) are planned to live alongside this one on the same site, which is why the name isn't tied to "compress" or "image" specifically.
+Free image and PDF tools that run entirely in the browser.
+Live at **https://quiklab.online**, status at **https://status.quiklab.online**.
 
-## Run it
+The one rule that shapes everything: **user files never leave the user's
+device.** There is no upload and no server processing. Images are processed
+with the Canvas API, PDFs with pdf-lib and pdf.js, all client-side. Any change
+you make must keep this true.
 
-No install needed — it's a static site.
-
-```
-python3 -m http.server 8000
-```
-
-Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` also works, except the "Download all" ZIP button, which needs JSZip loaded from the CDN — same-origin/http serving avoids any edge-case browser restrictions on local files.)
+---
 
 ## What it does
 
-- Drag-and-drop or file-picker upload for JPG / PNG / WebP / SVG / GIF, multiple files at once.
-- Resize by max width/height (aspect ratio preserved) via the Canvas API.
-- Two compression modes: a quality slider (`canvas.toBlob(mime, quality)`), or a target file size (e.g. "under 100KB") found via binary search on JPEG/WebP quality. Force a different output format (JPEG/WebP/PNG) independent of either mode.
-- PNG and animated GIF compression via color quantization (a from-scratch median-cut implementation — see below) since neither has a lossy "quality" knob; a "Simplify colors" slider controls the palette size.
-- Animated GIFs are decoded and re-encoded frame-by-frame with a hand-written GIF89a decoder (no CDN library ships a real browser-ready bundle for this) and the `gif.js` encoder, preserving each frame's timing and disposal method.
-- SVG files are minified (comments, XML/editor metadata, and redundant whitespace stripped) rather than run through canvas, since they're vector text, not pixels.
-- A per-batch "adjust each image separately" mode overrides the shared quality setting on individual images.
-- Per-image before/after size, a savings bar, and a running total across the whole batch.
-- Download one file, or all of them as a `.zip` (via JSZip 3.10.2, pinned with a Subresource Integrity hash).
-- Your images never leave the browser tab — no upload, no fetch, no image data sent anywhere. (Usage analytics, below, is a separate concern from image privacy.)
-- If re-encoding wouldn't actually shrink the file (common for already-optimized PNGs — see below), the original file is kept automatically instead of silently handing back something bigger.
+Drop any file on the home page. QuikLab detects whether it is an image or a
+PDF and shows the right tool.
 
-## Known limitation (documented, not a bug)
+- **Images** (JPG, PNG, WebP, SVG, GIF): compress by quality or to a target
+  file size, resize, convert format, reduce PNG/GIF colors, keep animated
+  GIFs animated, strip EXIF/GPS metadata, download one or all as ZIP.
+- **PDFs** (8 tools): merge, split and extract, compress, rotate, watermark,
+  image to PDF, PDF to image, and add text and clickable links.
 
-Canvas re-encoding a PNG rarely shrinks it much — PNG is lossless, and the browser's own encoder doesn't do the aggressive palette/quantization tricks a tool like TinyPNG does. Confirmed against real files in testing: two already-optimized PNGs (a screenshot, a design export) came back larger after re-encoding, so the app now detects this and keeps the original instead — you'll see "no gain — original kept" rather than a misleading percentage. JPEG and WebP compress very well through this same pipeline (real photos tested at 16–29% smaller). For genuine PNG compression gains, Phase 2 below is required.
+Every tool follows the same 3-step flow: **Upload > Configure > Result**.
 
-## Analytics (live)
+## Quick start
 
-The site is wired to [Microsoft Clarity](https://clarity.microsoft.com) (free, MIT-licensed, heatmaps + session replay of the interface), project id `yl6fc10ssr`. Clarity tracks clicks/scroll/DOM structure of the page itself; it has no access to your images, canvas content, or `<input type="file">` values, and the filename display is marked `clarity-mask` so any real filenames a user uploads are redacted from session replay too.
+Requirements: Node.js 20+ and npm.
 
-**This only fires on the real deployment (quiklab.online), not the claude.ai artifact link** — `www.clarity.ms` isn't on the allowed external-script list for a hosted Claude artifact, so the tag is a silent no-op there by design (CSP blocks it).
+```bash
+git clone https://github.com/Rupesh02-cpu/quiklab.git
+cd quiklab
+npm install
+npm run dev          # http://localhost:3000
+```
 
-## Where this sits in the bigger plan (see the Field Report for full detail)
+Other commands:
 
-- **Phase 1 (done here):** client-side resize + JPEG/WebP/PNG re-encode, zero backend cost.
-- **Phase 2 (not built yet):** real PNG compression server-side via `sharp` (wraps libvips) plus `mozjpeg`/`pngquant` bindings — needed for genuine lossless-feeling PNG shrinkage.
-- **Phase 3:** SEO page breadth — `/compress-jpg`, `/compress-png`, `/resize-image`, `/compress-image-without-losing-quality`, `/convert-to-webp`, each with its own landing copy, all linking to each other.
-- **Phase 4:** bulk/API tier for e-commerce/dev users processing many images at once, billed via Stripe metered usage or credit packs.
+```bash
+npm run build        # production build (also type-checks)
+npx tsc --noEmit     # type-check only
+npm run lint         # eslint
+npx serve status/site   # status page locally; open with ?fixtures=1 for sample data
+```
 
-## File structure
+No environment variables are needed to run or build the app locally. The
+keys in `.env.local` are only for admin scripts (analytics, deploy checks);
+ask the owner if you need access. Never commit `.env.local` or `secrets/`.
+
+## Tech stack
+
+- Next.js 16 (App Router, Turbopack), React 19, TypeScript
+- Plain CSS in a single stylesheet (`src/app/quiklab.css`)
+- pdf-lib (edit/create PDFs), pdfjs-dist (render PDF pages), JSZip, gif.js
+- Hosted on Vercel; status monitoring on GitHub Actions
+
+Next.js 16 differs from older versions. When unsure about an API, check the
+docs bundled in `node_modules/next/dist/docs/` rather than older tutorials.
+
+## Project structure
 
 ```
-image-compressor/
-├── index.html    # markup + JSZip CDN script tag
-├── styles.css    # design tokens (light/dark), layout, components
-├── app.js        # all processing logic — no framework, no build step
-└── README.md
+src/
+  app/
+    layout.tsx          root layout: fonts, theme, header, analytics scripts
+    page.tsx            "/"    home: unified drop zone
+    pdf/page.tsx        "/pdf" same page, scoped to PDFs (kept for SEO)
+    quiklab.css         all styles: design tokens, light/dark themes, animations
+  components/
+    UnifiedUpload/      drop zone, file-type detection, routes to a tool
+    ImageCompressor/    image tool screens
+    PdfToolkit/         PDF tool picker and the 8 tools
+    Stepper.tsx         the Upload > Configure > Result indicator
+    SiteHeader.tsx, ThemeToggle.tsx, ToastProvider.tsx, Icon*.tsx, ...
+  hooks/
+    useImageCompressor.ts   all state and logic for the image tool
+    usePdfToolkit.ts        all state and logic for the PDF tools
+    useTheme.ts
+  lib/                  pure processing functions (no React)
+    imageProcessing.ts  resize, compress, target size, PNG color reduction
+    gifDecoder.ts / gifEncode.ts   animated GIF support
+    pdfProcessing.ts    merge, split, compress, rotate, watermark, convert
+    pdfEditor.ts        add text and hyperlink annotations
+    pdfTypes.ts         tool definitions (add a PDF tool here)
+public/                 static files, incl. pdf.worker.min.js
+status/
+  site/                 status page (plain HTML/CSS/JS, its own Vercel project)
+  monitor/              uptime and browser checks run by GitHub Actions
+.github/workflows/      status-monitor (5 min), status-synthetic (hourly), status-publish
 ```
+
+Ignore these legacy files at the repo root: `index.html`, `app.js`,
+`styles.css`, `pdf.html`, `pdf.js`, `test/`. They are the old static
+version of the site and are not used.
+
+## How the code is organized
+
+- **UI in components, logic in hooks, processing in `lib/`.** Components render,
+  hooks hold state and orchestrate, `lib/` functions take a File or bytes and
+  return a Blob. Keep processing out of components.
+- **Wizard state** lives in each hook: `stepIndex`, `maxReachedIndex`,
+  `goToStep`. Users can go back and forward freely, so async work is guarded:
+  each hook keeps a generation counter ref (`clearGeneration` /
+  `resetGeneration`) and drops results from a run that was started before the
+  user reset or navigated away. If you add an async operation, follow the same
+  pattern.
+- **Adding a PDF tool:** add an entry to `PDF_TOOLS` and `PDF_TOOL_ORDER` in
+  `src/lib/pdfTypes.ts`, write the processing function in `src/lib/`, wire it
+  in `run()` in `usePdfToolkit.ts`, and add an icon to `IconSprite.tsx`.
+- **pdf.js worker:** `public/pdf.worker.min.js` is copied from
+  `node_modules/pdfjs-dist/build/`. Copy it again if you upgrade pdfjs-dist.
+  `next.config.ts` stubs out pdf.js's optional Node `canvas` dependency.
+
+## Design rules
+
+The look is intentional; please keep it consistent.
+
+- Colors come only from the CSS variables in `quiklab.css` (`--accent`,
+  `--ink`, `--panel`, `--border`, `--good`, ...). No hardcoded colors. Every
+  change must work in both light and dark themes.
+- Font: Inter for all UI. IBM Plex Mono only for numbers and data (file sizes,
+  percentages).
+- Layout is one centered column with generous spacing. No fixed pixel heights
+  for layout; use the existing `--header-h` variable and flex/grid.
+- Motion: use the existing keyframes and easing curves in `quiklab.css`, and
+  give every animation a `@media (prefers-reduced-motion: reduce)` fallback.
+- Copy: short and plain. The privacy line is always "never leave your
+  device".
+
+## Before you open a pull request
+
+1. `npx tsc --noEmit` and `npm run build` pass.
+2. Try the real flows in the browser: drop an image and compress it; drop a
+   PDF, pick a tool, run it, download; drop an image and a PDF together; drop
+   an unsupported file; click the logo mid-flow; test both themes and a
+   narrow (mobile) window.
+3. No user file data is sent anywhere (check the Network tab).
+
+## Branches and deployment
+
+- `main` is production. Every push to `main` deploys both the main site and
+  the status page on Vercel automatically.
+- Do work on a branch (currently `nextjs-migration`), open a pull request
+  into `main`, and merge when checks and review pass.
+- Deployment access (Vercel, DNS, email) is limited to the owner. The full
+  step-by-step runbook, including verification and rollback, is in
+  `DEPLOY.md`.
+
+## Analytics and privacy
+
+The site uses Google Analytics 4 events (usage counts only: uploads, runs,
+downloads; never file names or content), Microsoft Clarity (page interaction
+heatmaps, not file content), and Google AdSense. See `ANALYTICS.md`.
+
+## Status page
+
+`status.quiklab.online` shows uptime for the website, image tool, PDF tool,
+CDN, DNS, and email. GitHub Actions run checks every 5 minutes, plus an hourly
+real-browser test that actually compresses an image and merges PDFs. Results
+are written to the `gh-pages` branch and read by the status page. Incidents
+are GitHub issues labeled `incident`.
+
+## More documentation
+
+| File | For |
+|---|---|
+| `DEPLOY.md` | deploy runbook, source map, DNS, credentials locations |
+| `HANDOFF.md` | full project history, decisions, and open work |
+| `ANALYTICS.md` | what is tracked and why |
+| `PLAN_status-page.md`, `PLANNING_unified-upload.md` | design docs for past features |
+
+## Contact
+
+Owner: Rupesh (GitHub `RupeshNB-max`). Support: support@quiklab.online.

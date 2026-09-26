@@ -97,7 +97,7 @@ export const PDF_TOOLS: Record<PdfToolId, PdfToolDef> = {
   img2pdf: {
     id: "img2pdf",
     title: "Image → PDF",
-    desc: "Upload JPG, PNG, or WebP images — each becomes its own page, in the order added.",
+    desc: "Upload JPG, PNG, or WebP images, each becomes its own page, in the order added.",
     accept: "image/png,image/jpeg,image/webp",
     multiple: true,
     dropLabel: "Drop images here",

@@ -2,7 +2,7 @@ const FAQ_ITEMS = [
   {
     question: "Is my PDF uploaded anywhere?",
     answer:
-      "No. Every operation — merging, splitting, compressing, rotating, watermarking, and converting — runs in your browser using JavaScript. Your PDF and its contents never leave your device.",
+      "No. Every operation: merging, splitting, compressing, rotating, watermarking, and converting, runs in your browser using JavaScript. Your PDF and its contents never leave your device.",
   },
   {
     question: "How does QuikLab compress a PDF?",
@@ -11,7 +11,7 @@ const FAQ_ITEMS = [
   },
   {
     question: "Can I merge PDFs in a specific order?",
-    answer: "Yes. Add your files and drag them into the order you want before merging — the output follows that order.",
+    answer: "Yes. Add your files and drag them into the order you want before merging, and the output follows that order.",
   },
   {
     question: "Can I convert images to a PDF, or a PDF to images?",

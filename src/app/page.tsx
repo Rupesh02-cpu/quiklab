@@ -35,7 +35,7 @@ const WEB_APP_JSON_LD = {
   name: "QuikLab",
   url: "https://quiklab.online/",
   description:
-    "Resize and compress JPG, PNG, WebP, SVG, and GIF images, and merge, split, compress, rotate, and watermark PDFs — all entirely in your browser. No upload, no server, no signup.",
+    "Resize and compress JPG, PNG, WebP, SVG, and GIF images, and merge, split, compress, rotate, and watermark PDFs, all entirely in your browser. No upload, no server, no signup.",
   applicationCategory: "MultimediaApplication",
   operatingSystem: "Any",
   offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },

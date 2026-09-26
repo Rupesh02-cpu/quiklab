@@ -47,8 +47,8 @@ export function PdfDropZone({ accept, multiple, label, onFiles }: PdfDropZonePro
       <p className="pdf-drop-label">{label}</p>
       <p className="pdf-drop-sub">
         or{" "}
-        <button type="button" className="link-btn" onClick={() => inputRef.current?.click()}>
-          choose files
+        <button type="button" className="btn-primary drop-choose" onClick={() => inputRef.current?.click()}>
+          Choose files
         </button>
       </p>
     </div>

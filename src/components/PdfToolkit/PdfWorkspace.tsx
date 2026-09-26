@@ -77,6 +77,12 @@ export function PdfWorkspace({ toolkit }: PdfWorkspaceProps) {
           {tool.showCompressForm && <CompressForm quality={toolkit.compressQuality} onChange={toolkit.setCompressQuality} />}
           {tool.showEditCanvas && (
             <PdfEditCanvas
+              // Keyed on the loaded file's id so a new upload (replacing the
+              // previous file, e.g. back to Upload then a different PDF)
+              // remounts this component instead of keeping its local
+              // pageIndex/activeId state, which would otherwise go out of
+              // bounds against the new file's (possibly shorter) pageSizes.
+              key={toolkit.files[0]?.id}
               thumbnails={toolkit.thumbnails}
               pageSizes={toolkit.pageSizes}
               loading={toolkit.pagesLoading}
