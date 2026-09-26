@@ -252,19 +252,33 @@ export async function runWatermark(
   };
 }
 
+// Pixel dimensions aren't PDF points, so a photo's raw pixel count (e.g.
+// 4000x3000) used directly as points would produce a page many times
+// larger than any real paper size. Assume a reasonable screen/print
+// density and convert pixels -> points (72 points per inch) at that DPI.
+const IMG2PDF_DPI = 96;
+function pxToPt(px: number): number {
+  return (px / IMG2PDF_DPI) * 72;
+}
+
 export async function runImg2Pdf(files: File[], onProgress: (pct: number) => void): Promise<PdfRunResult> {
   const out = await PDFDocument.create();
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
-    const buf = await readAsArrayBuffer(file);
     let img;
     if (file.type === "image/png") {
+      const buf = await readAsArrayBuffer(file);
       img = await out.embedPng(buf);
-    } else if (file.type === "image/jpeg") {
-      img = await out.embedJpg(buf);
     } else {
-      // WebP isn't embeddable by pdf-lib directly — re-encode any
-      // non-JPEG/PNG source to JPEG via canvas first.
+      // JPEG is re-encoded through canvas too (not embedded raw) so it goes
+      // through the same privacy guarantee as every other processing path
+      // in this app: canvas drawImage/toDataURL does not carry over EXIF/GPS
+      // metadata from the source file. WebP isn't embeddable by pdf-lib
+      // directly, so it needed this path already; JPEG now shares it rather
+      // than embedding the original bytes (and their EXIF/GPS) unchanged.
+      // Follow-up: EXIF orientation isn't read/applied here, so a photo
+      // whose orientation relies on EXIF (rather than baked-in pixels) may
+      // appear rotated relative to how it looks in an EXIF-aware viewer.
       const bitmap = await createImageBitmap(file);
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
@@ -273,8 +287,10 @@ export async function runImg2Pdf(files: File[], onProgress: (pct: number) => voi
       const jpegBuf = await (await fetch(canvas.toDataURL("image/jpeg", 0.92))).arrayBuffer();
       img = await out.embedJpg(jpegBuf);
     }
-    const page = out.addPage([img.width, img.height]);
-    page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+    const pageWidth = pxToPt(img.width);
+    const pageHeight = pxToPt(img.height);
+    const page = out.addPage([pageWidth, pageHeight]);
+    page.drawImage(img, { x: 0, y: 0, width: pageWidth, height: pageHeight });
     onProgress(10 + Math.round(((i + 1) / files.length) * 80));
   }
   const bytes = await out.save();
