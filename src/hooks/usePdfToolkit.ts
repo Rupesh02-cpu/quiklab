@@ -370,20 +370,39 @@ export function usePdfToolkit() {
     [maxReachedIndex, isRunning]
   );
 
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
+
   const downloadResult = useCallback(async () => {
     if (!result) return;
     track("pdf_download", { tool: activeTool, zipped: false });
-    await saveFile(result.files[0].filename, result.files[0].blob);
-  }, [result, activeTool]);
+    setIsDownloading(true);
+    try {
+      await saveFile(result.files[0].filename, result.files[0].blob);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't download that file. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [result, activeTool, showToast]);
 
   const downloadAllResult = useCallback(async () => {
     if (!result || result.files.length < 2) return;
     track("pdf_download", { tool: activeTool, zipped: true, file_count: result.files.length });
-    const zip = new JSZip();
-    result.files.forEach(({ blob, filename }) => zip.file(filename, blob));
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    await saveFile("quiklab-pdf-export.zip", zipBlob);
-  }, [result, activeTool]);
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      result.files.forEach(({ blob, filename }) => zip.file(filename, blob));
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      await saveFile("quiklab-pdf-export.zip", zipBlob);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't create the zip file. Try downloading files individually instead.");
+    } finally {
+      setIsZipping(false);
+    }
+  }, [result, activeTool, showToast]);
 
   return {
     activeTool,
@@ -420,5 +439,7 @@ export function usePdfToolkit() {
     run,
     downloadResult,
     downloadAllResult,
+    isDownloading,
+    isZipping,
   };
 }

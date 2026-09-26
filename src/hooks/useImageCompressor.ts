@@ -237,12 +237,18 @@ export function useImageCompressor() {
     if (!done.length) return;
     setIsZipping(true);
     track("download_all_zip", { file_count: done.length });
-    const zip = new JSZip();
-    done.forEach((item) => zip.file(outputName(item.file.name, item.resultExt), item.resultBlob!));
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    await saveFile("quiklab-compressed.zip", zipBlob);
-    setIsZipping(false);
-  }, [items]);
+    try {
+      const zip = new JSZip();
+      done.forEach((item) => zip.file(outputName(item.file.name, item.resultExt), item.resultBlob!));
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      await saveFile("quiklab-compressed.zip", zipBlob);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't create the zip file. Try downloading images individually instead.");
+    } finally {
+      setIsZipping(false);
+    }
+  }, [items, showToast]);
 
   const clearSheet = useCallback(() => {
     if (!items.length) return;
