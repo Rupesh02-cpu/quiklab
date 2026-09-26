@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Start here: read `HANDOFF.md` before doing anything.** It is the current,
+> **Start here: read `HANDOFF.md` before doing anything. To deploy, follow `DEPLOY.md`.** It is the current,
 > authoritative description of this project (Next.js architecture, deploy
 > procedure, credentials locations, open work, and the owner's working
 > preferences). The rest of this file is partly out of date and describes the
