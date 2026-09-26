@@ -1,10 +1,10 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import JSZip from "jszip";
 import { useToast } from "@/components/ToastProvider";
 import { saveFile } from "@/lib/saveFile";
-import { extFor, fmtBytes, outputName, targetMimeFor } from "@/lib/format";
+import { extFor, fmtBytes, outputName, supportsAvifEncode, targetMimeFor } from "@/lib/format";
 import { canvasToBlob, compressToTarget, fitDimensions, loadImage, medianCutQuantize, minifySvgText } from "@/lib/imageProcessing";
 import { compressGif } from "@/lib/gifEncode";
 import type { CompressorSettings, ImageItem } from "@/lib/types";
@@ -35,7 +35,29 @@ export function useImageCompressor() {
   const [settings, setSettingsState] = useState<CompressorSettings>(DEFAULT_SETTINGS);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isZipping, setIsZipping] = useState(false);
+  const [avifSupported, setAvifSupported] = useState(false);
+  // Mirrors avifSupported for processOne to read without needing it in its
+  // dependency array - same settingsRef-style pattern used throughout this
+  // hook for values read inside async processing.
+  const avifSupportedRef = useRef(false);
   const { showToast } = useToast();
+
+  // AVIF encode support varies by browser/version; canvas.toBlob doesn't
+  // throw for an unsupported mime (it silently falls back or resolves
+  // null), so this is feature-detected via a real probe rather than a UA
+  // sniff. Checked once on mount - see supportsAvifEncode's own comment.
+  useEffect(() => {
+    let cancelled = false;
+    supportsAvifEncode().then((supported) => {
+      if (!cancelled) {
+        setAvifSupported(supported);
+        avifSupportedRef.current = supported;
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Upload -> Configure -> Result. Explicit rather than derived purely from
   // items/results, so a deliberate "back" click sticks instead of being
@@ -131,7 +153,16 @@ export function useImageCompressor() {
       ctx.imageSmoothingQuality = "high";
       ctx.drawImage(img, 0, 0, width, height);
 
-      const mime = targetMimeFor(item.file, s.format);
+      let mime = targetMimeFor(item.file, s.format);
+
+      // AVIF export isn't supported in every browser yet. canvas.toBlob
+      // doesn't throw for an unsupported mime - it silently falls back to
+      // PNG or resolves null - so this falls back to JPEG explicitly
+      // rather than pulling in a Wasm AVIF encoder for v1, per the
+      // requirements doc's recommendation.
+      if (mime === "image/avif" && !avifSupportedRef.current) {
+        mime = "image/jpeg";
+      }
 
       // PNG has no lossy "quality" knob (canvas.toBlob ignores it for PNG
       // entirely) — the real compression lever is how many distinct
@@ -324,6 +355,7 @@ export function useImageCompressor() {
     isProcessing,
     isZipping,
     showColorsField,
+    avifSupported,
     totals,
     stepIndex,
     maxReachedIndex,
