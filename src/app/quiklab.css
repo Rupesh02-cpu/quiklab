@@ -1249,3 +1249,91 @@ input[type="range"]::-moz-range-thumb{
 .workspace-foot .workspace-foot-links{ margin-top:6px; }
 .workspace-foot-links a{ color:var(--ink-muted); text-decoration:underline; text-underline-offset:2px; }
 .workspace-foot-links a:hover, .workspace-foot-links a:focus-visible{ color:var(--accent, currentColor); }
+
+/* ---------------------------------------------------
+   Wallpaper fit — interactive crop stage. The stage is a
+   fixed box proportioned to the chosen preset's aspect
+   ratio (aspect-ratio, set inline per target width/height);
+   the photo inside it is a plain <img> driven by a CSS
+   transform (translate/scale), never a canvas redraw, so
+   dragging/zooming a large source photo stays free
+   regardless of its resolution — only the one-shot export
+   in useWallpaperFit's processOne touches canvas.
+--------------------------------------------------- */
+.crop-stage-wrap{ display:flex; flex-direction:column; gap:12px; }
+.crop-stage{
+  position:relative; width:100%; max-width:360px; margin-inline:auto;
+  overflow:hidden; border-radius:12px; border:1px solid var(--border);
+  background:var(--mono-bg); touch-action:none; cursor:grab;
+}
+.crop-stage:active{ cursor:grabbing; }
+.crop-stage-img{
+  position:absolute; left:50%; top:50%; max-width:none; user-select:none;
+  will-change:transform;
+}
+.crop-safe-area{ position:absolute; inset:0; pointer-events:none; }
+.crop-safe-area-top{
+  position:absolute; top:0; left:0; right:0; height:15%;
+  border-bottom:1.5px dashed rgba(255,255,255,.65);
+  background:rgba(0,0,0,.18);
+}
+.crop-safe-area-bottom{
+  position:absolute; bottom:0; left:0; right:0; height:20%;
+  border-top:1.5px dashed rgba(255,255,255,.65);
+  background:rgba(0,0,0,.18);
+}
+.crop-warning{
+  display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--ink-muted);
+  background:var(--accent-soft); color:var(--accent-ink); padding:8px 12px; border-radius:8px;
+}
+.crop-zoom-field{ max-width:360px; margin-inline:auto; width:100%; }
+.crop-safe-area-toggle{
+  display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink);
+  cursor:pointer;
+}
+.crop-safe-area-toggle input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--accent); cursor:pointer; }
+
+.wallpaper-filmstrip{
+  display:flex; gap:8px; overflow-x:auto; padding-block:2px;
+  scrollbar-width:thin;
+}
+.wallpaper-filmstrip-item{
+  flex:0 0 auto; width:44px; height:44px; border-radius:8px; overflow:hidden;
+  border:2px solid var(--border); background:none; padding:0; cursor:pointer;
+  transition:border-color .2s ease, transform .2s cubic-bezier(.34, 1.56, .64, 1);
+}
+.wallpaper-filmstrip-item img{ width:100%; height:100%; object-fit:cover; display:block; }
+.wallpaper-filmstrip-item:hover{ border-color:color-mix(in srgb, var(--accent) 50%, var(--border)); }
+.wallpaper-filmstrip-item.is-active{ border-color:var(--accent); transform:scale(1.08); }
+@media (prefers-reduced-motion: reduce){
+  .wallpaper-filmstrip-item{ transition:border-color .2s ease; }
+  .wallpaper-filmstrip-item.is-active{ transform:none; }
+}
+
+/* ---------------------------------------------------
+   Converter tool — upload/link mode toggle, remote-fetch
+   failure notice, and the inline HTML/text preview of a
+   converted result.
+--------------------------------------------------- */
+.converter-upload{ display:flex; flex-direction:column; gap:14px; }
+.converter-mode-toggle{ align-self:center; }
+.converter-link-form .field-row{ align-items:flex-start; }
+.converter-link-form input[type="url"]{
+  flex:1; padding:9px 12px; border-radius:8px; border:1px solid var(--border);
+  background:var(--panel); color:var(--ink); font-size:14px;
+}
+.converter-remote-failure{ align-items:flex-start; }
+.converter-remote-failure p{ margin:0 0 6px; }
+.converter-preview{
+  border:1px solid var(--border); border-radius:10px; padding:16px;
+  max-height:420px; overflow:auto; background:var(--panel);
+}
+.converter-preview-text{
+  font-family:var(--font-plex-mono), ui-monospace, monospace; font-size:12.5px;
+  white-space:pre-wrap; word-break:break-word; margin:0; color:var(--ink);
+}
+.converter-preview-html{ font-size:14px; line-height:1.6; color:var(--ink); }
+.converter-preview-html table{ border-collapse:collapse; width:100%; }
+.converter-preview-html th, .converter-preview-html td{
+  border:1px solid var(--border); padding:6px 10px; text-align:left; font-size:13px;
+}

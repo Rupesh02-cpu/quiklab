@@ -16,10 +16,35 @@ Drop any file on the home page. QuikLab detects whether it is an image or a
 PDF and shows the right tool.
 
 - **Images** (JPG, PNG, WebP, SVG, GIF): compress by quality or to a target
-  file size, resize, convert format, reduce PNG/GIF colors, keep animated
-  GIFs animated, strip EXIF/GPS metadata, download one or all as ZIP.
+  file size (binary search on JPEG/WebP quality), resize by max width/height
+  (aspect ratio preserved), convert format (JPEG/WebP/PNG, and AVIF where
+  the browser supports encoding it), reduce PNG/GIF colors via a
+  from-scratch median-cut quantizer, keep animated GIFs animated (a
+  hand-written GIF89a decoder plus the `gif.js` encoder, preserving each
+  frame's timing and disposal method), minify SVGs as text instead of
+  running them through canvas, strip EXIF/GPS metadata, and download one
+  file or all of them as a ZIP. A per-batch "adjust each image separately"
+  mode overrides the shared quality setting on individual images, and if
+  re-encoding wouldn't actually shrink a file, the original is kept
+  automatically.
 - **PDFs** (8 tools): merge, split and extract, compress, rotate, watermark,
   image to PDF, PDF to image, and add text and clickable links.
+
+## Other tools on QuikLab
+
+- **Wallpaper fit** (`/wallpaper`): crops a photo to an exact phone/device
+  resolution (real iPhone/Android presets, common ratios, or a custom size)
+  with a live drag/wheel/pinch-to-zoom preview, so the OS wallpaper picker
+  needs no further cropping. Same client-side-only Canvas API pipeline as
+  the compressor.
+- **Convert** (`/convert`): converts HEIC photos, Word documents (`.docx`),
+  CSV, JSON, and Markdown files entirely in your browser, plus a "paste a
+  link instead" option that fetches a direct file URL client-side when the
+  remote server allows it. No server-side proxy is involved yet, a link
+  that a browser can't fetch directly (most ordinary file hosts) gets a
+  clear message pointing back at a direct upload instead.
+
+## Known limitation (documented, not a bug)
 
 Every tool follows the same 3-step flow: **Upload > Configure > Result**.
 
@@ -65,20 +90,28 @@ src/
     layout.tsx          root layout: fonts, theme, header, analytics scripts
     page.tsx            "/"    home: unified drop zone
     pdf/page.tsx        "/pdf" same page, scoped to PDFs (kept for SEO)
+    wallpaper/page.tsx  "/wallpaper" the wallpaper-fit tool
+    convert/page.tsx    "/convert" the file converter tool
     quiklab.css         all styles: design tokens, light/dark themes, animations
   components/
     UnifiedUpload/      drop zone, file-type detection, routes to a tool
     ImageCompressor/    image tool screens
     PdfToolkit/         PDF tool picker and the 8 tools
+    WallpaperFit/        wallpaper-fit crop/preset UI
+    Converter/           file converter tool UI
     Stepper.tsx         the Upload > Configure > Result indicator
     SiteHeader.tsx, ThemeToggle.tsx, ToastProvider.tsx, Icon*.tsx, ...
   hooks/
     useImageCompressor.ts   all state and logic for the image tool
     usePdfToolkit.ts        all state and logic for the PDF tools
+    useWallpaperFit.ts      all state and logic for the wallpaper-fit tool
+    useConverter.ts         all state and logic for the file converter
     useTheme.ts
   lib/                  pure processing functions (no React)
     imageProcessing.ts  resize, compress, target size, PNG color reduction
     gifDecoder.ts / gifEncode.ts   animated GIF support
+    wallpaperFit.ts     cover-crop math and presets for the wallpaper tool
+    converters/         per-format conversion functions plus a registry
     pdfProcessing.ts    merge, split, compress, rotate, watermark, convert
     pdfEditor.ts        add text and hyperlink annotations
     pdfTypes.ts         tool definitions (add a PDF tool here)
