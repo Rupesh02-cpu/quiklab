@@ -50,25 +50,32 @@ export async function loadPageMeta(
 ): Promise<{ pageMeta: PageMeta[]; thumbnails: string[] }> {
   const pdfjsLib = await getPdfjs();
   const doc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
-  const count = doc.numPages;
-  const pageMeta: PageMeta[] = Array.from({ length: count }, (_, i) => ({
-    index: i,
-    rotationAdd: 0,
-    selected: preselectAll,
-  }));
+  try {
+    const count = doc.numPages;
+    const pageMeta: PageMeta[] = Array.from({ length: count }, (_, i) => ({
+      index: i,
+      rotationAdd: 0,
+      selected: preselectAll,
+    }));
 
-  const thumbnails: string[] = [];
-  for (let i = 1; i <= count; i++) {
-    const page = await doc.getPage(i);
-    const viewport = page.getViewport({ scale });
-    const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    thumbnails.push(canvas.toDataURL("image/png"));
+    const thumbnails: string[] = [];
+    for (let i = 1; i <= count; i++) {
+      const page = await doc.getPage(i);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d")!;
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      thumbnails.push(canvas.toDataURL("image/png"));
+    }
+    return { pageMeta, thumbnails };
+  } finally {
+    // pdf.js documents hold worker-side resources that aren't freed by
+    // garbage collection alone; destroy() must be called explicitly or
+    // every PDF operation leaks worker memory.
+    doc.destroy();
   }
-  return { pageMeta, thumbnails };
 }
 
 // Page dimensions in PDF points (bottom-left origin, y-up), used by the
@@ -77,13 +84,17 @@ export async function loadPageMeta(
 export async function loadPageSizes(bytes: ArrayBuffer): Promise<{ width: number; height: number }[]> {
   const pdfjsLib = await getPdfjs();
   const doc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise;
-  const sizes: { width: number; height: number }[] = [];
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    const viewport = page.getViewport({ scale: 1 });
-    sizes.push({ width: viewport.width, height: viewport.height });
+  try {
+    const sizes: { width: number; height: number }[] = [];
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      const viewport = page.getViewport({ scale: 1 });
+      sizes.push({ width: viewport.width, height: viewport.height });
+    }
+    return sizes;
+  } finally {
+    doc.destroy();
   }
-  return sizes;
 }
 
 export async function runSplit(
@@ -121,27 +132,31 @@ export async function runCompress(
   const doc = await pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
   const out = await PDFDocument.create();
 
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    // The render viewport uses scale:1.5 for a sharper rasterization (more
-    // source pixels for the JPEG re-encode to work with), but the output
-    // PDF page must keep the ORIGINAL page's point dimensions (scale:1) —
-    // otherwise every page comes out ~150% of its real physical size.
-    const pageSize = page.getViewport({ scale: 1 });
-    const renderViewport = page.getViewport({ scale: 1.5 });
-    const canvas = document.createElement("canvas");
-    canvas.width = renderViewport.width;
-    canvas.height = renderViewport.height;
-    const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;
+  try {
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      // The render viewport uses scale:1.5 for a sharper rasterization (more
+      // source pixels for the JPEG re-encode to work with), but the output
+      // PDF page must keep the ORIGINAL page's point dimensions (scale:1) —
+      // otherwise every page comes out ~150% of its real physical size.
+      const pageSize = page.getViewport({ scale: 1 });
+      const renderViewport = page.getViewport({ scale: 1.5 });
+      const canvas = document.createElement("canvas");
+      canvas.width = renderViewport.width;
+      canvas.height = renderViewport.height;
+      const ctx = canvas.getContext("2d")!;
+      await page.render({ canvasContext: ctx, viewport: renderViewport }).promise;
 
-    const jpegDataUrl = canvas.toDataURL("image/jpeg", quality);
-    const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
-    const embedded = await out.embedJpg(jpegBytes);
-    const pdfPage = out.addPage([pageSize.width, pageSize.height]);
-    pdfPage.drawImage(embedded, { x: 0, y: 0, width: pageSize.width, height: pageSize.height });
+      const jpegDataUrl = canvas.toDataURL("image/jpeg", quality);
+      const jpegBytes = await (await fetch(jpegDataUrl)).arrayBuffer();
+      const embedded = await out.embedJpg(jpegBytes);
+      const pdfPage = out.addPage([pageSize.width, pageSize.height]);
+      pdfPage.drawImage(embedded, { x: 0, y: 0, width: pageSize.width, height: pageSize.height });
 
-    onProgress(25 + Math.round((i / doc.numPages) * 65));
+      onProgress(25 + Math.round((i / doc.numPages) * 65));
+    }
+  } finally {
+    doc.destroy();
   }
 
   const bytes = await out.save();
@@ -149,7 +164,7 @@ export async function runCompress(
 
   if (blob.size >= originalSize) {
     return {
-      title: "No gain — original kept",
+      title: "No gain, original kept",
       detail: `Compression wouldn't shrink this file (${fmtSize(originalSize)}), so the original was kept.`,
       files: [{ blob: file, filename: file.name }],
     };
@@ -309,17 +324,21 @@ export async function runPdf2Img(file: File, onProgress: (pct: number) => void):
   const baseName = stripExt(file.name);
   const pngs: { blob: Blob; filename: string }[] = [];
 
-  for (let i = 1; i <= doc.numPages; i++) {
-    const page = await doc.getPage(i);
-    const viewport = page.getViewport({ scale: 2 });
-    const canvas = document.createElement("canvas");
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-    const ctx = canvas.getContext("2d")!;
-    await page.render({ canvasContext: ctx, viewport }).promise;
-    const blob = await new Promise<Blob>((resolve) => canvas.toBlob((b) => resolve(b!), "image/png"));
-    pngs.push({ blob, filename: `${baseName}-page${String(i).padStart(2, "0")}.png` });
-    onProgress(10 + Math.round((i / doc.numPages) * 80));
+  try {
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i);
+      const viewport = page.getViewport({ scale: 2 });
+      const canvas = document.createElement("canvas");
+      canvas.width = viewport.width;
+      canvas.height = viewport.height;
+      const ctx = canvas.getContext("2d")!;
+      await page.render({ canvasContext: ctx, viewport }).promise;
+      const blob = await new Promise<Blob>((resolve) => canvas.toBlob((b) => resolve(b!), "image/png"));
+      pngs.push({ blob, filename: `${baseName}-page${String(i).padStart(2, "0")}.png` });
+      onProgress(10 + Math.round((i / doc.numPages) * 80));
+    }
+  } finally {
+    doc.destroy();
   }
 
   return {
