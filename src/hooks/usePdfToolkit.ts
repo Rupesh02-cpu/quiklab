@@ -142,7 +142,6 @@ export function usePdfToolkit() {
       }
 
       const newEntries: PdfFileEntry[] = accepted.map((file) => ({ id: nextFileId++, file }));
-      const startGeneration = resetGeneration.current;
       // Page-grid tools are never `multiple` (see PDF_TOOLS), so the file
       // that matters here is always the newly-dropped one, not whatever
       // was in state before. Read it straight from newEntries rather than
@@ -150,6 +149,14 @@ export function usePdfToolkit() {
       // guaranteed to run synchronously before the code below it.
       const firstFile = newEntries[0]?.file ?? null;
       const replacingFile = !tool.multiple;
+      // Bump the generation here (not just on an explicit reset) so a new
+      // upload that replaces the current single file invalidates any
+      // still-in-flight load from a previous addFiles call. Without this, a
+      // slow first load's loadPageMeta/loadPageSizes could resolve after a
+      // faster second upload and clobber that second file's pageMeta/
+      // thumbnails/bytes with the first (stale) file's data.
+      if (replacingFile) resetGeneration.current++;
+      const startGeneration = resetGeneration.current;
       setFiles((current) => (tool.multiple ? [...current, ...newEntries] : [newEntries[0]]));
       setResult(null);
       setStepIndex(1);
@@ -363,20 +370,39 @@ export function usePdfToolkit() {
     [maxReachedIndex, isRunning]
   );
 
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isZipping, setIsZipping] = useState(false);
+
   const downloadResult = useCallback(async () => {
     if (!result) return;
     track("pdf_download", { tool: activeTool, zipped: false });
-    await saveFile(result.files[0].filename, result.files[0].blob);
-  }, [result, activeTool]);
+    setIsDownloading(true);
+    try {
+      await saveFile(result.files[0].filename, result.files[0].blob);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't download that file. Please try again.");
+    } finally {
+      setIsDownloading(false);
+    }
+  }, [result, activeTool, showToast]);
 
   const downloadAllResult = useCallback(async () => {
     if (!result || result.files.length < 2) return;
     track("pdf_download", { tool: activeTool, zipped: true, file_count: result.files.length });
-    const zip = new JSZip();
-    result.files.forEach(({ blob, filename }) => zip.file(filename, blob));
-    const zipBlob = await zip.generateAsync({ type: "blob" });
-    await saveFile("quiklab-pdf-export.zip", zipBlob);
-  }, [result, activeTool]);
+    setIsZipping(true);
+    try {
+      const zip = new JSZip();
+      result.files.forEach(({ blob, filename }) => zip.file(filename, blob));
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      await saveFile("quiklab-pdf-export.zip", zipBlob);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't create the zip file. Try downloading files individually instead.");
+    } finally {
+      setIsZipping(false);
+    }
+  }, [result, activeTool, showToast]);
 
   return {
     activeTool,
@@ -413,5 +439,7 @@ export function usePdfToolkit() {
     run,
     downloadResult,
     downloadAllResult,
+    isDownloading,
+    isZipping,
   };
 }

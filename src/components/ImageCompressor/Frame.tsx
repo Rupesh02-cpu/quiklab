@@ -2,6 +2,7 @@
 
 import { memo, useState } from "react";
 import { Icon } from "@/components/Icon";
+import { useToast } from "@/components/ToastProvider";
 import { fmtBytes } from "@/lib/format";
 import type { ImageItem } from "@/lib/types";
 
@@ -33,6 +34,7 @@ export const Frame = memo(function Frame({
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [justDownloaded, setJustDownloaded] = useState(false);
+  const { showToast } = useToast();
 
   const hasResult = item.status === "done";
   const pct = hasResult && item.originalSize > 0 ? Math.round((1 - item.resultSize / item.originalSize) * 100) : 0;
@@ -59,10 +61,16 @@ export const Frame = memo(function Frame({
 
   const handleDownload = async () => {
     setDownloading(true);
-    await onDownload(item);
-    setDownloading(false);
-    setJustDownloaded(true);
-    setTimeout(() => setJustDownloaded(false), 400);
+    try {
+      await onDownload(item);
+      setJustDownloaded(true);
+      setTimeout(() => setJustDownloaded(false), 400);
+    } catch (err) {
+      console.error(err);
+      showToast("Couldn't download that file. Please try again.");
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (

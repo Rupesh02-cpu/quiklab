@@ -36,8 +36,15 @@ export function PdfEditCanvas({
   if (loading) return <p className="pdf-hint">Loading pages…</p>;
   if (!thumbnails.length || !pageSizes.length) return null;
 
-  const pageSize = pageSizes[pageIndex];
-  const pageAnnotations = annotations.filter((a) => a.pageIndex === pageIndex);
+  // Defensive clamp: this component is remounted (via a `key` on the loaded
+  // file's id, see PdfWorkspace) whenever the underlying file changes, which
+  // resets pageIndex/activeId to their initial values automatically. This
+  // clamp is extra insurance against pageIndex ever being out of range for
+  // pageSizes, since an out-of-bounds index here would otherwise crash on
+  // `pageSizes[safePageIndex]` below.
+  const safePageIndex = Math.min(pageIndex, pageSizes.length - 1);
+  const pageSize = pageSizes[safePageIndex];
+  const pageAnnotations = annotations.filter((a) => a.pageIndex === safePageIndex);
 
   function handleCanvasClick(e: MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -50,7 +57,7 @@ export function PdfEditCanvas({
     const y = pageSize.height - (clickYpx / rect.height) * pageSize.height;
 
     const id = onAdd({
-      pageIndex,
+      pageIndex: safePageIndex,
       type: placeMode,
       x,
       y,
@@ -70,7 +77,7 @@ export function PdfEditCanvas({
             <button
               type="button"
               className="btn-ghost"
-              disabled={pageIndex === 0}
+              disabled={safePageIndex === 0}
               onClick={() => {
                 setPageIndex((i) => Math.max(0, i - 1));
                 setActiveId(null);
@@ -79,12 +86,12 @@ export function PdfEditCanvas({
               <Icon name="arrow-left" className="icon icon-sm" />
             </button>
             <span className="mono">
-              Page {pageIndex + 1} / {pageSizes.length}
+              Page {safePageIndex + 1} / {pageSizes.length}
             </span>
             <button
               type="button"
               className="btn-ghost"
-              disabled={pageIndex === pageSizes.length - 1}
+              disabled={safePageIndex === pageSizes.length - 1}
               onClick={() => {
                 setPageIndex((i) => Math.min(pageSizes.length - 1, i + 1));
                 setActiveId(null);
@@ -115,7 +122,7 @@ export function PdfEditCanvas({
 
       <div className="pdf-edit-page" onClick={handleCanvasClick}>
         {/* eslint-disable-next-line @next/next/no-img-element -- data: URL page render from pdf.js, not an optimizable asset */}
-        <img src={thumbnails[pageIndex]} alt="" draggable={false} />
+        <img src={thumbnails[safePageIndex]} alt="" draggable={false} />
         {pageAnnotations.map((ann) => {
           const leftPct = (ann.x / pageSize.width) * 100;
           const topPct = (1 - ann.y / pageSize.height) * 100;
