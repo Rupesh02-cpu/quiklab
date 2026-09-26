@@ -126,8 +126,8 @@ export function UnifiedDropZone({ headline, subCopy, note, accept, onFiles, onRe
           <p className="drop-sub">{subCopy}</p>
           <p className="drop-sub">
             or{" "}
-            <button type="button" className="link-btn" onClick={() => inputRef.current?.click()}>
-              choose files
+            <button type="button" className="btn-primary drop-choose" onClick={() => inputRef.current?.click()}>
+              Choose files
             </button>
           </p>
           <p className="drop-note">{note}</p>

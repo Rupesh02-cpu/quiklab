@@ -260,6 +260,13 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible{
 .drop-label{ font-size:17px; color:var(--ink); font-weight:600; }
 .drop-sub{ font-size:14px; color:var(--ink-muted); }
 .drop-note{ font-size:12.5px; color:var(--ink-muted); }
+/* "Choose files" in every drop zone: a real primary button (44px target)
+   instead of a small text link, sitting inline after "or". */
+.drop-choose{
+  display:inline-flex; vertical-align:middle;
+  min-height:44px; padding:10px 20px; margin-inline-start:8px;
+  font-size:14.5px;
+}
 .link-btn{
   background:none; border:none; padding:0; color:var(--accent); font:inherit;
   text-decoration:underline; cursor:pointer;
@@ -462,13 +469,43 @@ input[type="range"]::-moz-range-thumb{
   background:var(--panel); border-top:1px solid var(--border);
   padding-block:56px;
 }
+/* Same width and side padding as .workspace-shell so the About text shares
+   the tool column's left edge; line length is capped on the text itself. */
 .about-inner{
-  max-width:680px; margin-inline:auto; padding-inline:20px;
+  max-width:900px; margin-inline:auto; padding-inline:clamp(20px, 4vw, 40px);
   display:flex; flex-direction:column; gap:14px;
 }
+@media (max-width:640px){ .about-inner{ padding-inline:18px; } }
 .about h2{ font-size:22px; }
-.about h3{ font-size:14px; font-weight:600; color:var(--ink); }
-.about p{ color:var(--ink-muted); line-height:1.7; font-size:14px; }
+.about h3{ font-size:15px; font-weight:600; color:var(--ink); margin:0; }
+.about p{ color:var(--ink-muted); line-height:1.7; font-size:14px; margin:0; max-width:70ch; }
+
+/* FAQ items: native <details> accordion. Each question is its own bordered
+   row, so topics read as separate groups and the list scans at a glance. */
+.about h2 + p{ margin-bottom:10px; }
+.faq-item{ border-top:1px solid var(--border); }
+.faq-item:last-child{ border-bottom:1px solid var(--border); }
+.faq-item > summary{
+  list-style:none; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:16px 2px; min-height:44px;
+  border-radius:6px;
+}
+.faq-item > summary::-webkit-details-marker{ display:none; }
+.faq-item > summary::after{
+  content:""; flex-shrink:0; width:9px; height:9px;
+  border-right:1.6px solid var(--ink-muted); border-bottom:1.6px solid var(--ink-muted);
+  transform:translateY(-2px) rotate(45deg);
+  transition:transform .25s cubic-bezier(.21, .8, .36, 1), border-color .15s ease;
+}
+.faq-item[open] > summary::after{ transform:translateY(2px) rotate(-135deg); }
+.faq-item > summary:hover h3, .faq-item > summary:hover::after{ color:var(--accent); border-color:var(--accent); }
+.faq-item > summary:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+.faq-item > p{ padding:0 2px 18px; animation:wizard-step-in .25s cubic-bezier(.21, .8, .36, 1) both; }
+@media (prefers-reduced-motion: reduce){
+  .faq-item > summary::after{ transition:none; }
+  .faq-item > p{ animation:none; }
+}
 
 /* ---------------------------------------------------
    PDF toolkit — a hub of small single-purpose tools rather

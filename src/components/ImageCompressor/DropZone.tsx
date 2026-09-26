@@ -47,8 +47,8 @@ export function DropZone({ onFiles }: DropZoneProps) {
       <p className="drop-label">Drop images here</p>
       <p className="drop-sub">
         or{" "}
-        <button type="button" className="link-btn" onClick={() => inputRef.current?.click()}>
-          choose files
+        <button type="button" className="btn-primary drop-choose" onClick={() => inputRef.current?.click()}>
+          Choose files
         </button>
       </p>
       <p className="drop-note">JPG, PNG, WebP, SVG, GIF - your images never leave your device</p>
