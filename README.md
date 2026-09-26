@@ -16,7 +16,7 @@ Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` 
 
 - Drag-and-drop or file-picker upload for JPG / PNG / WebP / SVG / GIF, multiple files at once.
 - Resize by max width/height (aspect ratio preserved) via the Canvas API.
-- Two compression modes: a quality slider (`canvas.toBlob(mime, quality)`), or a target file size (e.g. "under 100KB") found via binary search on JPEG/WebP quality. Force a different output format (JPEG/WebP/PNG) independent of either mode.
+- Two compression modes: a quality slider (`canvas.toBlob(mime, quality)`), or a target file size (e.g. "under 100KB") found via binary search on JPEG/WebP quality. Force a different output format (JPEG/WebP/PNG, and AVIF where the browser supports encoding it) independent of either mode.
 - PNG and animated GIF compression via color quantization (a from-scratch median-cut implementation — see below) since neither has a lossy "quality" knob; a "Simplify colors" slider controls the palette size.
 - Animated GIFs are decoded and re-encoded frame-by-frame with a hand-written GIF89a decoder (no CDN library ships a real browser-ready bundle for this) and the `gif.js` encoder, preserving each frame's timing and disposal method.
 - SVG files are minified (comments, XML/editor metadata, and redundant whitespace stripped) rather than run through canvas, since they're vector text, not pixels.
@@ -25,6 +25,11 @@ Then open `http://localhost:8000`. (Opening `index.html` directly via `file://` 
 - Download one file, or all of them as a `.zip` (via JSZip 3.10.2, pinned with a Subresource Integrity hash).
 - Your images never leave the browser tab — no upload, no fetch, no image data sent anywhere. (Usage analytics, below, is a separate concern from image privacy.)
 - If re-encoding wouldn't actually shrink the file (common for already-optimized PNGs — see below), the original file is kept automatically instead of silently handing back something bigger.
+
+## Other tools on QuikLab
+
+- **Wallpaper fit** (`/wallpaper`): crops a photo to an exact phone/device resolution (real iPhone/Android presets, common ratios, or a custom size) with a live drag/wheel/pinch-to-zoom preview, so the OS wallpaper picker needs no further cropping. Same client-side-only Canvas API pipeline as the compressor.
+- **Convert** (`/convert`): converts HEIC photos, Word documents (`.docx`), CSV, JSON, and Markdown files entirely in your browser, plus a "paste a link instead" option that fetches a direct file URL client-side when the remote server allows it. No server-side proxy is involved yet — a link that a browser can't fetch directly (most ordinary file hosts) gets a clear message pointing back at a direct upload instead.
 
 ## Known limitation (documented, not a bug)
 
