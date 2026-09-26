@@ -2,27 +2,27 @@
   "components": {
     "website": {
       "raw": "operational",
-      "streak": 9,
+      "streak": 10,
       "status": "operational"
     },
     "pdf": {
       "raw": "operational",
-      "streak": 16,
+      "streak": 17,
       "status": "operational"
     },
     "cdn": {
       "raw": "operational",
-      "streak": 9,
+      "streak": 10,
       "status": "operational"
     },
     "dns": {
       "raw": "operational",
-      "streak": 9,
+      "streak": 10,
       "status": "operational"
     },
     "email": {
       "raw": "operational",
-      "streak": 9,
+      "streak": 10,
       "status": "operational"
     },
     "image": {
@@ -32,72 +32,6 @@
     }
   },
   "recent": [
-    {
-      "at": "2026-09-25T05:20:43.371Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 154
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 135
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 258
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 74
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 6
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 17
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-09-25T07:45:04.518Z",
       "mode": "synthetic",
@@ -617,6 +551,72 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-09-26T05:29:18.477Z",
+      "mode": "light",
+      "results": {
+        "website": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "home",
+              "level": "ok",
+              "ms": 209
+            },
+            {
+              "name": "pdf-page",
+              "level": "ok",
+              "ms": 253
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 160
+            }
+          ]
+        },
+        "cdn": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "gif-js",
+              "level": "ok",
+              "ms": 55
+            }
+          ]
+        },
+        "dns": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "dns-a",
+              "level": "ok",
+              "ms": 3
+            }
+          ]
+        },
+        "email": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "mx",
+              "level": "ok",
+              "ms": 32
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -624,8 +624,8 @@
       "name": "pdf-worker",
       "ok": true,
       "level": "ok",
-      "ms": 565,
-      "detail": "HTTP 200 in 565 ms",
+      "ms": 160,
+      "detail": "HTTP 200 in 160 ms",
       "slowMs": 3000
     }
   },
