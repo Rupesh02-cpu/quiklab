@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ConverterApp } from "@/components/Converter/ConverterApp";
+import { AboutSection } from "@/components/Converter/AboutSection";
 
 export const metadata: Metadata = {
   title: "QuikLab - file converter",
@@ -39,6 +40,7 @@ export default function ConvertPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEB_APP_JSON_LD) }} />
       <ConverterApp />
+      <AboutSection />
     </>
   );
 }

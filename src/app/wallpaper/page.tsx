@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { WallpaperFitApp } from "@/components/WallpaperFit/WallpaperFitApp";
+import { AboutSection } from "@/components/WallpaperFit/AboutSection";
 
 export const metadata: Metadata = {
   title: "QuikLab - wallpaper fit",
@@ -41,6 +42,7 @@ export default function WallpaperPage() {
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEB_APP_JSON_LD) }} />
       <WallpaperFitApp />
+      <AboutSection />
     </>
   );
 }
