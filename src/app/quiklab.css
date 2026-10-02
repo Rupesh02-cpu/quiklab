@@ -1267,6 +1267,10 @@ input[type="range"]::-moz-range-thumb{
   background:var(--mono-bg); touch-action:none; cursor:grab;
 }
 .crop-stage:active{ cursor:grabbing; }
+/* Keyboard users pan with arrow keys (see CropStage.tsx's onKeyDown) -
+   the stage needs a visible focus ring same as any other control, not
+   just the pointer affordances above. */
+.crop-stage:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 .crop-stage-img{
   position:absolute; left:50%; top:50%; max-width:none; user-select:none;
   will-change:transform;

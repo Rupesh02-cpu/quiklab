@@ -47,7 +47,12 @@ export function ConverterApp({ renderShell = true }: ConverterAppProps = {}) {
     <>
       {stepIndex === 0 && (
         <div className="wizard-step">
-          <ConverterDropZone onFile={setInputFile} onFetchUrl={tryFetchRemote} isFetchingRemote={isFetchingRemote} />
+          <ConverterDropZone
+            onFile={setInputFile}
+            onFetchUrl={tryFetchRemote}
+            isFetchingRemote={isFetchingRemote}
+            onModeChange={() => setRemoteFetchFailure(null)}
+          />
           {remoteFetchFailure && (
             <RemoteFetchDisclosure failure={remoteFetchFailure} onDismiss={() => setRemoteFetchFailure(null)} />
           )}

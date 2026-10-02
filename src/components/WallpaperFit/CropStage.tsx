@@ -123,6 +123,49 @@ export function CropStage({ item, targetWidth, targetHeight, showSafeArea, onPan
     onZoom(item.id, nextZoom);
   }
 
+  // Keyboard equivalent of the pointer drag/pinch above - the stage itself
+  // has no native ARIA role for free-form 2D panning, so it's exposed as a
+  // focusable region (role="application" + aria-label explaining the keys)
+  // with arrow keys nudging pan and +/-/0 nudging zoom, each step matching
+  // roughly what a small drag/wheel tick would do. Without this, a
+  // keyboard-only user could select a preset and zoom but never reposition
+  // the photo, which defeats the tool's purpose for them.
+  const KEY_PAN_STEP = 0.05;
+  const KEY_ZOOM_STEP = 0.1;
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
+    switch (e.key) {
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "ArrowUp":
+      case "ArrowDown": {
+        e.preventDefault();
+        const dx = e.key === "ArrowLeft" ? -1 : e.key === "ArrowRight" ? 1 : 0;
+        const dy = e.key === "ArrowUp" ? -1 : e.key === "ArrowDown" ? 1 : 0;
+        const nextOffsetX = Math.max(-1, Math.min(1, item.offsetX + dx * KEY_PAN_STEP));
+        const nextOffsetY = Math.max(-1, Math.min(1, item.offsetY + dy * KEY_PAN_STEP));
+        onPan(item.id, nextOffsetX, nextOffsetY);
+        break;
+      }
+      case "+":
+      case "=":
+        e.preventDefault();
+        onZoom(item.id, Math.max(1, Math.min(MAX_ZOOM, item.zoom + KEY_ZOOM_STEP)));
+        break;
+      case "-":
+      case "_":
+        e.preventDefault();
+        onZoom(item.id, Math.max(1, Math.min(MAX_ZOOM, item.zoom - KEY_ZOOM_STEP)));
+        break;
+      case "0":
+        e.preventDefault();
+        onReset(item.id);
+        break;
+      default:
+        break;
+    }
+  }
+
   const isPhoneShaped = targetHeight > targetWidth * 1.3;
 
   return (
@@ -136,6 +179,10 @@ export function CropStage({ item, targetWidth, targetHeight, showSafeArea, onPan
         onPointerUp={endPointer}
         onPointerCancel={endPointer}
         onWheel={handleWheel}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="application"
+        aria-label="Photo position. Use arrow keys to reposition, plus and minus to zoom, zero to reset."
       >
         {/* eslint-disable-next-line @next/next/no-img-element -- object URL, and the whole point is a live CSS transform preview, not next/image's fixed layout */}
         <img
