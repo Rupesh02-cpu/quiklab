@@ -7,6 +7,10 @@ interface ConverterDropZoneProps {
   readonly onFile: (file: File) => void;
   readonly onFetchUrl: (url: string) => void;
   readonly isFetchingRemote: boolean;
+  /** Clears any leftover link-fetch failure banner from the hook when the
+   * user switches modes, so switching tabs doesn't leave a stale error
+   * from the other mode showing underneath the one now on screen. */
+  readonly onModeChange?: () => void;
 }
 
 // Drop zone with a "paste a link instead" second affordance, per
@@ -14,11 +18,16 @@ interface ConverterDropZoneProps {
 // default tab - the link tab is a deliberate second choice, not the
 // default, since it's a categorically different (server-touching-on-
 // fallback) operation from the rest of the site's private-by-default flow.
-export function ConverterDropZone({ onFile, onFetchUrl, isFetchingRemote }: ConverterDropZoneProps) {
+export function ConverterDropZone({ onFile, onFetchUrl, isFetchingRemote, onModeChange }: ConverterDropZoneProps) {
   const [dragging, setDragging] = useState(false);
   const [mode, setMode] = useState<"file" | "link">("file");
   const [url, setUrl] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+
+  function switchMode(next: "file" | "link") {
+    setMode(next);
+    onModeChange?.();
+  }
 
   return (
     <div className="converter-upload">
@@ -26,14 +35,14 @@ export function ConverterDropZone({ onFile, onFetchUrl, isFetchingRemote }: Conv
         <button
           type="button"
           className={`view-btn${mode === "file" ? " is-active" : ""}`}
-          onClick={() => setMode("file")}
+          onClick={() => switchMode("file")}
         >
           Upload a file
         </button>
         <button
           type="button"
           className={`view-btn${mode === "link" ? " is-active" : ""}`}
-          onClick={() => setMode("link")}
+          onClick={() => switchMode("link")}
         >
           Paste a link
         </button>
