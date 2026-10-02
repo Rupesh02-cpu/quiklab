@@ -3,8 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
+import { Icon } from "@/components/Icon";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { useUnifiedReset } from "@/components/UnifiedUpload/UnifiedResetContext";
+
+// The four tools, in the order they shipped. /wallpaper and /convert had no
+// link anywhere on the site until this nav - .site-nav/.site-nav-link were
+// already defined in quiklab.css but unused, so this just wires them up.
+const NAV_ITEMS = [
+  { href: "/", label: "Images", icon: "image" },
+  { href: "/pdf", label: "PDF", icon: "pdf" },
+  { href: "/wallpaper", label: "Wallpaper", icon: "filmstrip" },
+  { href: "/convert", label: "Convert", icon: "link" },
+] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -46,6 +57,19 @@ export function SiteHeader() {
           <span className="brand-mark">QL</span>
           <span className="site-logo-word">QuikLab</span>
         </Link>
+        <nav className="site-nav" aria-label="Tools">
+          {NAV_ITEMS.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`site-nav-link${pathname === item.href ? " is-current" : ""}`}
+              aria-current={pathname === item.href ? "page" : undefined}
+            >
+              <Icon name={item.icon} className="icon" />
+              {item.label}
+            </Link>
+          ))}
+        </nav>
       </div>
       <div className="site-header-right">
         <ThemeToggle />
