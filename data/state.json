@@ -7,7 +7,7 @@
     },
     "pdf": {
       "raw": "operational",
-      "streak": 145,
+      "streak": 146,
       "status": "operational"
     },
     "cdn": {
@@ -27,115 +27,11 @@
     },
     "image": {
       "raw": "operational",
-      "streak": 67,
+      "streak": 68,
       "status": "operational"
     }
   },
   "recent": [
-    {
-      "at": "2026-10-08T19:55:53.529Z",
-      "mode": "synthetic",
-      "results": {
-        "image": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "image-synthetic",
-              "level": "ok",
-              "ms": 2521
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-synthetic",
-              "level": "ok",
-              "ms": 2406
-            },
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 320
-            }
-          ]
-        }
-      }
-    },
-    {
-      "at": "2026-10-08T19:59:03.958Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 257
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 238
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 251
-            },
-            {
-              "name": "pdf-synthetic",
-              "level": "ok",
-              "ms": 2406
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 117
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 38
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 68
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-10-09T00:08:34.222Z",
       "mode": "light",
@@ -498,6 +394,39 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-10-09T20:08:02.334Z",
+      "mode": "synthetic",
+      "results": {
+        "image": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "image-synthetic",
+              "level": "ok",
+              "ms": 2205
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-synthetic",
+              "level": "ok",
+              "ms": 1943
+            },
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 148
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -512,26 +441,26 @@
   },
   "synthetic": {
     "image": {
-      "at": "2026-10-09T15:16:37.824Z",
+      "at": "2026-10-09T20:08:02.334Z",
       "check": {
         "name": "image-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 1977,
+        "ms": 2205,
         "slowMs": 45000,
-        "detail": "Passed in 1977 ms"
+        "detail": "Passed in 2205 ms"
       },
       "failStreak": 0
     },
     "pdf": {
-      "at": "2026-10-09T15:16:37.824Z",
+      "at": "2026-10-09T20:08:02.334Z",
       "check": {
         "name": "pdf-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 2454,
+        "ms": 1943,
         "slowMs": 45000,
-        "detail": "Passed in 2454 ms"
+        "detail": "Passed in 1943 ms"
       },
       "failStreak": 0
     }
