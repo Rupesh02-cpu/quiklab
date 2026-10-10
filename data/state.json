@@ -2,27 +2,27 @@
   "components": {
     "website": {
       "raw": "operational",
-      "streak": 81,
+      "streak": 82,
       "status": "operational"
     },
     "pdf": {
       "raw": "operational",
-      "streak": 152,
+      "streak": 153,
       "status": "operational"
     },
     "cdn": {
       "raw": "operational",
-      "streak": 81,
+      "streak": 82,
       "status": "operational"
     },
     "dns": {
       "raw": "operational",
-      "streak": 81,
+      "streak": 82,
       "status": "operational"
     },
     "email": {
       "raw": "operational",
-      "streak": 81,
+      "streak": 82,
       "status": "operational"
     },
     "image": {
@@ -32,72 +32,6 @@
     }
   },
   "recent": [
-    {
-      "at": "2026-10-09T12:50:00.024Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 210
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 206
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 217
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 106
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 40
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 40
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-10-09T15:16:37.824Z",
       "mode": "synthetic",
@@ -541,6 +475,77 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-10-10T14:05:17.161Z",
+      "mode": "light",
+      "results": {
+        "website": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "home",
+              "level": "ok",
+              "ms": 203
+            },
+            {
+              "name": "pdf-page",
+              "level": "ok",
+              "ms": 133
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 208
+            },
+            {
+              "name": "pdf-synthetic",
+              "level": "ok",
+              "ms": 2511
+            }
+          ]
+        },
+        "cdn": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "gif-js",
+              "level": "ok",
+              "ms": 80
+            }
+          ]
+        },
+        "dns": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "dns-a",
+              "level": "ok",
+              "ms": 26
+            }
+          ]
+        },
+        "email": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "mx",
+              "level": "ok",
+              "ms": 14
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -548,8 +553,8 @@
       "name": "pdf-worker",
       "ok": true,
       "level": "ok",
-      "ms": 179,
-      "detail": "HTTP 200 in 179 ms",
+      "ms": 208,
+      "detail": "HTTP 200 in 208 ms",
       "slowMs": 3000
     }
   },
