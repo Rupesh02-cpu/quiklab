@@ -7,7 +7,7 @@
     },
     "pdf": {
       "raw": "operational",
-      "streak": 306,
+      "streak": 307,
       "status": "operational"
     },
     "cdn": {
@@ -27,77 +27,11 @@
     },
     "image": {
       "raw": "operational",
-      "streak": 142,
+      "streak": 143,
       "status": "operational"
     }
   },
   "recent": [
-    {
-      "at": "2026-10-23T05:25:12.335Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 284
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 273
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 221
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 83
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 26
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 80
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-10-23T07:27:41.379Z",
       "mode": "synthetic",
@@ -678,6 +612,39 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-10-24T05:48:25.610Z",
+      "mode": "synthetic",
+      "results": {
+        "image": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "image-synthetic",
+              "level": "ok",
+              "ms": 1659
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-synthetic",
+              "level": "ok",
+              "ms": 2161
+            },
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 119
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -692,26 +659,26 @@
   },
   "synthetic": {
     "image": {
-      "at": "2026-10-24T00:38:52.273Z",
+      "at": "2026-10-24T05:48:25.610Z",
       "check": {
         "name": "image-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 1916,
+        "ms": 1659,
         "slowMs": 45000,
-        "detail": "Passed in 1916 ms"
+        "detail": "Passed in 1659 ms"
       },
       "failStreak": 0
     },
     "pdf": {
-      "at": "2026-10-24T00:38:52.273Z",
+      "at": "2026-10-24T05:48:25.610Z",
       "check": {
         "name": "pdf-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 2360,
+        "ms": 2161,
         "slowMs": 45000,
-        "detail": "Passed in 2360 ms"
+        "detail": "Passed in 2161 ms"
       },
       "failStreak": 0
     }
