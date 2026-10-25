@@ -7,7 +7,7 @@
     },
     "pdf": {
       "raw": "operational",
-      "streak": 320,
+      "streak": 321,
       "status": "operational"
     },
     "cdn": {
@@ -27,110 +27,11 @@
     },
     "image": {
       "raw": "operational",
-      "streak": 149,
+      "streak": 150,
       "status": "operational"
     }
   },
   "recent": [
-    {
-      "at": "2026-10-24T04:50:34.550Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 121
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 206
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 119
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 54
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 12
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 30
-            }
-          ]
-        }
-      }
-    },
-    {
-      "at": "2026-10-24T05:48:25.610Z",
-      "mode": "synthetic",
-      "results": {
-        "image": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "image-synthetic",
-              "level": "ok",
-              "ms": 1659
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-synthetic",
-              "level": "ok",
-              "ms": 2161
-            },
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 119
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-10-24T09:10:11.939Z",
       "mode": "light",
@@ -820,6 +721,39 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-10-25T06:04:25.316Z",
+      "mode": "synthetic",
+      "results": {
+        "image": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "image-synthetic",
+              "level": "ok",
+              "ms": 1898
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-synthetic",
+              "level": "ok",
+              "ms": 2416
+            },
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 142
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -834,26 +768,26 @@
   },
   "synthetic": {
     "image": {
-      "at": "2026-10-25T01:07:36.221Z",
+      "at": "2026-10-25T06:04:25.316Z",
       "check": {
         "name": "image-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 1644,
+        "ms": 1898,
         "slowMs": 45000,
-        "detail": "Passed in 1644 ms"
+        "detail": "Passed in 1898 ms"
       },
       "failStreak": 0
     },
     "pdf": {
-      "at": "2026-10-25T01:07:36.221Z",
+      "at": "2026-10-25T06:04:25.316Z",
       "check": {
         "name": "pdf-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 2220,
+        "ms": 2416,
         "slowMs": 45000,
-        "detail": "Passed in 2220 ms"
+        "detail": "Passed in 2416 ms"
       },
       "failStreak": 0
     }
