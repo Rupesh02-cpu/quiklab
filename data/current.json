@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-10-24T23:25:21.604Z",
+  "updatedAt": "2026-10-25T01:07:36.221Z",
   "overall": "operational",
   "components": [
     {
@@ -31,15 +31,15 @@
       "group": "QuikLab",
       "name": "Image compressor",
       "status": "operational",
-      "responseMs": 1696,
-      "lastCheck": "2026-10-24T23:10:36.142Z",
+      "responseMs": 1644,
+      "lastCheck": "2026-10-25T01:07:36.221Z",
       "checks": [
         {
           "name": "image-synthetic",
           "ok": true,
           "level": "ok",
-          "ms": 1696,
-          "detail": "Passed in 1696 ms"
+          "ms": 1644,
+          "detail": "Passed in 1644 ms"
         }
       ]
     },
@@ -48,22 +48,22 @@
       "group": "QuikLab",
       "name": "PDF toolkit",
       "status": "operational",
-      "responseMs": 2298,
-      "lastCheck": "2026-10-24T23:25:21.604Z",
+      "responseMs": 2220,
+      "lastCheck": "2026-10-25T01:07:36.221Z",
       "checks": [
+        {
+          "name": "pdf-synthetic",
+          "ok": true,
+          "level": "ok",
+          "ms": 2220,
+          "detail": "Passed in 2220 ms"
+        },
         {
           "name": "pdf-worker",
           "ok": true,
           "level": "ok",
           "ms": 290,
           "detail": "HTTP 200 in 290 ms"
-        },
-        {
-          "name": "pdf-synthetic",
-          "ok": true,
-          "level": "ok",
-          "ms": 2298,
-          "detail": "Passed in 2298 ms"
         }
       ]
     },
