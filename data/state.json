@@ -7,7 +7,7 @@
     },
     "pdf": {
       "raw": "operational",
-      "streak": 448,
+      "streak": 449,
       "status": "operational"
     },
     "cdn": {
@@ -27,7 +27,7 @@
     },
     "image": {
       "raw": "operational",
-      "streak": 209,
+      "streak": 210,
       "status": "operational"
     }
   },
@@ -508,6 +508,39 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-11-08T15:57:15.182Z",
+      "mode": "synthetic",
+      "results": {
+        "image": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "image-synthetic",
+              "level": "ok",
+              "ms": 2020
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-synthetic",
+              "level": "ok",
+              "ms": 1996
+            },
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 150
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -522,26 +555,26 @@
   },
   "synthetic": {
     "image": {
-      "at": "2026-11-08T08:57:59.758Z",
+      "at": "2026-11-08T15:57:15.182Z",
       "check": {
         "name": "image-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 1920,
+        "ms": 2020,
         "slowMs": 45000,
-        "detail": "Passed in 1920 ms"
+        "detail": "Passed in 2020 ms"
       },
       "failStreak": 0
     },
     "pdf": {
-      "at": "2026-11-08T08:57:59.758Z",
+      "at": "2026-11-08T15:57:15.182Z",
       "check": {
         "name": "pdf-synthetic",
         "ok": true,
         "level": "ok",
-        "ms": 1737,
+        "ms": 1996,
         "slowMs": 45000,
-        "detail": "Passed in 1737 ms"
+        "detail": "Passed in 1996 ms"
       },
       "failStreak": 0
     }
