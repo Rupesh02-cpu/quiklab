@@ -2,27 +2,27 @@
   "components": {
     "website": {
       "raw": "operational",
-      "streak": 168,
+      "streak": 169,
       "status": "operational"
     },
     "pdf": {
       "raw": "operational",
-      "streak": 472,
+      "streak": 473,
       "status": "operational"
     },
     "cdn": {
       "raw": "operational",
-      "streak": 251,
+      "streak": 252,
       "status": "operational"
     },
     "dns": {
       "raw": "operational",
-      "streak": 251,
+      "streak": 252,
       "status": "operational"
     },
     "email": {
       "raw": "operational",
-      "streak": 251,
+      "streak": 252,
       "status": "operational"
     },
     "image": {
@@ -32,72 +32,6 @@
     }
   },
   "recent": [
-    {
-      "at": "2026-11-10T22:23:53.633Z",
-      "mode": "light",
-      "results": {
-        "website": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "home",
-              "level": "ok",
-              "ms": 276
-            },
-            {
-              "name": "pdf-page",
-              "level": "ok",
-              "ms": 325
-            }
-          ]
-        },
-        "pdf": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "pdf-worker",
-              "level": "ok",
-              "ms": 225
-            }
-          ]
-        },
-        "cdn": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "gif-js",
-              "level": "ok",
-              "ms": 59
-            }
-          ]
-        },
-        "dns": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "dns-a",
-              "level": "ok",
-              "ms": 11
-            }
-          ]
-        },
-        "email": {
-          "status": "operational",
-          "raw": "operational",
-          "checks": [
-            {
-              "name": "mx",
-              "level": "ok",
-              "ms": 39
-            }
-          ]
-        }
-      }
-    },
     {
       "at": "2026-11-10T23:16:24.738Z",
       "mode": "synthetic",
@@ -432,6 +366,72 @@
           ]
         }
       }
+    },
+    {
+      "at": "2026-11-11T23:02:39.404Z",
+      "mode": "light",
+      "results": {
+        "website": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "home",
+              "level": "ok",
+              "ms": 424
+            },
+            {
+              "name": "pdf-page",
+              "level": "ok",
+              "ms": 349
+            }
+          ]
+        },
+        "pdf": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "pdf-worker",
+              "level": "ok",
+              "ms": 269
+            }
+          ]
+        },
+        "cdn": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "gif-js",
+              "level": "ok",
+              "ms": 74
+            }
+          ]
+        },
+        "dns": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "dns-a",
+              "level": "ok",
+              "ms": 10
+            }
+          ]
+        },
+        "email": {
+          "status": "operational",
+          "raw": "operational",
+          "checks": [
+            {
+              "name": "mx",
+              "level": "ok",
+              "ms": 39
+            }
+          ]
+        }
+      }
     }
   ],
   "light": {
@@ -439,8 +439,8 @@
       "name": "pdf-worker",
       "ok": true,
       "level": "ok",
-      "ms": 298,
-      "detail": "HTTP 200 in 298 ms",
+      "ms": 269,
+      "detail": "HTTP 200 in 269 ms",
       "slowMs": 3000
     }
   },
