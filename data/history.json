@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-24T21:29:33.466Z",
+  "updatedAt": "2026-11-25T00:39:52.727Z",
   "components": {
     "website": [
       {
@@ -868,6 +868,13 @@
       {
         "date": "2026-11-24",
         "checks": 5,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-11-25",
+        "checks": 1,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
@@ -2612,6 +2619,13 @@
       {
         "date": "2026-11-24",
         "checks": 2,
+        "failures": 0,
+        "worst": "operational",
+        "downMinutes": 0
+      },
+      {
+        "date": "2026-11-25",
+        "checks": 1,
         "failures": 0,
         "worst": "operational",
         "downMinutes": 0
