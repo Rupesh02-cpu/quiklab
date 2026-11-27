@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T23:25:26.418Z",
+  "updatedAt": "2026-11-27T23:31:03.089Z",
   "overall": "operational",
   "components": [
     {
@@ -7,22 +7,22 @@
       "group": "QuikLab",
       "name": "Website",
       "status": "operational",
-      "responseMs": 276,
-      "lastCheck": "2026-11-27T15:18:48.477Z",
+      "responseMs": 375,
+      "lastCheck": "2026-11-27T23:31:03.089Z",
       "checks": [
         {
           "name": "home",
           "ok": true,
           "level": "ok",
-          "ms": 276,
-          "detail": "HTTP 200 in 276 ms"
+          "ms": 375,
+          "detail": "HTTP 200 in 375 ms"
         },
         {
           "name": "pdf-page",
           "ok": true,
           "level": "ok",
-          "ms": 87,
-          "detail": "HTTP 200 in 87 ms"
+          "ms": 321,
+          "detail": "HTTP 200 in 321 ms"
         }
       ]
     },
@@ -49,21 +49,21 @@
       "name": "PDF toolkit",
       "status": "operational",
       "responseMs": 1689,
-      "lastCheck": "2026-11-27T23:25:26.418Z",
+      "lastCheck": "2026-11-27T23:31:03.089Z",
       "checks": [
+        {
+          "name": "pdf-worker",
+          "ok": true,
+          "level": "ok",
+          "ms": 312,
+          "detail": "HTTP 200 in 312 ms"
+        },
         {
           "name": "pdf-synthetic",
           "ok": true,
           "level": "ok",
           "ms": 1689,
           "detail": "Passed in 1689 ms"
-        },
-        {
-          "name": "pdf-worker",
-          "ok": true,
-          "level": "ok",
-          "ms": 330,
-          "detail": "HTTP 200 in 330 ms"
         }
       ]
     },
@@ -72,15 +72,15 @@
       "group": "Infrastructure",
       "name": "jsDelivr CDN",
       "status": "operational",
-      "responseMs": 84,
-      "lastCheck": "2026-11-27T15:18:48.477Z",
+      "responseMs": 88,
+      "lastCheck": "2026-11-27T23:31:03.089Z",
       "checks": [
         {
           "name": "gif-js",
           "ok": true,
           "level": "ok",
-          "ms": 84,
-          "detail": "HTTP 200 in 84 ms"
+          "ms": 88,
+          "detail": "HTTP 200 in 88 ms"
         }
       ]
     },
@@ -89,15 +89,15 @@
       "group": "Infrastructure",
       "name": "DNS",
       "status": "operational",
-      "responseMs": 28,
-      "lastCheck": "2026-11-27T15:18:48.477Z",
+      "responseMs": 23,
+      "lastCheck": "2026-11-27T23:31:03.089Z",
       "checks": [
         {
           "name": "dns-a",
           "ok": true,
           "level": "ok",
-          "ms": 28,
-          "detail": "A 64.29.17.65, 216.198.79.65"
+          "ms": 23,
+          "detail": "A 64.29.17.65, 64.29.17.1"
         }
       ]
     },
@@ -106,14 +106,14 @@
       "group": "Infrastructure",
       "name": "Email",
       "status": "operational",
-      "responseMs": 70,
-      "lastCheck": "2026-11-27T15:18:48.477Z",
+      "responseMs": 61,
+      "lastCheck": "2026-11-27T23:31:03.089Z",
       "checks": [
         {
           "name": "mx",
           "ok": true,
           "level": "ok",
-          "ms": 70,
+          "ms": 61,
           "detail": "MX mx2.hostinger.com, mx1.hostinger.com"
         }
       ]
